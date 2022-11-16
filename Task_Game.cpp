@@ -2,8 +2,11 @@
 //ゲーム本編
 //-------------------------------------------------------------------
 #include  "MyPG.h"
+
 #include  "Task_Game.h"
 #include  "Task_GameBG.h"
+#include  "Task_Map2D.h"
+
 #include  "Task_Ending.h"
 
 namespace  Game
@@ -31,10 +34,15 @@ namespace  Game
 		this->res = Resource::Create();
 
 		//★データ初期化
-		
+		ge->camera2D = ML::Box2D(-200, -100, 480, 270);
+
 		//★タスクの生成
 		//背景タスク
-		auto  bg = GameBG::Object::Create(true);
+		//auto  bg = GameBG::Object::Create(true);
+
+		//マップの生成
+		auto  map = Map2D::Object::Create(true);
+		map->Load("./data/Map/map3.txt");
 
 		return  true;
 	}
@@ -44,6 +52,7 @@ namespace  Game
 	{
 		//★データ＆タスク解放
 		ge->KillAll_G("本編");
+		ge->KillAll_G("field");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成

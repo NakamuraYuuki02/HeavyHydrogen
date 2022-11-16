@@ -74,6 +74,9 @@ namespace  MyPG
 
 		XI::Mouse::SP  mouse;
 		XI::GamePad::SP  in1, in2, in3, in4;	//æ‚è‡‚¦‚¸‚S–{
+
+		//ƒJƒƒ‰
+		ML::Box2D camera2D;
 	//----------------------------------------------
 	};
 }

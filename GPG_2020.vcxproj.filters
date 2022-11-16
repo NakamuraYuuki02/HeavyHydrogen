@@ -103,8 +103,13 @@
     <ClCompile Include="BChara.cpp">
       <Filter>MyPG</Filter>
     </ClCompile>
+
+    <ClCompile Include="Task_Map2D.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+
     <ClCompile Include="Task_Select.cpp">
       <Filter>MyPG\Task\Select</Filter>
+
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -171,8 +176,13 @@
     <ClInclude Include="BChara.h">
       <Filter>MyPG</Filter>
     </ClInclude>
+
+    <ClInclude Include="Task_Map2D.h">
+      <Filter>MyPG\Task\Game</Filter>
+
     <ClInclude Include="Task_Select.h">
       <Filter>MyPG\Task\Select</Filter>
+
     </ClInclude>
   </ItemGroup>
 </Project>
