@@ -29,6 +29,9 @@
     <Filter Include="MyPG\Task\Ending">
       <UniqueIdentifier>{765b0db0-3b06-418c-a902-8d70c7c283cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MyPG\Task\Select">
+      <UniqueIdentifier>{9e359fd7-76af-474b-8c39-7661007e45ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngine_Ver3_83.cpp">
@@ -100,6 +103,9 @@
     <ClCompile Include="BChara.cpp">
       <Filter>MyPG</Filter>
     </ClCompile>
+    <ClCompile Include="Task_Select.cpp">
+      <Filter>MyPG\Task\Select</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine_Ver3_83.h">
@@ -164,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="BChara.h">
       <Filter>MyPG</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Select.h">
+      <Filter>MyPG\Task\Select</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
