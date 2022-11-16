@@ -96,19 +96,19 @@ namespace  Map2D
 		isr.right = min(c.right, m.right);
 		isr.bottom = min(c.bottom, m.bottom);
 
-
+		int block = 16;
 		//ループ範囲を決定
 		int sx, sy, ex, ey;
-		sx = isr.left / 32;
-		sy = isr.top / 32;
-		ex = (isr.right - 1) / 32;
-		ey = (isr.bottom - 1) / 32;
+		sx = isr.left / block;
+		sy = isr.top / block;
+		ex = (isr.right - 1) / block;
+		ey = (isr.bottom - 1) / block;
 
 		//画面内の範囲だけ描画
 		for (int y = sy; y <= ey; ++y) {
 			for (int x = sx; x <= ex; ++x) {
-				ML::Box2D  draw(0, 0, 32, 32);
-				draw.Offset(x * 32, y * 32);	//表示位置を調整
+				ML::Box2D  draw(0, 0, block, block);
+				draw.Offset(x * block ,y * block);	//表示位置を調整
 
 				//スクロール対応
 				draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
@@ -135,7 +135,7 @@ namespace  Map2D
 
 		//マップ配列サイズの読み込み
 		fin >> this->sizeX >> this->sizeY;
-		this->hitBase = ML::Box2D(0, 0, this->sizeX * 32, this->sizeY * 32);
+		this->hitBase = ML::Box2D(0, 0, this->sizeX * 32, this->sizeY * 32);//32
 
 		//マップ配列データの読み込み
 		for (int y = 0; y < this->sizeY; ++y) {
