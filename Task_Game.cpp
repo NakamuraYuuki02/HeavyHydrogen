@@ -34,7 +34,7 @@ namespace  Game
 		this->res = Resource::Create();
 
 		//★データ初期化
-		ge->camera2D = ML::Box2D(-200, -100, 480, 270);
+		ge->camera2D = ML::Box2D(0, 0, 480, 270);
 
 		//★タスクの生成
 		//背景タスク
