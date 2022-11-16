@@ -4,7 +4,6 @@
 #include  "MyPG.h"
 #include  "Task_Game.h"
 #include  "Task_GameBG.h"
-#include  "Task_Player.h"
 #include  "Task_Ending.h"
 
 namespace  Game
