@@ -3,6 +3,7 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Select.h"
+#include  "Task_Game.h"
 
 namespace  Select
 {
@@ -40,9 +41,9 @@ namespace  Select
 	{
 		//★データ＆タスク解放
 
-
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
+			auto next = Game::Object::Create(true);
 		}
 
 		return  true;
@@ -51,6 +52,16 @@ namespace  Select
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
+		auto inp = ge->in1->GetState();
+		if (inp.ST.down) {
+			//自身に消滅要請
+			this->Kill();
+		}
+
+		//スキル選択処理
+
+		//マップ選択処理
+
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
