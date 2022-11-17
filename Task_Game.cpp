@@ -6,7 +6,7 @@
 #include  "Task_Game.h"
 #include  "Task_GameBG.h"
 #include  "Task_Map2D.h"
-
+#include  "Task_Player.h"
 #include  "Task_Ending.h"
 
 namespace  Game
@@ -44,6 +44,9 @@ namespace  Game
 		auto  map = Map2D::Object::Create(true);
 		map->Load("./data/Map/map3.txt");
 
+		auto  pl = Player::Object::Create(true);
+		pl->pos.x = 480 / 2;
+		pl->pos.y = 270 / 3 * 2;
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -53,6 +56,7 @@ namespace  Game
 		//★データ＆タスク解放
 		ge->KillAll_G("本編");
 		ge->KillAll_G("field");
+		ge->KillAll_G("プレイヤ");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
