@@ -34,7 +34,7 @@ namespace  Player
 
 		//★データ初期化
 		this->render2D_Priority[1] = 0.5f;
-		this->hitBase = ML::Box2D(-16, -40, 32, 80);
+		this->hitBase = ML::Box2D(-8, -20, 16, 40);
 		this->angle_LR = Angle_LR::Right;
 		this->controller = ge->in1;
 
@@ -311,16 +311,16 @@ namespace  Player
 		ML::Color  defColor(1, 1, 1, 1);
 		BChara::DrawInfo imageTable[] = {
 			//draw							src
-			{ ML::Box2D(-16, -40, 32, 80), ML::Box2D(0, 0, 32, 80), defColor },	//停止
-			{ ML::Box2D(-4, -40, 32, 80), ML::Box2D(32, 0, 32, 80), defColor },	//歩行１
-			{ ML::Box2D(-20, -40, 48, 80), ML::Box2D(64, 0, 48, 80), defColor },	//歩行２
-			{ ML::Box2D(-20, -40, 48, 80), ML::Box2D(112, 0, 48, 80), defColor },	//歩行３
-			{ ML::Box2D(-24, -40, 48, 80), ML::Box2D(48, 80, 48, 80), defColor },	//ジャンプ
-			{ ML::Box2D(-24, -40, 48, 80), ML::Box2D(96, 80, 48, 80), defColor },	//落下
-			{ ML::Box2D(-24, -24, 48, 64), ML::Box2D(0, 80, 48, 64), defColor },	//飛び立つ直前
-			{ ML::Box2D(-24, -24, 48, 64), ML::Box2D(144, 80, 48, 64), defColor },	//着地
-			{ ML::Box2D(-24, -24, 48, 80), ML::Box2D(176, 0, 48, 80), defColor },   //ダメージ
-			{ ML::Box2D(-24, -40, 48, 80), ML::Box2D(190, 80, 48, 80), defColor },  //攻撃
+			{ ML::Box2D(-8, -20, 16, 40), ML::Box2D(0, 0, 32, 80), defColor },	//停止
+			{ ML::Box2D(-2, -20, 16, 40), ML::Box2D(32, 0, 32, 80), defColor },	//歩行１
+			{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(64, 0, 48, 80), defColor },	//歩行２
+			{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(112, 0, 48, 80), defColor },	//歩行３
+			{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(48, 80, 48, 80), defColor },	//ジャンプ
+			{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(96, 80, 48, 80), defColor },	//落下
+			{ ML::Box2D(-12, -12, 24, 32), ML::Box2D(0, 80, 48, 64), defColor },	//飛び立つ直前
+			{ ML::Box2D(-12, -12, 24, 32), ML::Box2D(144, 80, 48, 64), defColor },	//着地
+			{ ML::Box2D(-12, -12, 24, 40), ML::Box2D(176, 0, 48, 80), defColor },   //ダメージ
+			{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(190, 80, 48, 80), defColor },  //攻撃
 		};
 		BChara::DrawInfo  rtv;
 		int  work;
