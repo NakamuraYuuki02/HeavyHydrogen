@@ -38,7 +38,7 @@ namespace  Map2D
 		}
 		this->sizeX = 0;
 		this->sizeY = 0;
-		this->hitBase = ML::Box2D(0, 0, 0, 0);
+		this->hitBase = ML::Box2D(block, block, block, block);
 
 		//マップチップ情報の初期化
 		for (int c = 0; c < 16; ++c) {
@@ -96,7 +96,6 @@ namespace  Map2D
 		isr.right = min(c.right, m.right);
 		isr.bottom = min(c.bottom, m.bottom);
 
-		int block = 16;
 		//ループ範囲を決定
 		int sx, sy, ex, ey;
 		sx = isr.left / block;
@@ -135,7 +134,7 @@ namespace  Map2D
 
 		//マップ配列サイズの読み込み
 		fin >> this->sizeX >> this->sizeY;
-		this->hitBase = ML::Box2D(0, 0, this->sizeX * 32, this->sizeY * 32);//32
+		this->hitBase = ML::Box2D(0, 0, this->sizeX * block, this->sizeY * block);
 
 		//マップ配列データの読み込み
 		for (int y = 0; y < this->sizeY; ++y) {
@@ -166,10 +165,10 @@ namespace  Map2D
 
 		//ループ範囲調整
 		int sx, sy, ex, ey;
-		sx = r.left / 32;
-		sy = r.top / 32;
-		ex = (r.right - 1) / 32;
-		ey = (r.bottom - 1) / 32;
+		sx = r.left / block;
+		sy = r.top / block;
+		ex = (r.right - 1) / block;
+		ey = (r.bottom - 1) / block;
 
 		//範囲内の障害物を探す
 		for (int y = sy; y <= ey; ++y) {
