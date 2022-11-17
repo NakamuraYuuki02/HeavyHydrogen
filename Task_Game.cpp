@@ -5,6 +5,7 @@
 #include  "Task_Game.h"
 #include  "Task_GameBG.h"
 #include  "Task_Ending.h"
+#include "Task_Enemy01.h"
 
 namespace  Game
 {
@@ -35,6 +36,7 @@ namespace  Game
 		//★タスクの生成
 		//背景タスク
 		auto  bg = GameBG::Object::Create(true);
+		auto  en = Enemy01::Object::Create(true);
 
 		return  true;
 	}
