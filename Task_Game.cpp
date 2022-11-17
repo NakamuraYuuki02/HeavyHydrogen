@@ -8,6 +8,7 @@
 #include  "Task_Map2D.h"
 #include  "Task_Player.h"
 #include  "Task_Ending.h"
+#include "Task_Enemy01.h"
 
 namespace  Game
 {
@@ -44,6 +45,10 @@ namespace  Game
 		auto  map = Map2D::Object::Create(true);
 		map->Load("./data/Map/map3.txt");
 
+		//“G‚Ì¶¬
+		auto en01 = Enemy01::Object::Create(true);
+		en01->pos.x = 500;
+		en01->pos.y = 300;
 		auto  pl = Player::Object::Create(true);
 		pl->pos.x = 480 / 2;
 		pl->pos.y = 270 / 3 * 2;
