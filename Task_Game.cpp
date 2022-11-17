@@ -42,7 +42,7 @@ namespace  Game
 
 		//ƒ}ƒbƒv‚Ì¶¬
 		auto  map = Map2D::Object::Create(true);
-		map->Load("./data/Map/map3.txt");
+		map->Load("./data/Map/map.txt");
 
 		auto  pl = Player::Object::Create(true);
 		pl->pos.x = 480 / 2;
