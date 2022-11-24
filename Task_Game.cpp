@@ -2,14 +2,14 @@
 //ゲーム本編
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-
 #include  "Task_Game.h"
 #include  "Task_GameBG.h"
 #include  "Task_Goal.h"
 #include  "Task_Map2D.h"
 #include  "Task_Player.h"
+#include  "Task_Enemy01.h"
+#include  "Task_Title.h"
 #include  "Task_Ending.h"
-#include "Task_Enemy01.h"
 
 namespace  Game
 {
@@ -63,12 +63,11 @@ namespace  Game
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-		ge->KillAll_G("本編");
-		ge->KillAll_G("field");
-		ge->KillAll_G("�v���C��");
+		ge->KillAll_G("Main");
+		ge->KillAll_G("Field");
 		ge->KillAll_G("Enemy");
-		ge->KillAll_G("プレイヤ");
-		ge->KillAll_G("goal");
+		ge->KillAll_G("Player");
+		ge->KillAll_G("Goal");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate)
 		{

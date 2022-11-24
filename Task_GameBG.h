@@ -8,8 +8,8 @@
 namespace  GameBG
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("本編");	//グループ名
-	const  string  defName(		"背景");	//タスク名
+	const  string  defGroupName("Main");	//グループ名
+	const  string  defName(		"Back");	//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource
 	{

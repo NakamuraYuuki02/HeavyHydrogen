@@ -78,22 +78,22 @@ namespace  Player
 		//めり込まない移動
 		ML::Vec2  est = this->moveVec;
 		this->CheckMove(est);
-		//当たり判定
-		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("アイテム");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
-			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { 0,0,0 };
-					(*it)->Received(this, at);
-					break;
-				}
-			}
-		}
+		////当たり判定
+		//{
+		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
+		//	auto targets = ge->GetTasks<BChara>("アイテム");
+		//	for (auto it = targets->begin(); it != targets->end(); ++it)
+		//	{
+		//		//相手に接触の有無を確認させる
+		//		if ((*it)->CheckHit(me))
+		//		{
+		//			//相手にダメージの処理を行わせる
+		//			BChara::AttackInfo at = { 0,0,0 };
+		//			(*it)->Received(this, at);
+		//			break;
+		//		}
+		//	}
+		//}
 		//カメラの位置を再調整
 		{
 			//プレイヤを画面の何処に置くか（今回は画面中央）

@@ -72,7 +72,7 @@ namespace  Enemy01
 		//当たり判定
 		{
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("プレイヤ");
+			auto targets = ge->GetTasks<BChara>("Player");
 			for(auto it = targets->begin(); it != targets->end(); ++it) {
 				//相手に接触の有無を確認させる
 				if ((*it)->CheckHit(me)) {

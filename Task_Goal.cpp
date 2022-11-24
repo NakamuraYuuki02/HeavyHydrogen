@@ -56,7 +56,7 @@ namespace  Goal
 	void  Object::UpDate()
 	{
 		ML::Box2D me = this->hitBase.OffsetCopy(this->goalPos);
-		auto player = ge->GetTasks<BChara>("ƒvƒŒƒCƒ„");
+		auto player = ge->GetTasks<BChara>("Player");
 		for (auto it = player->begin(); it != player->end(); ++it)
 		{
 			if ((*it)->CheckHit(me))
