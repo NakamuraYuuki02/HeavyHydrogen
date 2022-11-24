@@ -65,7 +65,8 @@ namespace  Game
 		//★データ＆タスク解放
 		ge->KillAll_G("本編");
 		ge->KillAll_G("field");
-		ge->KillAll_G("�v���C��");
+		ge->KillAll_G("Player");
+		//ge->KillAll_G("�v���C��");
 		ge->KillAll_G("Enemy");
 		ge->KillAll_G("プレイヤ");
 		ge->KillAll_G("goal");
