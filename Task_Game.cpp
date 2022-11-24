@@ -5,9 +5,11 @@
 
 #include  "Task_Game.h"
 #include  "Task_GameBG.h"
+#include  "Task_Goal.h"
 #include  "Task_Map2D.h"
 #include  "Task_Player.h"
 #include  "Task_Ending.h"
+#include "Task_Title.h"
 
 namespace  Game
 {
@@ -40,6 +42,9 @@ namespace  Game
 		//背景タスク
 		//auto  bg = GameBG::Object::Create(true);
 
+		//ゴールタスク
+		auto  goal = Goal::Object::Create(true);
+
 		//マップの生成
 		auto  map = Map2D::Object::Create(true);
 		map->Load("./data/Map/map.txt");
@@ -57,12 +62,20 @@ namespace  Game
 		ge->KillAll_G("本編");
 		ge->KillAll_G("field");
 		ge->KillAll_G("プレイヤ");
+		ge->KillAll_G("goal");
 
-		if (!ge->QuitFlag() && this->nextTaskCreate) {
-			//★引き継ぎタスクの生成
-			auto next = Ending::Object::Create(true);
+		if (!ge->QuitFlag() && this->nextTaskCreate)
+		{
+				//★引き継ぎタスクの生成
+			if (ge->returnFlag)
+			{
+				auto next = Title::Object::Create(true);
+			}
+			else
+			{
+				auto next = Ending::Object::Create(true);
+			}
 		}
-
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -80,7 +93,15 @@ namespace  Game
 	void  Object::Render2D_AF()
 	{
 	}
-
+	//-------------------------------------------------------------------
+	void Object::Transition()
+	{
+		if (ge->goalFlag)
+		{
+			this->Kill();
+		}
+		//タイトルに戻る処理
+	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
