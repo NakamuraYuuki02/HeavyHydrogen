@@ -1,17 +1,18 @@
 //-------------------------------------------------------------------
-//セレクトシーン
+//
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Select.h"
-#include  "Task_Game.h"
+#include  "Task_Goal.h"
+#include "Task_Player.h"
 
-namespace  Select
+namespace  Goal
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
+		this->goal = DG::Image::Create("./data/image/Goal.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -30,6 +31,8 @@ namespace  Select
 		this->res = Resource::Create();
 
 		//★データ初期化
+		this->hitBase = ML::Box2D(0, 0, 5, 5);
+		this->goalPos = ML::Vec2(ge->screen2DWidth * 1 / 8, ge->screen2DHeight * 1 / 5.3f);
 		
 		//★タスクの生成
 
@@ -41,9 +44,9 @@ namespace  Select
 	{
 		//★データ＆タスク解放
 
+
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
-			auto next = Game::Object::Create(true);
 		}
 
 		return  true;
@@ -52,21 +55,26 @@ namespace  Select
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
-		auto inp = ge->in1->GetState();
-		if (inp.ST.down) {
-			//自身に消滅要請
-			this->Kill();
+		ML::Box2D me = this->hitBase.OffsetCopy(this->goalPos);
+		auto player = ge->GetTasks<BChara>("プレイヤ");
+		for (auto it = player->begin(); it != player->end(); ++it)
+		{
+			if ((*it)->CheckHit(me))
+			{
+				this->Kill();
+				break;
+			}
 		}
-
-		//スキル選択処理
-
-		//マップ選択処理
-
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
+		ML::Box2D Draw(-16, -16, 32, 32);
+		Draw.Offset(this->goalPos);
+		ML::Box2D Src(0, 0, 31, 31);
+		Draw.Offset(-ge->camera2D .x, -ge->camera2D.y);
+		this->res->goal->Draw(Draw, Src);
 	}
 
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

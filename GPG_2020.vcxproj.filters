@@ -1,22 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Task_Ending.cpp">
-      <Filter>MyPG\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Game.cpp">
-      <Filter>MyPG\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_GameBG.cpp">
-      <Filter>MyPG\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Map2D.cpp">
-      <Filter>MyPG\Task</Filter>
-    </ClCompile>
     <ClCompile Include="Task_Select.cpp">
-      <Filter>MyPG\Task</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Title.cpp">
       <Filter>MyPG\Task</Filter>
     </ClCompile>
     <ClCompile Include="MyPG.cpp">
@@ -76,27 +61,33 @@
     <ClCompile Include="GameEngine_Ver3_83.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Task_Title.cpp">
+      <Filter>MyPG\Task\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Ending.cpp">
+      <Filter>MyPG\Task\Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_GameBG.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Goal.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Map2D.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
     <ClCompile Include="Task_Player.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Game.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Enemy01.cpp">
       <Filter>MyPG\Task</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Task_Ending.h">
-      <Filter>MyPG\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Game.h">
-      <Filter>MyPG\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_GameBG.h">
-      <Filter>MyPG\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Map2D.h">
-      <Filter>MyPG\Task</Filter>
-    </ClInclude>
     <ClInclude Include="Task_Select.h">
-      <Filter>MyPG\Task</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Title.h">
       <Filter>MyPG\Task</Filter>
     </ClInclude>
     <ClInclude Include="MyPG.h">
@@ -150,7 +141,28 @@
     <ClInclude Include="GameEngine_Ver3_83.h">
       <Filter>GameEngine</Filter>
     </ClInclude>
+    <ClInclude Include="Task_Title.h">
+      <Filter>MyPG\Task\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Ending.h">
+      <Filter>MyPG\Task\Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Game.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_GameBG.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Map2D.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
     <ClInclude Include="Task_Player.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy01.h">
       <Filter>MyPG\Task</Filter>
     </ClInclude>
   </ItemGroup>
@@ -169,6 +181,15 @@
     </Filter>
     <Filter Include="GameEngine">
       <UniqueIdentifier>{4dde63e5-7ee2-4362-a574-8d8cd5cc0d05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG\Task\Title">
+      <UniqueIdentifier>{0d5764b8-d015-4e44-9cff-33b3a2517825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG\Task\Ending">
+      <UniqueIdentifier>{dc917e01-b942-478b-9fc2-5f9fcb5758b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG\Task\Game">
+      <UniqueIdentifier>{50bb9198-8860-40cc-9fe9-50ee3f208c6d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
