@@ -81,7 +81,7 @@ namespace  Player
 		//めり込まない移動
 		ML::Vec2  est = this->moveVec;
 		this->CheckMove(est);
-<<<<<<< HEAD
+
 		////当たり判定
 		//{
 		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
@@ -98,7 +98,7 @@ namespace  Player
 		//		}
 		//	}
 		//}
-=======
+
 		//当たり判定
 		{
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
@@ -115,7 +115,7 @@ namespace  Player
 				}
 			}
 		}
->>>>>>> bf89b6050146a70ad9ba9adba8a6c208982ffaf4
+
 		//カメラの位置を再調整
 		{
 			//プレイヤを画面の何処に置くか（今回は画面中央）

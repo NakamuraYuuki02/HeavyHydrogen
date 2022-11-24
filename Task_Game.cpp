@@ -63,17 +63,10 @@ namespace  Game
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-<<<<<<< HEAD
 		ge->KillAll_G("Main");
 		ge->KillAll_G("Field");
-=======
-		ge->KillAll_G("本編");
-		ge->KillAll_G("field");
 		ge->KillAll_G("Player");
-		//ge->KillAll_G("�v���C��");
->>>>>>> bf89b6050146a70ad9ba9adba8a6c208982ffaf4
 		ge->KillAll_G("Enemy");
-		ge->KillAll_G("Player");
 		ge->KillAll_G("Goal");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate)

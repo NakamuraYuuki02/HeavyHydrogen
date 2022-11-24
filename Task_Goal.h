@@ -51,7 +51,6 @@ namespace  Goal
 		//BCharaÇ…ä‹Ç‹ÇÍÇ»Ç¢ÉÇÉmÇÃÇ›Ç±Ç±Ç…í«â¡Ç∑ÇÈ
 		ML::Vec2 pos;
 		ML::Box2D hitBase;
-
 		ML::Vec2 goalPos;       //ÉSÅ[Éã
 
 	};
