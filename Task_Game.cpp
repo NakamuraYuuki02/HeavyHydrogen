@@ -62,6 +62,7 @@ namespace  Game
 		ge->KillAll_G("本編");
 		ge->KillAll_G("field");
 		ge->KillAll_G("プレイヤ");
+		ge->KillAll_G("Enemy");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
