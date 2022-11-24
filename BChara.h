@@ -33,12 +33,16 @@ public:
 		Walk,		//	歩行
 		Attack,		//	攻撃
 		Jump,		//	ジャンプ
+		Jump2,      //  ジャンプ2
 		Fall,		//	落下
+		Fall2,      //  落下2
 		TakeOff,	//	飛び立つ瞬間
 		Landing,	//	着地
 		Turn,       //  向き変える
 		Bound,      //　弾き飛ばされている
 		Lose,       //　消滅中
+		Dash,       //  ダッシュ
+		DashCt,     //　ダッシュクールタイム
 	};
 	Motion			motion;			//	現在の行動を示すフラグ
 	int				animCnt;		//アニメーションカウンタ
@@ -48,7 +52,9 @@ public:
 	float			maxSpeed;		//	左右方向への移動の加算量
 	float			addSpeed;		//	左右方向への移動の加算量
 	float			decSpeed;		//	左右方向への移動の減衰量
-	int             unHitTime;
+	float           dashSpeed;      //  ダッシュ時に加算される移動量
+	int             unHitTime;      //  無敵時間
+	int				jumpCnt;        //  ジャンプ回数
 
 
 
