@@ -8,7 +8,7 @@
 namespace  Player
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("プレイヤ");	//グループ名
+	const  string  defGroupName("Player");	//グループ名
 	const  string  defName("仮");	//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource

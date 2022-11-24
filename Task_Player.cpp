@@ -39,13 +39,15 @@ namespace  Player
 		this->controller = ge->in1;
 
 		this->motion = Motion::Stand;		//キャラ初期状態
-		this->maxSpeed = 5.0f;		//最大移動速度（横）
+		this->maxSpeed = 3.0f;		//最大移動速度（横）
 		this->addSpeed = 1.0f;		//歩行加速度（地面の影響である程度打ち消される
 		this->decSpeed = 0.5f;		//接地状態の時の速度減衰量（摩擦
+		this->dashSpeed = 5.0f;
 		this->maxFallSpeed = 10.0f;	//最大落下速度
-		this->jumpPow = -12.0f;		//ジャンプ力（初速）
+		this->jumpPow = -8.0f;		//ジャンプ力（初速）
 		this->gravity = ML::Gravity(32) * 5; //重力加速度＆時間速度による加算量
 		this->hp = 10;
+		this->jumpCnt = 0;
 
 		//★タスクの生成
 
@@ -70,6 +72,7 @@ namespace  Player
 	{
 		this->moveCnt++;
 		this->animCnt++;
+		
 		if (this->unHitTime > 0) { this->unHitTime--; }
 		//思考・状況判断
 		this->Think();
@@ -81,14 +84,14 @@ namespace  Player
 		//当たり判定
 		{
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("アイテム");
+			auto targets = ge->GetTasks<BChara>("Enemy");
 			for (auto it = targets->begin(); it != targets->end(); ++it)
 			{
 				//相手に接触の有無を確認させる
 				if ((*it)->CheckHit(me))
 				{
 					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { 0,0,0 };
+					BChara::AttackInfo at = { 1,0,0 };
 					(*it)->Received(this, at);
 					break;
 				}
@@ -141,30 +144,43 @@ namespace  Player
 		case  Motion::Stand:	//立っている
 			if (inp.LStick.BL.on) { nm = Motion::Walk; }
 			if (inp.LStick.BR.on) { nm = Motion::Walk; }
-			if (inp.B1.down) { nm = Motion::TakeOff; }
+			if (inp.S1.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
 			if (inp.B4.down) { nm = Motion::Attack; }
+			//if (inp.SE.down) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }//足元 障害　無し
 			break;
 		case  Motion::Walk:		//歩いている
 			if (inp.LStick.BL.off && inp.LStick.BR.off) { nm = Motion::Stand; }
-			if (inp.B1.down) { nm = Motion::TakeOff; }
+			if (inp.S1.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
 			if (inp.B4.down) { nm = Motion::Attack; }
+			//if (inp.SE.down) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case  Motion::Jump:		//上昇中
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
+			//if (inp.SE.down) { nm = Motion::Dash; }
+			break;
+		case Motion::Jump2:
+			if (this->moveVec.y >= 0) { nm = Motion::Fall2; }
+			//if (inp.SE.down) { nm = Motion::Dash; }
 			break;
 		case  Motion::Fall:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
+			//if (inp.SE.down) { nm = Motion::Dash; }
+			if (inp.S1.down) { nm = Motion::Jump2; }
+			break;
+		case  Motion::Fall2:		//落下中
+			if (this->CheckFoot() == true) { nm = Motion::Landing; }
+			//if (inp.SE.down) { nm = Motion::Dash; }
 			break;
 		case  Motion::Attack:	//攻撃中
 			if (this->moveCnt == 8) { nm = Motion::Stand; }
 			break;
 		//case  Motion::Attack2:	//攻撃中
-			if (this->moveCnt == 8) { nm = Motion::Stand; }
-			break;
+		//	if (this->moveCnt == 8) { nm = Motion::Stand; }
+		//	break;
 		case  Motion::TakeOff:	//飛び立ち
 			if (this->moveCnt >= 3) { nm = Motion::Jump; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
@@ -179,6 +195,17 @@ namespace  Player
 				nm = Motion::Stand;
 			}
 			break;
+		/*case Motion::Dash:
+			nm = Motion::DashCt;
+			break;
+		case Motion::DashCt:
+			if (this->moveCnt == 15)
+			{
+				if (this->CheckFoot() == true) { nm = Motion::Stand; }
+				if (this->moveVec.y >= 0 || jumpCnt == 1) { nm = Motion::Fall; }
+				if (this->moveVec.y >= 0 || jumpCnt == 2) { nm = Motion::Fall2; }
+			}
+			break;*/
 		}
 		//モーション更新
 		this->UpdateMotion(nm);
@@ -249,8 +276,27 @@ namespace  Player
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
+			if (this->CheckFoot() == true)
+			{
+				this->jumpCnt = 0;
+			}
+			break;
+		case  Motion::Fall2:		//落下中
+			if (inp.LStick.BL.on)
+			{
+				this->moveVec.x = -this->maxSpeed;
+			}
+			if (inp.LStick.BR.on)
+			{
+				this->moveVec.x = this->maxSpeed;
+			}
+			if (this->CheckFoot() == true)
+			{
+				this->jumpCnt = 0;
+			}
 			break;
 		case  Motion::Jump:		//上昇中
+			this->jumpCnt++;
 			if (this->moveCnt == 0)
 			{
 				this->moveVec.y = this->jumpPow; //初速設定
@@ -266,6 +312,37 @@ namespace  Player
 			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
+			}
+			break;
+		case  Motion::Jump2:		//上昇中
+			this->jumpCnt++;
+			if (this->moveCnt == 0)
+			{
+				this->moveVec.y = this->jumpPow; //初速設定
+			}
+			if (this->CheckHead() == true)
+			{
+				this->moveVec.y = 0;
+			}
+			if (inp.LStick.BL.on)
+			{
+				this->moveVec.x = -this->maxSpeed;
+			}
+			if (inp.LStick.BR.on)
+			{
+				this->moveVec.x = this->maxSpeed;
+			}
+			break;
+			break;
+		case Motion::Dash:
+			if (this->angle_LR == Angle_LR::Right)
+			{
+				this->moveVec.x = this->maxSpeed + dashSpeed;
+				
+			}
+			if (this->angle_LR == Angle_LR::Left)
+			{
+				this->moveVec.x = -this->maxSpeed - dashSpeed;
 			}
 			break;
 		case  Motion::Attack:	//攻撃中
@@ -301,7 +378,7 @@ namespace  Player
 		//			shot01->pos = this->pos + ML::Vec2(-30, 0);
 		//		}
 		//	}
-			break;
+			//break;
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -313,7 +390,7 @@ namespace  Player
 			//draw							src
 			{ ML::Box2D(-8, -20, 16, 40), ML::Box2D(0, 0, 32, 80), defColor },	//停止
 			{ ML::Box2D(-2, -20, 16, 40), ML::Box2D(32, 0, 32, 80), defColor },	//歩行１
-			{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(64, 0, 48, 80), defColor },	//歩行２
+			{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(64, 0, 48, 80), defColor },	//歩行２ dash
 			{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(112, 0, 48, 80), defColor },	//歩行３
 			{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(48, 80, 48, 80), defColor },	//ジャンプ
 			{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(96, 80, 48, 80), defColor },	//落下
@@ -328,6 +405,8 @@ namespace  Player
 		default:		rtv = imageTable[0];	break;
 			//	ジャンプ------------------------------------------------------------------------
 		case  Motion::Jump:		rtv = imageTable[4];	break;
+			//	ジャンプ2------------------------------------------------------------------------
+		case  Motion::Jump2:		rtv = imageTable[4];	break;
 			//	停止----------------------------------------------------------------------------
 		case  Motion::Stand:	rtv = imageTable[0];	break;
 			//	歩行----------------------------------------------------------------------------
@@ -338,6 +417,8 @@ namespace  Player
 			break;
 			//	落下----------------------------------------------------------------------------
 		case  Motion::Fall:		rtv = imageTable[5];	break;
+			//	落下2----------------------------------------------------------------------------
+		case  Motion::Fall2:		rtv = imageTable[5];	break;
 			//飛び立つ直前-----------------------------------------------------------------------
 		case  Motion::TakeOff:  rtv = imageTable[6];    break;
 			//  着地----------------------------------------------------------------------------
@@ -346,7 +427,11 @@ namespace  Player
 		case  Motion::Bound:    rtv = imageTable[8];    break;
 			//　攻撃----------------------------------------------------------------------------
 		case  Motion::Attack:   rtv = imageTable[9]; break;
-			//  攻撃2---------------------------------------------------------------------------
+			//　ダッシュ------------------------------------------------------------------------
+		case  Motion::Dash:      rtv = imageTable[2]; break;
+			//  ダッシュクール------------------------------------------------------------------
+		case  Motion::DashCt:    rtv = imageTable[2]; break;
+			//  攻撃2--------------------------------------------------------------------------
 		//case  Motion::Attack2:  rtv = imageTable[9]; break;
 		}
 		//	向きに応じて画像を左右反転する
