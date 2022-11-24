@@ -85,6 +85,9 @@
     <ClCompile Include="Task_Enemy01.cpp">
       <Filter>MyPG\Task</Filter>
     </ClCompile>
+    <ClCompile Include="Task_Shot00.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Task_Select.h">
@@ -164,6 +167,9 @@
     </ClInclude>
     <ClInclude Include="Task_Enemy01.h">
       <Filter>MyPG\Task</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Shot00.h">
+      <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

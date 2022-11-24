@@ -42,6 +42,7 @@ namespace  Enemy01
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
+
 		//šƒ^ƒXƒN‚Ì¶¬
 
 		return  true;

@@ -4,6 +4,7 @@
 #include  "MyPG.h"
 #include  "Task_Title.h"
 #include  "Task_Game.h"
+#include  "Task_Select.h"
 
 namespace  Title
 {
@@ -47,7 +48,7 @@ namespace  Title
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//šˆø‚«Œp‚¬ƒ^ƒXƒN‚Ì¶¬
-			auto  nextTask = Game::Object::Create(true);
+			auto  nextTask = Select::Object::Create(true);
 		}
 
 		return  true;

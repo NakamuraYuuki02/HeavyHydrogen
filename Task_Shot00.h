@@ -1,15 +1,15 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//プレイヤ
+//プレイヤの出す弾
 //-------------------------------------------------------------------
 #include "BChara.h"
 
-namespace  Player
+namespace  Shot00
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("Player");	//グループ名
-	const  string  defName("NoName");	//タスク名
+	const  string  defGroupName("Shot(Player)");	//グループ名
+	const  string  defName("NoName");				//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource
 	{
@@ -23,8 +23,7 @@ namespace  Player
 		static   WP  instance;
 		static  Resource::SP  Create();
 		//共有する変数はここに追加する
-		DG::Image::SP  img;
-		DG::Image::SP  attack;
+		DG::Image::SP	img;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BChara
@@ -49,15 +48,5 @@ namespace  Player
 	public:
 		//追加したい変数・メソッドはここに追加する
 		//BCharaに持たせていない変数・メソッドのみここに書く
-		XI::GamePad::SP  controller;
-
-		//思考＆状況判断(ステータス決定）
-		void  Think();
-		//モーションに対応した処理
-		void  Move();
-		//アニメーション制御
-		BChara::DrawInfo  Anim();
-		//接触時の応答処理（必ず受け身の処理として実装する）
-		void Received(BChara* from_, AttackInfo at_) override;
 	};
 }
