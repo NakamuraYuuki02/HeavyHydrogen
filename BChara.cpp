@@ -116,7 +116,7 @@ bool BChara::CheckFront_LR()
 //ÚG‚Ì‰“šˆ—(‚±‚ê©‘Ì‚Íƒ_ƒ~[‚Ì‚æ‚¤‚È‚à‚Ì)
 void BChara::Received(BChara* from_, AttackInfo at_)
 {
-	ML::MsgBox("Received À‘•‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+	//ML::MsgBox("Received À‘•‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
 }
 //-----------------------------------------------------------------------------
 //ÚG”»’è
