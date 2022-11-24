@@ -42,6 +42,7 @@ namespace  Enemy01
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
+		this->hp = 100;
 		//★タスクの生成
 
 		return  true;
@@ -65,6 +66,11 @@ namespace  Enemy01
 	{
 		this->moveCnt++;
 		this->Move();
+		//hpがなくなったらKill
+		if (hp <= 0)
+		{
+			this->Kill();
+		}
 		//思考・状況判断
 		this->Think();
 		ML::Vec2 est = this->moveVec;
@@ -77,7 +83,7 @@ namespace  Enemy01
 				//相手に接触の有無を確認させる
 				if ((*it)->CheckHit(me)) {
 					//相手にダメージの処理を行わせる
-					BChara::AttackInfo  at = { 1,0,0 };
+					BChara::AttackInfo  at = { 4,0,0 };
 					(*it)->Received(this, at);
 					break;
 				}
@@ -91,7 +97,7 @@ namespace  Enemy01
 		ML::Box2D draw(this->hitBase);
 		draw.Offset(this->pos);
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		ML::Box2D src(16, 0, 48, 32);
+		ML::Box2D src(24, 7, 32, 23);
 		this->res->img->Draw(draw, src);
 	}
 	//-----------------------------------------------------------------------------
