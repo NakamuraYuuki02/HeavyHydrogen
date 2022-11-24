@@ -9,29 +9,29 @@ namespace  Enemy01
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
-	//ƒŠƒ\[ƒX‚Ì‰Šú‰»
+	//ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–
 	bool  Resource::Initialize()
 	{
 		this->img = DG::Image::Create("./data/image/Chara00.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
-	//ƒŠƒ\[ƒX‚Ì‰ğ•ú
+	//ãƒªã‚½ãƒ¼ã‚¹ã®è§£æ”¾
 	bool  Resource::Finalize()
 	{
 		this->img.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
-	//u‰Šú‰»vƒ^ƒXƒN¶¬‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
+	//ã€ŒåˆæœŸåŒ–ã€ã‚¿ã‚¹ã‚¯ç”Ÿæˆæ™‚ã«ï¼‘å›ã ã‘è¡Œã†å‡¦ç†
 	bool  Object::Initialize()
 	{
-		//ƒX[ƒp[ƒNƒ‰ƒX‰Šú‰»
+		//ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹åˆæœŸåŒ–
 		__super::Initialize(defGroupName, defName, true);
-		//ƒŠƒ\[ƒXƒNƒ‰ƒX¶¬orƒŠƒ\[ƒX‹¤—L
+		//ãƒªã‚½ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ç”Ÿæˆorãƒªã‚½ãƒ¼ã‚¹å…±æœ‰
 		this->res = Resource::Create();
 
-		//šƒf[ƒ^‰Šú‰»
+		//â˜…ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ–
 		this->render2D_Priority[1] = 0.6f;
 		this->hitBase = ML::Box2D(-25, -25, 80, 80);
 		this->angle_LR = Angle_LR::Left;
@@ -42,43 +42,48 @@ namespace  Enemy01
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
-
-		//šƒ^ƒXƒN‚Ì¶¬
+		this->hp = 100;
+		//â˜…ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ
 
 		return  true;
 	}
 	//-------------------------------------------------------------------
-	//uI—¹vƒ^ƒXƒNÁ–Å‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
+	//ã€Œçµ‚äº†ã€ã‚¿ã‚¹ã‚¯æ¶ˆæ»…æ™‚ã«ï¼‘å›ã ã‘è¡Œã†å‡¦ç†
 	bool  Object::Finalize()
 	{
-		//šƒf[ƒ^•ƒ^ƒXƒN‰ğ•ú
+		//â˜…ãƒ‡ãƒ¼ã‚¿ï¼†ã‚¿ã‚¹ã‚¯è§£æ”¾
 
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
-			//šˆø‚«Œp‚¬ƒ^ƒXƒN‚Ì¶¬
+			//â˜…å¼•ãç¶™ãã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ
 		}
 
 		return  true;
 	}
 	//-------------------------------------------------------------------
-	//uXVv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
+	//ã€Œæ›´æ–°ã€ï¼‘ãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã«è¡Œã†å‡¦ç†
 	void  Object::UpDate()
 	{
 		this->moveCnt++;
 		this->Move();
-		//vlEó‹µ”»’f
+		//hpãŒãªããªã£ãŸã‚‰Kill
+		if (hp <= 0)
+		{
+			this->Kill();
+		}
+		//æ€è€ƒãƒ»çŠ¶æ³åˆ¤æ–­
 		this->Think();
 		ML::Vec2 est = this->moveVec;
 		this->CheckMove(est);
-		//“–‚½‚è”»’è
+		//å½“ãŸã‚Šåˆ¤å®š
 		{
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
 			auto targets = ge->GetTasks<BChara>("Player");
 			for(auto it = targets->begin(); it != targets->end(); ++it) {
-				//‘Šè‚ÉÚG‚Ì—L–³‚ğŠm”F‚³‚¹‚é
+				//ç›¸æ‰‹ã«æ¥è§¦ã®æœ‰ç„¡ã‚’ç¢ºèªã•ã›ã‚‹
 				if ((*it)->CheckHit(me)) {
-					//‘Šè‚Éƒ_ƒ[ƒW‚Ìˆ—‚ğs‚í‚¹‚é
-					BChara::AttackInfo  at = { 1,0,0 };
+					//ç›¸æ‰‹ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã®å‡¦ç†ã‚’è¡Œã‚ã›ã‚‹
+					BChara::AttackInfo  at = { 4,0,0 };
 					(*it)->Received(this, at);
 					break;
 				}
@@ -86,48 +91,48 @@ namespace  Enemy01
 		}
 	}
 	//-------------------------------------------------------------------
-	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
+	//ã€Œï¼’ï¼¤æç”»ã€ï¼‘ãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã«è¡Œã†å‡¦ç†
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D draw(this->hitBase);
 		draw.Offset(this->pos);
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		ML::Box2D src(16, 0, 48, 32);
+		ML::Box2D src(24, 7, 32, 23);
 		this->res->img->Draw(draw, src);
 	}
 	//-----------------------------------------------------------------------------
-	//vl•ó‹µ”»’f@ƒ‚[ƒVƒ‡ƒ“Œˆ’è
+	//æ€è€ƒï¼†çŠ¶æ³åˆ¤æ–­ã€€ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³æ±ºå®š
 	void  Object::Think()
 	{
-		BChara::Motion  nm = this->motion;	//‚Æ‚è‚ ‚¦‚¸¡‚Ìó‘Ô‚ğw’è
+		BChara::Motion  nm = this->motion;	//ã¨ã‚Šã‚ãˆãšä»Šã®çŠ¶æ…‹ã‚’æŒ‡å®š
 
-		//vli“ü—Íj‚âó‹µ‚É‰‚¶‚Äƒ‚[ƒVƒ‡ƒ“‚ğ•ÏX‚·‚é–‚ğ–Ú“I‚Æ‚µ‚Ä‚¢‚éB
-		//ƒ‚[ƒVƒ‡ƒ“‚Ì•ÏXˆÈŠO‚Ìˆ—‚Ís‚í‚È‚¢
+		//æ€è€ƒï¼ˆå…¥åŠ›ï¼‰ã‚„çŠ¶æ³ã«å¿œã˜ã¦ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å¤‰æ›´ã™ã‚‹äº‹ã‚’ç›®çš„ã¨ã—ã¦ã„ã‚‹ã€‚
+		//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®å¤‰æ›´ä»¥å¤–ã®å‡¦ç†ã¯è¡Œã‚ãªã„
 		switch (nm) {
-		case  Motion::Stand:	//—§‚Á‚Ä‚¢‚é
+		case  Motion::Stand:	//ç«‹ã£ã¦ã„ã‚‹
 			nm = Motion::Walk;
-			if (this->CheckFoot() == false) { nm = Motion::Fall; }//‘«Œ³ áŠQ@–³‚µ
+			if (this->CheckFoot() == false) { nm = Motion::Fall; }//è¶³å…ƒ éšœå®³ã€€ç„¡ã—
 			break;
-		case  Motion::Walk:		//•à‚¢‚Ä‚¢‚é
+		case  Motion::Walk:		//æ­©ã„ã¦ã„ã‚‹
 			if (this->CheckFront_LR() == true) { nm = Motion::Turn; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
-		case  Motion::Jump:		//ã¸’†
+		case  Motion::Jump:		//ä¸Šæ˜‡ä¸­
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
 			break;
-		case  Motion::Fall:		//—‰º’†
+		case  Motion::Fall:		//è½ä¸‹ä¸­
 			if (this->CheckFoot() == true) { nm = Motion::Stand; }
 			break;
-		case  Motion::Attack:	//UŒ‚’†
+		case  Motion::Attack:	//æ”»æ’ƒä¸­
 			break;
 			if (this->moveCnt == 8) { nm = Motion::Stand; }
 			break;
-		case  Motion::TakeOff:	//”ò‚Ñ—§‚¿
+		case  Motion::TakeOff:	//é£›ã³ç«‹ã¡
 			break;
-		case  Motion::Landing:	//’…’n
+		case  Motion::Landing:	//ç€åœ°
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
-		case Motion::Bound:     //ƒ_ƒ[ƒW‚ğó‚¯‚Ä‚«”ò‚ñ‚Å‚¢‚é
+		case Motion::Bound:     //ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã¦å¹ãé£›ã‚“ã§ã„ã‚‹
 			if (this->moveCnt >= 12 && this->CheckFoot() == true)
 			{
 				nm = Motion::Stand;
@@ -137,33 +142,33 @@ namespace  Enemy01
 			if (this->moveCnt >= 5) { nm = Motion::Stand; }
 			break;
 		}
-		//ƒ‚[ƒVƒ‡ƒ“XV
+		//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³æ›´æ–°
 		this->UpdateMotion(nm);
 	}
 	//-----------------------------------------------------------------------------
-	//ƒ‚[ƒVƒ‡ƒ“‚É‘Î‰‚µ‚½ˆ—
-	//(ƒ‚[ƒVƒ‡ƒ“‚Í•ÏX‚µ‚È‚¢j
+	//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã«å¯¾å¿œã—ãŸå‡¦ç†
+	//(ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã¯å¤‰æ›´ã—ãªã„ï¼‰
 	void  Object::Move()
 	{
-		//d—Í‰Á‘¬
+		//é‡åŠ›åŠ é€Ÿ
 		switch (this->motion) {
 		default:
-			//ã¸’†‚à‚µ‚­‚Í‘«Œ³‚É’n–Ê‚ª–³‚¢
+			//ä¸Šæ˜‡ä¸­ã‚‚ã—ãã¯è¶³å…ƒã«åœ°é¢ãŒç„¡ã„
 			if (this->moveVec.y < 0 ||
 				this->CheckFoot() == false) {
-				//this->moveVec.y = 1.0f;//‰¼ˆ—
+				//this->moveVec.y = 1.0f;//ä»®å‡¦ç†
 				this->moveVec.y = min(this->moveVec.y + this->gravity, this->maxFallSpeed);
 			}
-			//’n–Ê‚ÉÚG‚µ‚Ä‚¢‚é
+			//åœ°é¢ã«æ¥è§¦ã—ã¦ã„ã‚‹
 			else {
 				this->moveVec.y = 0.0f;
 			}
 			break;
-			//d—Í‰Á‘¬‚ğ–³Œø‰»‚·‚é•K—v‚ª‚ ‚éƒ‚[ƒVƒ‡ƒ“‚Í‰º‚Écase‚ğ‘‚­iŒ»İ‘ÎÛ–³‚µj
+			//é‡åŠ›åŠ é€Ÿã‚’ç„¡åŠ¹åŒ–ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã¯ä¸‹ã«caseã‚’æ›¸ãï¼ˆç¾åœ¨å¯¾è±¡ç„¡ã—ï¼‰
 		case Motion::Unnon:	break;
 		}
 
-		//ˆÚ“®‘¬“xŒ¸Š
+		//ç§»å‹•é€Ÿåº¦æ¸›è¡°
 		switch (this->motion) {
 		default:
 			if (this->moveVec.x < 0)
@@ -175,16 +180,16 @@ namespace  Enemy01
 				this->moveVec.x = max(this->moveVec.x - this->decSpeed, 0);
 			}
 			break;
-			//ˆÚ“®‘¬“xŒ¸Š‚ğ–³Œø‰»‚·‚é•K—v‚ª‚ ‚éƒ‚[ƒVƒ‡ƒ“‚Í‰º‚Écase‚ğ‘‚­
+			//ç§»å‹•é€Ÿåº¦æ¸›è¡°ã‚’ç„¡åŠ¹åŒ–ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã¯ä¸‹ã«caseã‚’æ›¸ã
 		case Motion::Bound:
 		case Motion::Unnon:	break;
 		}
 		//-----------------------------------------------------------------
-		//ƒ‚[ƒVƒ‡ƒ“–ˆ‚ÉŒÅ—L‚Ìˆ—
+		//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³æ¯ã«å›ºæœ‰ã®å‡¦ç†
 		switch (this->motion) {
-		case  Motion::Stand:	//—§‚Á‚Ä‚¢‚é
+		case  Motion::Stand:	//ç«‹ã£ã¦ã„ã‚‹
 			break;
-		case  Motion::Walk:		//•à‚¢‚Ä‚¢‚é
+		case  Motion::Walk:		//æ­©ã„ã¦ã„ã‚‹
 			if (this->angle_LR == Angle_LR::Left) {
 				this->moveVec.x =
 					max(-this->maxSpeed, this->moveVec.x - this->addSpeed);
@@ -194,11 +199,11 @@ namespace  Enemy01
 					min(+this->maxSpeed, this->moveVec.x + this->addSpeed);
 			}
 			break;
-		case  Motion::Fall:		//—‰º’†
+		case  Motion::Fall:		//è½ä¸‹ä¸­
 			break;
-		case  Motion::Jump:		//ã¸’†
+		case  Motion::Jump:		//ä¸Šæ˜‡ä¸­
 			break;
-		case  Motion::Attack:	//UŒ‚’†
+		case  Motion::Attack:	//æ”»æ’ƒä¸­
 			break;
 		case  Motion::Turn:
 			if (this->moveCnt == 3) {
@@ -211,33 +216,33 @@ namespace  Enemy01
 		}
 	}
 	//-----------------------------------------------------------------------------
-	//ƒAƒjƒ[ƒVƒ‡ƒ“§Œä
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³åˆ¶å¾¡
 	BChara::DrawInfo  Object::Anim()
 	{
 		BChara::DrawInfo  rtv;
-		//	Œü‚«‚É‰‚¶‚Ä‰æ‘œ‚ğ¶‰E”½“]‚·‚é
+		//	å‘ãã«å¿œã˜ã¦ç”»åƒã‚’å·¦å³åè»¢ã™ã‚‹
 		if (Angle_LR::Left == this->angle_LR) {
 			rtv.draw.x = -rtv.draw.x;
 			rtv.draw.w = -rtv.draw.w;
 		}
 		return rtv;
 	}
-	//šššššššššššššššššššššššššššššššššššššššššš
-	//ˆÈ‰º‚ÍŠî–{“I‚É•ÏX•s—v‚Èƒƒ\ƒbƒh
-	//šššššššššššššššššššššššššššššššššššššššššš
+	//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
+	//ä»¥ä¸‹ã¯åŸºæœ¬çš„ã«å¤‰æ›´ä¸è¦ãªãƒ¡ã‚½ãƒƒãƒ‰
+	//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
 	//-------------------------------------------------------------------
-	//ƒ^ƒXƒN¶¬‘‹Œû
+	//ã‚¿ã‚¹ã‚¯ç”Ÿæˆçª“å£
 	Object::SP  Object::Create(bool  flagGameEnginePushBack_)
 	{
 		Object::SP  ob = Object::SP(new  Object());
 		if (ob) {
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
-				ge->PushBack(ob);//ƒQ[ƒ€ƒGƒ“ƒWƒ“‚É“o˜^
+				ge->PushBack(ob);//ã‚²ãƒ¼ãƒ ã‚¨ãƒ³ã‚¸ãƒ³ã«ç™»éŒ²
 				
 			}
 			if (!ob->B_Initialize()) {
-				ob->Kill();//ƒCƒjƒVƒƒƒ‰ƒCƒY‚É¸”s‚µ‚½‚çKill
+				ob->Kill();//ã‚¤ãƒ‹ã‚·ãƒ£ãƒ©ã‚¤ã‚ºã«å¤±æ•—ã—ãŸã‚‰Kill
 			}
 			return  ob;
 		}
@@ -258,7 +263,7 @@ namespace  Enemy01
 	//-------------------------------------------------------------------
 	Object::Object() {	}
 	//-------------------------------------------------------------------
-	//ƒŠƒ\[ƒXƒNƒ‰ƒX‚Ì¶¬
+	//ãƒªã‚½ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ
 	Resource::SP  Resource::Create()
 	{
 		if (auto sp = instance.lock()) {

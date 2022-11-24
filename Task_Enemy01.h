@@ -52,6 +52,6 @@ namespace  Enemy01
 		void Move();
 		BChara::DrawInfo	Anim();
 		//BChara‚ÉŠÜ‚Ü‚ê‚È‚¢ƒ‚ƒm‚Ì‚Ý‚±‚±‚É’Ç‰Á‚·‚é
-		
+		int		hp;
 	};
 }
