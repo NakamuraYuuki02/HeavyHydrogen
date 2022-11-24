@@ -12,12 +12,14 @@ namespace  Select
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
+		this->img = DG::Image::Create("./data/image/Select.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
+		this->img.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -53,7 +55,7 @@ namespace  Select
 	void  Object::UpDate()
 	{
 		auto inp = ge->in1->GetState();
-		if (inp.ST.down) {
+		if (inp.L1.down) {
 			//自身に消滅要請
 			this->Kill();
 		}
@@ -67,6 +69,9 @@ namespace  Select
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
+		ML::Box2D draw(-300, -100, 600, 200);
+		ML::Box2D src(0, 0, 1358, 216);
+		this->res->img->Draw(draw, src);
 	}
 
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
