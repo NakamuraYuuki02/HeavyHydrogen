@@ -28,7 +28,7 @@ namespace  MyPG
 	public:
 	//	ビュー情報（方向関連）
 		ML::Vec3 target;			//	被写体の位置
-		ML::Vec3 pos;			//	カメラの位置
+		ML::Vec3 pos;			    //	カメラの位置
 		ML::Vec3 up;				//	カメラの上方向を示すベクトル（大体Ｙ＋固定）
 	//	射影情報（視野範囲関連）
 		float fov;					//	視野角
@@ -74,6 +74,12 @@ namespace  MyPG
 
 		XI::Mouse::SP  mouse;
 		XI::GamePad::SP  in1, in2, in3, in4;	//取り合えず４本
+
+		//カメラ
+		ML::Box2D camera2D;
+
+		bool goalFlag = false;//ゴールフラグ
+		bool returnFlag = false;//タイトルに戻るフラグ
 	//----------------------------------------------
 	};
 }
