@@ -3,7 +3,8 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Goal.h"
-#include "Task_Player.h"
+#include  "Task_Player.h"
+#include  "Task_Ending.h"
 
 namespace  Goal
 {
@@ -43,10 +44,12 @@ namespace  Goal
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-
-
-		if (!ge->QuitFlag() && this->nextTaskCreate) {
-			//★引き継ぎタスクの生成
+		ge->KillAll_G("Main");
+		
+		//★引き継ぎタスクの生成
+		if (!ge->QuitFlag() && this->nextTaskCreate)
+		{
+			auto next = Ending::Object::Create(true);
 		}
 
 		return  true;
@@ -62,6 +65,7 @@ namespace  Goal
 			if ((*it)->CheckHit(me))
 			{
 				this->Kill();
+				
 				break;
 			}
 		}
