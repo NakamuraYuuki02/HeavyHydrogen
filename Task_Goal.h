@@ -49,9 +49,8 @@ namespace  Goal
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 		//追加したい変数・メソッドはここに追加する
 		//BCharaに含まれないモノのみここに追加する
-		ML::Vec2 pos;
-		ML::Box2D hitBase;
-		ML::Vec2 goalPos;       //ゴール
-
+		ML::Vec2   pos;
+		ML::Box2D  hitBase;
+		ML::Vec2   goalPos;       //ゴール
 	};
 }
