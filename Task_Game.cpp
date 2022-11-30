@@ -53,6 +53,8 @@ namespace  Game
 		auto en01 = Enemy01::Object::Create(true);
 		en01->pos.x = 500;
 		en01->pos.y = 240;
+
+		//プレイヤの生成
 		auto  pl = Player::Object::Create(true);
 		pl->pos.x = 480 / 2;
 		pl->pos.y = 270 / 3 * 2;

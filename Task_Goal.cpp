@@ -20,6 +20,7 @@ namespace  Goal
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
+		this->goal.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -45,11 +46,15 @@ namespace  Goal
 	{
 		//★データ＆タスク解放
 		ge->KillAll_G("Main");
-		
+		ge->KillAll_G("Field");
+		ge->KillAll_G("Player");
+		ge->KillAll_G("Enemy");
+		ge->KillAll_G("Goal");
+			
 		//★引き継ぎタスクの生成
 		if (!ge->QuitFlag() && this->nextTaskCreate)
 		{
-			auto next = Ending::Object::Create(true);
+
 		}
 
 		return  true;
@@ -65,7 +70,6 @@ namespace  Goal
 			if ((*it)->CheckHit(me))
 			{
 				this->Kill();
-				
 				break;
 			}
 		}
