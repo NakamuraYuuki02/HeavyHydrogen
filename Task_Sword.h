@@ -5,10 +5,10 @@
 //-------------------------------------------------------------------
 #include "BChara.h"
 
-namespace  Enemy01
+namespace  sword
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("Enemy");	//グループ名
+	const  string  defGroupName("Sword");	//グループ名
 	const  string  defName("NoName");		//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource
@@ -24,7 +24,7 @@ namespace  Enemy01
 		static  Resource::SP  Create();
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 		//共有する変数はここに追加する
-		DG::Image::SP			img;
+		DG::Image::SP img;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BChara
@@ -48,10 +48,6 @@ namespace  Enemy01
 	public:
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 		//追加したい変数・メソッドはここに追加する
-		void Think();
-		void Move();
-		BChara::DrawInfo	Anim();
 		//BCharaに含まれないモノのみここに追加する
-		/*int		hp;*/
 	};
 }
