@@ -88,6 +88,9 @@
     <ClCompile Include="Task_Shot00.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Task_Sword.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Task_Select.h">
@@ -169,6 +172,9 @@
       <Filter>MyPG\Task</Filter>
     </ClInclude>
     <ClInclude Include="Task_Shot00.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Sword.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,7 +5,7 @@
 #include  "Task_Player.h"
 #include  "Task_Map2D.h"
 #include  "Task_Shot00.h"
-
+#include  "Task_Sword.h"
 
 namespace  Player
 {
@@ -15,7 +15,6 @@ namespace  Player
 	bool  Resource::Initialize()
 	{
 		this->img = DG::Image::Create("./data/image/chara02.png");
-		this->attack = DG::Image::Create("./data/image/Goal.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -50,6 +49,8 @@ namespace  Player
 		this->gravity = ML::Gravity(32) * 5; //d—Í‰Á‘¬“x•ŽžŠÔ‘¬“x‚É‚æ‚é‰ÁŽZ—Ê
 		this->hp = 10;
 		this->jumpCnt = 0;
+		this->dashCnt = 0;
+		this->attackCnt = 0;
 
 		//šƒ^ƒXƒN‚Ì¶¬
 
@@ -168,7 +169,7 @@ namespace  Player
 			if (inp.S1.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
 			if (inp.B4.down) { nm = Motion::Attack; }
-			if (inp.S9.down || inp.S0.down) { nm = Motion::Dash; }
+			if (inp.S9.down&& this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }//‘«Œ³ áŠQ@–³‚µ
 			break;
 		case  Motion::Walk:		//•à‚¢‚Ä‚¢‚é
@@ -176,29 +177,38 @@ namespace  Player
 			if (inp.S1.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
 			if (inp.B4.down) { nm = Motion::Attack; }
-			if (inp.S9.down || inp.S0.down) { nm = Motion::Dash; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case  Motion::Jump:		//ã¸’†
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
 			if (inp.S1.down) { nm = Motion::Jump2; }
-			if (inp.S9.down || inp.S0.down) { nm = Motion::Dash; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			break;
 		case Motion::Jump2:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall2; }
-			if (inp.S9.down || inp.S0.down) { nm = Motion::Dash; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			break;
 		case  Motion::Fall:		//—Ž‰º’†
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.S9.down || inp.S0.down) { nm = Motion::Dash; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			if (inp.S1.down) { nm = Motion::Jump2; }
 			break;
 		case  Motion::Fall2:		//—Ž‰º’†
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.S9.down || inp.S0.down) { nm = Motion::Dash; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			break;
+			//‹ó’†‚Åo—ˆ‚éUŒ‚‚Íˆê‰ñ
 		case  Motion::Attack:	//UŒ‚’†
-			if (this->moveCnt == 8) { nm = Motion::Stand; }
+			if (this->moveCnt == 15 && this->CheckFoot() == true) { nm = Motion::Stand; }
+			if (this->moveCnt == 15 && this->CheckFoot() == false) { nm = Motion::Fall2; }
+			
+			/*if (this->jumpCnt == 1 && this->moveVec.y >= 0) { nm = Motion::Fall; }
+			if (this->jumpCnt == 2 && this->moveVec.y >= 0) { nm = Motion::Fall2; }*/
 			break;
 		//case  Motion::Attack2:	//UŒ‚’†
 		//	if (this->moveCnt == 8) { nm = Motion::Stand; }
@@ -218,10 +228,10 @@ namespace  Player
 			}
 			break;
 		case Motion::Dash:
-			nm = Motion::DashCt;
+				nm = Motion::DashCt;
 			break;
 		case Motion::DashCt:
-			if (this->moveCnt == 30)
+			if (this->moveCnt == 15)
 			{
 				if (this->CheckFoot() == true) { nm = Motion::Stand; }
 				if (this->moveVec.y >= 0 || jumpCnt == 1) { nm = Motion::Fall; }
@@ -241,6 +251,10 @@ namespace  Player
 		//d—Í‰Á‘¬
 		switch (this->motion) {
 		default:
+			if (motion == Motion::Attack || motion == Motion::DashCt)
+			{
+				this->moveVec.y = min(this->moveVec.y - this->gravity, this->maxFallSpeed);
+			}
 			//ã¸’†‚à‚µ‚­‚Í‘«Œ³‚É’n–Ê‚ª–³‚¢
 			if (this->moveVec.y < 0 ||
 				this->CheckFoot() == false) {
@@ -356,35 +370,51 @@ namespace  Player
 				this->moveVec.x = this->maxSpeed;
 			}
 			break;
-			break;
 		case Motion::Dash:
 			if (this->angle_LR == Angle_LR::Right)
 			{
 				this->moveVec.x = this->maxSpeed + dashSpeed;
-				
 			}
 			if (this->angle_LR == Angle_LR::Left)
 			{
 				this->moveVec.x = -this->maxSpeed - dashSpeed;
 			}
+			this->moveVec.y = 0;
+			this->dashCnt++;
+			break;
+		case Motion::DashCt:
+
 			break;
 		case  Motion::Attack:	//UŒ‚’†
-			if (this->moveCnt == 4)
+			if (this->moveCnt ==8)
 			{
 				if (this->angle_LR == Angle_LR::Right)
 				{
-					auto shot = Shot00::Object::Create(true);
+					auto attack = sword::Object::Create(true);
+					attack->pos = this->pos + ML::Vec2(30, 0);
+					/*auto shot = Shot00::Object::Create(true);
 					shot->moveVec = ML::Vec2(8, 0);
-					shot->pos = this->pos + ML::Vec2(30, 0);
+					shot->pos = this->pos + ML::Vec2(30, 0);*/
 				}
 				else
 				{
-
-					auto shot = Shot00::Object::Create(true);
+					auto attack = sword::Object::Create(true);
+					attack->pos = this->pos + ML::Vec2(-30, 0);
+					/*auto shot = Shot00::Object::Create(true);
 					shot->moveVec = ML::Vec2(-8, 0);
-					shot->pos = this->pos + ML::Vec2(-30, 0);
+					shot->pos = this->pos + ML::Vec2(-30, 0);*/
 				}
+				if (this->CheckFoot() == false)
+				{
+					this->moveVec.y = 0;
+				    this->attackCnt++;
+				}
+
 			}
+			break;
+		case	Motion::Landing:
+			this->dashCnt = 0;
+			this->attackCnt = 0;
 			break;
 		//case  Motion::Attack2:	//UŒ‚’†
 		//	if (this->moveCnt == 4)

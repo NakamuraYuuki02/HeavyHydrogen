@@ -24,7 +24,6 @@ namespace  Player
 		static  Resource::SP  Create();
 		//‹¤—L‚·‚é•Ï”‚Í‚±‚±‚É’Ç‰Á‚·‚é
 		DG::Image::SP  img;
-		DG::Image::SP  attack;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BChara
