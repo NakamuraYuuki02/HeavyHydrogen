@@ -50,6 +50,7 @@ namespace  Enemy01
 		//追加したい変数・メソッドはここに追加する
 		void Think();
 		void Move();
+		void Received(BChara* from_, AttackInfo at_) override;
 		BChara::DrawInfo	Anim();
 		//BCharaに含まれないモノのみここに追加する
 		/*int		hp;*/
