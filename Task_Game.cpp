@@ -71,6 +71,7 @@ namespace  Game
 		ge->KillAll_G("Enemy");
 		ge->KillAll_G("Goal");
 		ge->KillAll_G("Shot(Player)");
+		ge->KillAll_G("Sword");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate)
 		{
@@ -104,7 +105,7 @@ namespace  Game
 	//-------------------------------------------------------------------
 	void Object::Transition()
 	{
-		if (ge->goalFlag)
+		if (ge->goalFlag||ge->PlayerFlag)
 		{
 			this->Kill();
 		}

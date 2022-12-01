@@ -61,6 +61,11 @@ namespace  Player
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
+		ge->KillAll_G("Main");
+		ge->KillAll_G("Field");
+		ge->KillAll_G("Player");
+		ge->KillAll_G("Enemy");
+		ge->KillAll_G("Goal");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
