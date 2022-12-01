@@ -66,11 +66,6 @@ namespace  Enemy01
 	{
 		this->moveCnt++;
 		this->Move();
-		//hpがなくなったらKill
-		if (hp <= 0)
-		{
-			this->Kill();
-		}
 		//思考・状況判断
 		this->Think();
 		ML::Vec2 est = this->moveVec;
@@ -226,6 +221,14 @@ namespace  Enemy01
 			rtv.draw.w = -rtv.draw.w;
 		}
 		return rtv;
+	}
+	//-------------------------------------------------------------------
+	void Object::Received(BChara* from_, AttackInfo at_)
+	{
+		this->hp -= at_.power;
+		if (this->hp <= 0) {
+			this->Kill();
+		}
 	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
