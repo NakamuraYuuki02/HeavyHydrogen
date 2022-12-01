@@ -69,8 +69,11 @@ namespace  Select
 	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D draw(-300, -100, 600, 200);
+		ML::Box2D draw(-200, -50, 400, 100);
 		ML::Box2D src(0, 0, 1358, 216);
+		int x = ge->screen2DWidth / 2;
+		int y = ge->screen2DHeight / 2;
+		draw.Offset(x, y);
 		this->res->img->Draw(draw, src);
 	}
 
