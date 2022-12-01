@@ -79,6 +79,7 @@ namespace  MyPG
 		ML::Box2D camera2D;
 
 		bool goalFlag = false;//ゴールフラグ
+		bool PlayerFlag = false;//キャラクターフラグ
 		bool returnFlag = false;//タイトルに戻るフラグ
 	//----------------------------------------------
 	};
