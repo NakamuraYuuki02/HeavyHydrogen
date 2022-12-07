@@ -1,11 +1,11 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//近距離攻撃（往復）
+//近距離攻撃（接近）
 //-------------------------------------------------------------------
 #include "BChara.h"
 
-namespace  Enemy01
+namespace  Enemy02
 {
 	//タスクに割り当てるグループ名と固有名
 	const  string  defGroupName("Enemy");	//グループ名
@@ -22,8 +22,8 @@ namespace  Enemy01
 		typedef  weak_ptr<Resource>		WP;
 		static   WP  instance;
 		static  Resource::SP  Create();
-	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
-		//共有する変数はここに追加する
+		//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
+			//共有する変数はここに追加する
 		DG::Image::SP			img;
 	};
 	//-------------------------------------------------------------------
@@ -46,13 +46,13 @@ namespace  Enemy01
 		void  Render2D_AF()	override;	//「2D描画」１フレーム毎に行う処理
 		bool  Finalize();		//「終了」タスク消滅時に１回だけ行う処理
 	public:
-	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
-		//追加したい変数・メソッドはここに追加する
+		//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
+			//追加したい変数・メソッドはここに追加する
 		void Think();
 		void Move();
 		void Received(BChara* from_, AttackInfo at_) override;
 		BChara::DrawInfo	Anim();
 		//BCharaに含まれないモノのみここに追加する
-
+		/*int		hp;*/
 	};
 }

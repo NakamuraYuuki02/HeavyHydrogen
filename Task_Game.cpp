@@ -10,6 +10,8 @@
 #include  "Task_Enemy01.h"
 #include  "Task_Title.h"
 #include  "Task_Ending.h"
+#include "Task_Enemy02.h"
+#include "Task_Enemy03.h"
 
 namespace  Game
 {
@@ -50,9 +52,17 @@ namespace  Game
 		map->Load("./data/Map/map.txt");
 
 		//敵の生成
-		auto en01 = Enemy01::Object::Create(true);
+		/*auto en01 = Enemy01::Object::Create(true);
 		en01->pos.x = 500;
-		en01->pos.y = 240;
+		en01->pos.y = 240;*/
+
+		/*auto en02 = Enemy02::Object::Create(true);
+		en02->pos.x = 500;
+		en02->pos.y = 240;*/
+
+		auto en03 = Enemy03::Object::Create(true);
+		en03->pos.x = 500;
+		en03->pos.y = 240;
 
 		//プレイヤの生成
 		auto  pl = Player::Object::Create(true);
@@ -71,6 +81,7 @@ namespace  Game
 		ge->KillAll_G("Enemy");
 		ge->KillAll_G("Goal");
 		ge->KillAll_G("Shot(Player)");
+		ge->KillAll_G("Shot(Enemy)");
 		ge->KillAll_G("Sword");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate)
