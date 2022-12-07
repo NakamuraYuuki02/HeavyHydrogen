@@ -150,6 +150,7 @@
     <ClCompile Include="Task_Player.cpp" />
     <ClCompile Include="Task_Select.cpp" />
     <ClCompile Include="Task_Shot00.cpp" />
+    <ClCompile Include="Task_Skill.cpp" />
     <ClCompile Include="Task_Sword.cpp" />
     <ClCompile Include="Task_Title.cpp" />
     <ClCompile Include="WinMain.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Task_Player.h" />
     <ClInclude Include="Task_Select.h" />
     <ClInclude Include="Task_Shot00.h" />
+    <ClInclude Include="Task_Skill.h" />
     <ClInclude Include="Task_Sword.h" />
     <ClInclude Include="Task_Title.h" />
     <ClInclude Include="XI2018_Ver1_0.h" />

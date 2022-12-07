@@ -7,6 +7,8 @@
 #include  "Task_Shot00.h"
 #include  "Task_Sword.h"
 
+#include  "Task_Skill.h"
+
 namespace  Player
 {
 	Resource::WP  Resource::instance;
@@ -43,17 +45,20 @@ namespace  Player
 		this->maxSpeed = 3.0f;		//最大移動速度（横）
 		this->addSpeed = 1.0f;		//歩行加速度（地面の影響である程度打ち消される
 		this->decSpeed = 0.5f;		//接地状態の時の速度減衰量（摩擦
-		this->dashSpeed = 8.0f;
+		this->dashSpeed = 6.0f;		//ダッシュ時の加速量
 		this->maxFallSpeed = 10.0f;	//最大落下速度
-		this->jumpPow = -8.0f;		//ジャンプ力（初速）
+		this->jumpPow = -8.0f;		//ジャンプ力（初速）縦5マスくらい
 		this->gravity = ML::Gravity(32) * 5; //重力加速度＆時間速度による加算量
 		this->hp = 10;
+		this->atk = 5;
 		this->jumpCnt = 0;
+		this->jumpMax = 1;			//ジャンプ上限回数
 		this->dashCnt = 0;
+		this->dashMax = 1;			//ダッシュ上限回数
 		this->attackCnt = 0;
 
 		//★タスクの生成
-
+		
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -138,6 +143,14 @@ namespace  Player
 				map->AdjustCameraPos();
 			}
 		}
+
+		//auto  inp = this->controller->GetState(); //デバッグ用
+		//if (inp.R1.down)
+		//{
+		//	auto Skill = Skill::Object::Create(true);
+		//	Skill->actionNo = 0;
+		//	Skill->Skill(this);
+		//}
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
@@ -173,7 +186,7 @@ namespace  Player
 			if (inp.S1.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
 			if (inp.B4.down) { nm = Motion::Attack; }
-			if (inp.S9.down&& this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
+			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }//足元 障害　無し
 			break;
 		case  Motion::Walk:		//歩いている
@@ -181,35 +194,47 @@ namespace  Player
 			if (inp.S1.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
 			if (inp.B4.down) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
+			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case  Motion::Jump:		//上昇中
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
 			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
-			if (inp.S1.down) { nm = Motion::Jump2; }
-			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
+			if (inp.S1.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
+			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case Motion::Jump2:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall2; }
 			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
+			if (inp.S1.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
+			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			break;
+		case Motion::Jump3:
+			if (this->moveVec.y >= 0) { nm = Motion::Fall3; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case  Motion::Fall:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
 			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
-			if (inp.S1.down) { nm = Motion::Jump2; }
+			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S1.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
 			break;
 		case  Motion::Fall2:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
 			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
+			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S1.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
+			break;
+		case  Motion::Fall3:		//落下中
+			if (this->CheckFoot() == true) { nm = Motion::Landing; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 			//空中で出来る攻撃は一回
 		case  Motion::Attack:	//攻撃中
 			if (this->moveCnt == 15 && this->CheckFoot() == true) { nm = Motion::Stand; }
-			if (this->moveCnt == 15 && this->CheckFoot() == false) { nm = Motion::Fall2; }
+			if (this->moveCnt == 15 && this->CheckFoot() == false) { nm = Motion::Fall3; }
 			
 			/*if (this->jumpCnt == 1 && this->moveVec.y >= 0) { nm = Motion::Fall; }
 			if (this->jumpCnt == 2 && this->moveVec.y >= 0) { nm = Motion::Fall2; }*/
@@ -240,6 +265,7 @@ namespace  Player
 				if (this->CheckFoot() == true) { nm = Motion::Stand; }
 				if (this->moveVec.y >= 0 || jumpCnt == 1) { nm = Motion::Fall; }
 				if (this->moveVec.y >= 0 || jumpCnt == 2) { nm = Motion::Fall2; }
+				if (this->moveVec.y >= 0 || jumpCnt == 3) { nm = Motion::Fall3; }
 			}
 			break;
 		}
@@ -336,6 +362,20 @@ namespace  Player
 				this->jumpCnt = 0;
 			}
 			break;
+		case  Motion::Fall3:		//落下中
+			if (inp.SE.on)
+			{
+				this->moveVec.x = -this->maxSpeed;
+			}
+			if (inp.L3.on)
+			{
+				this->moveVec.x = this->maxSpeed;
+			}
+			if (this->CheckFoot() == true)
+			{
+				this->jumpCnt = 0;
+			}
+			break;
 		case  Motion::Jump:		//上昇中
 			this->jumpCnt = 1;
 			if (this->moveCnt == 0)
@@ -374,7 +414,27 @@ namespace  Player
 				this->moveVec.x = this->maxSpeed;
 			}
 			break;
+		case  Motion::Jump3:		//上昇中
+			this->jumpCnt = 3;
+			if (this->moveCnt == 0)
+			{
+				this->moveVec.y = this->jumpPow; //初速設定
+			}
+			if (this->CheckHead() == true)
+			{
+				this->moveVec.y = 0;
+			}
+			if (inp.SE.on)
+			{
+				this->moveVec.x = -this->maxSpeed;
+			}
+			if (inp.L3.on)
+			{
+				this->moveVec.x = this->maxSpeed;
+			}
+			break;
 		case Motion::Dash:
+			this->dashCnt++;
 			if (this->angle_LR == Angle_LR::Right)
 			{
 				this->moveVec.x = this->maxSpeed + dashSpeed;
@@ -384,10 +444,8 @@ namespace  Player
 				this->moveVec.x = -this->maxSpeed - dashSpeed;
 			}
 			this->moveVec.y = 0;
-			this->dashCnt++;
 			break;
 		case Motion::DashCt:
-
 			break;
 		case  Motion::Attack:	//攻撃中
 			if (this->moveCnt ==8)
@@ -413,10 +471,9 @@ namespace  Player
 					this->moveVec.y = 0;
 				    this->attackCnt++;
 				}
-
 			}
 			break;
-		case	Motion::Landing:
+		case Motion::Landing:
 			this->dashCnt = 0;
 			this->attackCnt = 0;
 			break;
@@ -465,6 +522,8 @@ namespace  Player
 		case  Motion::Jump:		rtv = imageTable[4];	break;
 			//	ジャンプ2------------------------------------------------------------------------
 		case  Motion::Jump2:		rtv = imageTable[4];	break;
+			//	ジャンプ3------------------------------------------------------------------------
+		case  Motion::Jump3:		rtv = imageTable[4];	break;
 			//	停止----------------------------------------------------------------------------
 		case  Motion::Stand:	rtv = imageTable[0];	break;
 			//	歩行----------------------------------------------------------------------------
@@ -477,6 +536,8 @@ namespace  Player
 		case  Motion::Fall:		rtv = imageTable[5];	break;
 			//	落下2----------------------------------------------------------------------------
 		case  Motion::Fall2:		rtv = imageTable[5];	break;
+			//	落下3----------------------------------------------------------------------------
+		case  Motion::Fall3:		rtv = imageTable[5];	break;
 			//飛び立つ直前-----------------------------------------------------------------------
 		case  Motion::TakeOff:  rtv = imageTable[6];    break;
 			//  着地----------------------------------------------------------------------------
@@ -503,6 +564,10 @@ namespace  Player
 	//接触時の応答処理（必ず受け身の処理として実装する）
 	void Object::Received(BChara* from_, AttackInfo at_)
 	{
+		if (motion == Motion::DashCt)
+		{
+			return;
+		}
 		if (this->unHitTime > 0)
 		{
 			return; //無敵時間中はダメージを受けない
