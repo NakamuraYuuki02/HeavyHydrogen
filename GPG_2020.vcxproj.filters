@@ -91,6 +91,15 @@
     <ClCompile Include="Task_Enemy01.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Task_Enemy02.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Enemy03.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_EnemyShot01.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
     <ClCompile Include="Task_Skill.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
@@ -178,6 +187,15 @@
       <Filter>MyPG\Task\Select</Filter>
     </ClInclude>
     <ClInclude Include="Task_Enemy01.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy02.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy03.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_EnemyShot01.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
     <ClInclude Include="Task_Skill.h">

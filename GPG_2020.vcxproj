@@ -140,6 +140,9 @@
     <ClCompile Include="MyPG.cpp" />
     <ClCompile Include="Task_Ending.cpp" />
     <ClCompile Include="Task_Enemy01.cpp" />
+    <ClCompile Include="Task_Enemy02.cpp" />
+    <ClCompile Include="Task_Enemy03.cpp" />
+    <ClCompile Include="Task_EnemyShot01.cpp" />
     <ClCompile Include="Task_Game.cpp" />
     <ClCompile Include="Task_GameBG.cpp" />
     <ClCompile Include="Task_Goal.cpp" />
@@ -172,6 +175,9 @@
     <ClInclude Include="MyPG.h" />
     <ClInclude Include="Task_Ending.h" />
     <ClInclude Include="Task_Enemy01.h" />
+    <ClInclude Include="Task_Enemy02.h" />
+    <ClInclude Include="Task_Enemy03.h" />
+    <ClInclude Include="Task_EnemyShot01.h" />
     <ClInclude Include="Task_Game.h" />
     <ClInclude Include="Task_GameBG.h" />
     <ClInclude Include="Task_Goal.h" />
