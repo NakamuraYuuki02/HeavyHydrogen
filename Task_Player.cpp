@@ -4,7 +4,8 @@
 #include  "MyPG.h"
 #include  "Task_Player.h"
 #include  "Task_Map2D.h"
-
+#include  "Task_Shot00.h"
+#include  "Task_Sword.h"
 
 namespace  Player
 {
@@ -42,12 +43,14 @@ namespace  Player
 		this->maxSpeed = 3.0f;		//最大移動速度（横）
 		this->addSpeed = 1.0f;		//歩行加速度（地面の影響である程度打ち消される
 		this->decSpeed = 0.5f;		//接地状態の時の速度減衰量（摩擦
-		this->dashSpeed = 5.0f;
+		this->dashSpeed = 8.0f;
 		this->maxFallSpeed = 10.0f;	//最大落下速度
 		this->jumpPow = -8.0f;		//ジャンプ力（初速）
 		this->gravity = ML::Gravity(32) * 5; //重力加速度＆時間速度による加算量
 		this->hp = 10;
 		this->jumpCnt = 0;
+		this->dashCnt = 0;
+		this->attackCnt = 0;
 
 		//★タスクの生成
 
@@ -58,7 +61,11 @@ namespace  Player
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-
+		ge->KillAll_G("Main");
+		ge->KillAll_G("Field");
+		ge->KillAll_G("Player");
+		ge->KillAll_G("Enemy");
+		ge->KillAll_G("Goal");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
@@ -102,7 +109,7 @@ namespace  Player
 		//当たり判定
 		{
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("Enemy");
+			auto targets = ge->GetTasks<BChara>("アイテム");
 			for (auto it = targets->begin(); it != targets->end(); ++it)
 			{
 				//相手に接触の有無を確認させる
@@ -161,41 +168,51 @@ namespace  Player
 		//モーションの変更以外の処理は行わない
 		switch (nm) {
 		case  Motion::Stand:	//立っている
-			if (inp.LStick.BL.on) { nm = Motion::Walk; }
-			if (inp.LStick.BR.on) { nm = Motion::Walk; }
+			if (inp.SE.on) { nm = Motion::Walk; }
+			if (inp.L3.on) { nm = Motion::Walk; }
 			if (inp.S1.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
 			if (inp.B4.down) { nm = Motion::Attack; }
-			//if (inp.SE.down) { nm = Motion::Dash; }
+			if (inp.S9.down&& this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }//足元 障害　無し
 			break;
 		case  Motion::Walk:		//歩いている
-			if (inp.LStick.BL.off && inp.LStick.BR.off) { nm = Motion::Stand; }
+			if (inp.SE.off && inp.L3.off) { nm = Motion::Stand; }
 			if (inp.S1.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
 			if (inp.B4.down) { nm = Motion::Attack; }
-			//if (inp.SE.down) { nm = Motion::Dash; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case  Motion::Jump:		//上昇中
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
-			//if (inp.SE.down) { nm = Motion::Dash; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.S1.down) { nm = Motion::Jump2; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			break;
 		case Motion::Jump2:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall2; }
-			//if (inp.SE.down) { nm = Motion::Dash; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			break;
 		case  Motion::Fall:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			//if (inp.SE.down) { nm = Motion::Dash; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			if (inp.S1.down) { nm = Motion::Jump2; }
 			break;
 		case  Motion::Fall2:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			//if (inp.SE.down) { nm = Motion::Dash; }
+			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.S9.down && this->dashCnt == 0 || inp.S0.down && this->dashCnt == 0) { nm = Motion::Dash; }
 			break;
+			//空中で出来る攻撃は一回
 		case  Motion::Attack:	//攻撃中
-			if (this->moveCnt == 8) { nm = Motion::Stand; }
+			if (this->moveCnt == 15 && this->CheckFoot() == true) { nm = Motion::Stand; }
+			if (this->moveCnt == 15 && this->CheckFoot() == false) { nm = Motion::Fall2; }
+			
+			/*if (this->jumpCnt == 1 && this->moveVec.y >= 0) { nm = Motion::Fall; }
+			if (this->jumpCnt == 2 && this->moveVec.y >= 0) { nm = Motion::Fall2; }*/
 			break;
 		//case  Motion::Attack2:	//攻撃中
 		//	if (this->moveCnt == 8) { nm = Motion::Stand; }
@@ -214,8 +231,8 @@ namespace  Player
 				nm = Motion::Stand;
 			}
 			break;
-		/*case Motion::Dash:
-			nm = Motion::DashCt;
+		case Motion::Dash:
+				nm = Motion::DashCt;
 			break;
 		case Motion::DashCt:
 			if (this->moveCnt == 15)
@@ -224,7 +241,7 @@ namespace  Player
 				if (this->moveVec.y >= 0 || jumpCnt == 1) { nm = Motion::Fall; }
 				if (this->moveVec.y >= 0 || jumpCnt == 2) { nm = Motion::Fall2; }
 			}
-			break;*/
+			break;
 		}
 		//モーション更新
 		this->UpdateMotion(nm);
@@ -238,6 +255,10 @@ namespace  Player
 		//重力加速
 		switch (this->motion) {
 		default:
+			if (motion == Motion::Attack || motion == Motion::DashCt)
+			{
+				this->moveVec.y = min(this->moveVec.y - this->gravity, this->maxFallSpeed);
+			}
 			//上昇中もしくは足元に地面が無い
 			if (this->moveVec.y < 0 ||
 				this->CheckFoot() == false) {
@@ -250,6 +271,7 @@ namespace  Player
 			}
 			break;
 			//重力加速を無効化する必要があるモーションは下にcaseを書く（現在対象無し）
+		case Motion::Dash:
 		case Motion::Unnon:	break;
 		}
 
@@ -275,23 +297,23 @@ namespace  Player
 		case  Motion::Stand:	//立っている
 			break;
 		case  Motion::Walk:		//歩いている
-			if (inp.LStick.BL.on)
+			if (inp.SE.on)
 			{
 				this->angle_LR = Angle_LR::Left;
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.LStick.BR.on)
+			if (inp.L3.on)
 			{
 				this->angle_LR = Angle_LR::Right;
 				this->moveVec.x = this->maxSpeed;
 			}
 			break;
 		case  Motion::Fall:		//落下中
-			if (inp.LStick.BL.on)
+			if (inp.SE.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.LStick.BR.on)
+			if (inp.L3.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -301,11 +323,11 @@ namespace  Player
 			}
 			break;
 		case  Motion::Fall2:		//落下中
-			if (inp.LStick.BL.on)
+			if (inp.SE.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.LStick.BR.on)
+			if (inp.L3.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -315,7 +337,7 @@ namespace  Player
 			}
 			break;
 		case  Motion::Jump:		//上昇中
-			this->jumpCnt++;
+			this->jumpCnt = 1;
 			if (this->moveCnt == 0)
 			{
 				this->moveVec.y = this->jumpPow; //初速設定
@@ -324,17 +346,17 @@ namespace  Player
 			{
 				this->moveVec.y = 0;
 			}
-			if (inp.LStick.BL.on)
+			if (inp.SE.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.LStick.BR.on)
+			if (inp.L3.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
 			break;
 		case  Motion::Jump2:		//上昇中
-			this->jumpCnt++;
+			this->jumpCnt = 2;
 			if (this->moveCnt == 0)
 			{
 				this->moveVec.y = this->jumpPow; //初速設定
@@ -343,43 +365,60 @@ namespace  Player
 			{
 				this->moveVec.y = 0;
 			}
-			if (inp.LStick.BL.on)
+			if (inp.SE.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.LStick.BR.on)
+			if (inp.L3.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
-			break;
 			break;
 		case Motion::Dash:
 			if (this->angle_LR == Angle_LR::Right)
 			{
 				this->moveVec.x = this->maxSpeed + dashSpeed;
-				
 			}
 			if (this->angle_LR == Angle_LR::Left)
 			{
 				this->moveVec.x = -this->maxSpeed - dashSpeed;
 			}
+			this->moveVec.y = 0;
+			this->dashCnt++;
+			break;
+		case Motion::DashCt:
+
 			break;
 		case  Motion::Attack:	//攻撃中
-			if (this->moveCnt == 4)
+			if (this->moveCnt ==8)
 			{
 				if (this->angle_LR == Angle_LR::Right)
 				{
+					auto attack = sword::Object::Create(true);
+					attack->pos = this->pos + ML::Vec2(30, 0);
 					/*auto shot = Shot00::Object::Create(true);
 					shot->moveVec = ML::Vec2(8, 0);
 					shot->pos = this->pos + ML::Vec2(30, 0);*/
 				}
 				else
 				{
+					auto attack = sword::Object::Create(true);
+					attack->pos = this->pos + ML::Vec2(-30, 0);
 					/*auto shot = Shot00::Object::Create(true);
 					shot->moveVec = ML::Vec2(-8, 0);
 					shot->pos = this->pos + ML::Vec2(-30, 0);*/
 				}
+				if (this->CheckFoot() == false)
+				{
+					this->moveVec.y = 0;
+				    this->attackCnt++;
+				}
+
 			}
+			break;
+		case	Motion::Landing:
+			this->dashCnt = 0;
+			this->attackCnt = 0;
 			break;
 		//case  Motion::Attack2:	//攻撃中
 		//	if (this->moveCnt == 4)

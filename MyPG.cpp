@@ -14,7 +14,7 @@ namespace MyPG
 			false,							//	フルスクリーンモード
 			480,							//	2D描画用解像度X(現在非対応）
 			270,							//	2D描画用解像度Y(現在非対応）
-			"ゲームプログラミングⅡ",		    //	ウインドウタイトル
+			"2021年度_卒業制作_未定_「HeavyHydrogen」",		    //	ウインドウタイトル
 			"GPG",							//	ウィンドウクラス名
 			1,//UpDate呼び出し頻度　↓のRender呼び出し頻度との比率で決まる１以上を指定すること
 			1 //Render呼び出し頻度　↑のUpDate呼び出し頻度との比率で決まる１以上を指定すること
@@ -74,10 +74,10 @@ namespace MyPG
 		XI::AnalogTriggerKB  tg = { DIK_E, DIK_R };
 		XI::KeyDatas_KB	 key = {
 			{ DIK_Z, XI::VGP::B1 },{ DIK_X, XI::VGP::B2 },{ DIK_C, XI::VGP::B3 },
-			{ DIK_V, XI::VGP::B4 },{ DIK_A, XI::VGP::SE },{ DIK_S, XI::VGP::ST },
-			{ DIK_Q, XI::VGP::L1 },{ DIK_W, XI::VGP::R1 },
+			{ DIK_V, XI::VGP::B4 },{ DIK_A, XI::VGP::SE },{ DIK_Q, XI::VGP::ST },
+			{ DIK_Q, XI::VGP::L1 },{ DIK_W, XI::VGP::R1 },{ DIK_S, XI::VGP::S9 },
 			{ DIK_D, XI::VGP::L3 },{ DIK_NUMPAD5, XI::VGP::R3 },
-			{DIK_SPACE, XI::VGP::S1},
+			{ DIK_SPACE, XI::VGP::S1 },{ DIK_LSHIFT, XI::VGP::S0},
 		};
 		//ゲームパッドパラメータ
 		XI::KeyDatas_GP	but = {

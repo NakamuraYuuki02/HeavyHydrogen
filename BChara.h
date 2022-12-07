@@ -55,6 +55,8 @@ public:
 	float           dashSpeed;      //  ダッシュ時に加算される移動量
 	int             unHitTime;      //  無敵時間
 	int				jumpCnt;        //  ジャンプ回数
+	int             dashCnt;        //  ダッシュ回数
+	int				attackCnt;
 
 
 
@@ -75,6 +77,9 @@ public:
 		, decSpeed(0)
 		, hp(1)
 		, unHitTime(0)
+		, jumpCnt(0)
+		, dashCnt(0)
+		, attackCnt(0)
 	{
 	}
 	virtual  ~BChara() {}

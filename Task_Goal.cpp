@@ -3,7 +3,8 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Goal.h"
-#include "Task_Player.h"
+#include  "Task_Player.h"
+#include  "Task_Ending.h"
 
 namespace  Goal
 {
@@ -19,6 +20,7 @@ namespace  Goal
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
+		this->goal.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -43,10 +45,16 @@ namespace  Goal
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
+		ge->KillAll_G("Main");
+		ge->KillAll_G("Field");
+		ge->KillAll_G("Player");
+		ge->KillAll_G("Enemy");
+		ge->KillAll_G("Goal");
+			
+		//★引き継ぎタスクの生成
+		if (!ge->QuitFlag() && this->nextTaskCreate)
+		{
 
-
-		if (!ge->QuitFlag() && this->nextTaskCreate) {
-			//★引き継ぎタスクの生成
 		}
 
 		return  true;

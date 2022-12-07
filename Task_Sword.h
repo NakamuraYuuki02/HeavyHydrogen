@@ -1,14 +1,14 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//ゴール
+//
 //-------------------------------------------------------------------
 #include "BChara.h"
 
-namespace  Goal
+namespace  sword
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("Goal");	//グループ名
+	const  string  defGroupName("Sword");	//グループ名
 	const  string  defName("NoName");		//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource
@@ -24,7 +24,7 @@ namespace  Goal
 		static  Resource::SP  Create();
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 		//共有する変数はここに追加する
-		DG::Image::SP  goal;
+		DG::Image::SP img;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BChara
@@ -49,8 +49,5 @@ namespace  Goal
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 		//追加したい変数・メソッドはここに追加する
 		//BCharaに含まれないモノのみここに追加する
-		ML::Vec2   pos;
-		ML::Box2D  hitBase;
-		ML::Vec2   goalPos;       //ゴール
 	};
 }

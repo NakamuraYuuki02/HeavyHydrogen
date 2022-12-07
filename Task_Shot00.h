@@ -1,20 +1,20 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//ゴール
+//プレイヤの出す弾
 //-------------------------------------------------------------------
 #include "BChara.h"
 
-namespace  Goal
+namespace  Shot00
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("Goal");	//グループ名
-	const  string  defName("NoName");		//タスク名
+	const  string  defGroupName("Shot(Player)");	//グループ名
+	const  string  defName("NoName");				//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource
 	{
-		bool  Initialize()		override;
-		bool  Finalize()		override;
+		bool  Initialize()	override;
+		bool  Finalize()	override;
 		Resource();
 	public:
 		~Resource();
@@ -22,13 +22,13 @@ namespace  Goal
 		typedef  weak_ptr<Resource>		WP;
 		static   WP  instance;
 		static  Resource::SP  Create();
-	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 		//共有する変数はここに追加する
-		DG::Image::SP  goal;
+		DG::Image::SP	img;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BChara
 	{
+	//変更不可◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
 	public:
 		virtual  ~Object();
 		typedef  shared_ptr<Object>		SP;
@@ -37,20 +37,16 @@ namespace  Goal
 		static  Object::SP  Create(bool flagGameEnginePushBack_);
 		Resource::SP	res;
 	private:
-
 		Object();
 		bool  B_Initialize();
 		bool  B_Finalize();
 		bool  Initialize();	//「初期化」タスク生成時に１回だけ行う処理
-		void  UpDate()		override;	//「実行」１フレーム毎に行う処理
-		void  Render2D_AF()	override;	//「2D描画」１フレーム毎に行う処理
+		void  UpDate()			override;//「実行」１フレーム毎に行う処理
+		void  Render2D_AF()		override;//「2D描画」１フレーム毎に行う処理
 		bool  Finalize();		//「終了」タスク消滅時に１回だけ行う処理
-	public:
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
+	public:
 		//追加したい変数・メソッドはここに追加する
-		//BCharaに含まれないモノのみここに追加する
-		ML::Vec2   pos;
-		ML::Box2D  hitBase;
-		ML::Vec2   goalPos;       //ゴール
+		//BCharaに持たせていない変数・メソッドのみここに書く
 	};
 }

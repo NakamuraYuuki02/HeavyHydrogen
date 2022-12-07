@@ -4,6 +4,7 @@
 #include  "MyPG.h"
 #include  "Task_Title.h"
 #include  "Task_Game.h"
+#include  "Task_Select.h"
 
 namespace  Title
 {
@@ -43,11 +44,11 @@ namespace  Title
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-
+		ge->KillAll_G("Title");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
-			auto  nextTask = Game::Object::Create(true);
+			auto  nextTask = Select::Object::Create(true);
 		}
 
 		return  true;
