@@ -58,6 +58,7 @@ namespace  Game
 		auto  pl = Player::Object::Create(true);
 		pl->pos.x = 480 / 2;
 		pl->pos.y = 270 / 3 * 2;
+
 		return  true;
 	}
 	//-------------------------------------------------------------------
