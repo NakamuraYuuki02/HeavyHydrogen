@@ -2,11 +2,9 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Sword.h"
-#include  "Task_Map2D.h"
-#include  "Task_Player.h"
+#include  "Task_Skill.h"
 
-namespace  sword
+namespace  Skill
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
@@ -33,14 +31,9 @@ namespace  sword
 		this->res = Resource::Create();
 
 		//★データ初期化
-		this->render2D_Priority[1] = 0.4f;
-		this->pos.x = 0;
-		this->pos.y = 0;
-		this->hitBase = ML::Box2D(-16, -16, 32, 32);
-		this->moveVec = ML::Vec2(0, 0);
-		this->moveCnt = 0;
-		this->hp = 5;
-		this->atk = 5;
+		this->render2D_Priority[1] = 1.0f;
+		this->actionNo = 99;
+		this->statusNo = 99;
 
 		//★タスクの生成
 
@@ -63,64 +56,48 @@ namespace  sword
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
-		this->moveCnt++;
-		//限界の時間を迎えたら消滅
-		if (this->moveCnt >= 30) {
-			//消滅申請
-			this->Kill();
-			return;
-		}
-		//移動
-		this->pos += this->moveVec;
-
-		//当たり判定
-		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("Enemy");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
-			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { this->atk,0,0 };
-					(*it)->Received(this, at);
-					this->Kill();
-					break;
-				}
-			}
-		}
-
-		//移動先で障害物に接触したら消滅
-		//マップが存在するか調べてからアクセス
-		if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
-			ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
-			if (true == map->CheckHit(hit)) {
-				//消滅申請
-				this->Kill();
-
-				////とりあえず星はばら撒くよ
-				//for (int c = 0; c < 4; ++c) {
-				//	auto  eff = Effect00::Object::Create(true);
-				//	eff->pos = this->pos;
-				//}
-				//return;
-			}
-		}
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-16, -16, 32, 32);
-		draw.Offset(this->pos);
+		ML::Box2D  draw(0, 0, 32, 32);
 		ML::Box2D  src(0, 0, 32, 32);
-
-		//スクロール対応
-		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		this->res->img->Draw(draw, src);
 	}
+	//-------------------------------------------------------------------
+	void Object::Skill(BChara* from_)
+	{
+		//action
+		switch (actionNo)
+		{
+		case 0:
+			from_->jumpMax++;
+			break;
+		case 1:
+			from_->dashMax++;
+			break;
+		default:
+			break;
+		}
+		//status
+		switch (statusNo)
+		{
+		case 0:
+			from_->hp++;
+			break;
+		case 1:
+			from_->atk++;
+			break;
+		default:
+			break;
+		}
+	}
+	//-------------------------------------------------------------------
+	void Object::SkillImage()
+	{
 
+	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
