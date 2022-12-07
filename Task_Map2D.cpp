@@ -41,9 +41,9 @@ namespace  Map2D
 		this->hitBase = ML::Box2D(block, block, block, block);
 
 		//マップチップ情報の初期化
-		for (int c = 0; c < 16; ++c) {
-			int  x = (c % 8);
-			int  y = (c / 8);
+		for (int c = 0; c < 100; ++c) {
+			int  x = (c % 10);
+			int  y = (c / 10);
 			this->chip[c] = ML::Box2D(x * 32, y * 32, 32, 32);
 		}
 
@@ -96,7 +96,7 @@ namespace  Map2D
 		isr.top = max(c.top, m.top);
 		isr.right = min(c.right, m.right);
 		isr.bottom = min(c.bottom, m.bottom);
-
+		
 		//ループ範囲を決定
 		int sx, sy, ex, ey;
 		sx = isr.left / block;
@@ -108,9 +108,9 @@ namespace  Map2D
 		for (int y = sy; y <= ey; ++y) {
 			for (int x = sx; x <= ex; ++x) {
 				ML::Box2D  draw(0, 0, block, block);
-				draw.Offset(x * block ,y * block);	//表示位置を調整
-
-				//スクロール対応
+				draw.Offset(x * block, y *  block);	//表示位置を調整
+				
+			    //スクロール対応
 				draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 
 				this->img->Draw(draw, this->chip[this->arr[y][x]]);
@@ -125,13 +125,11 @@ namespace  Map2D
 		ifstream   fin(fpath_);
 		if (!fin) { return  false; }//読み込み失敗
 
-
 		//チップファイル名の読み込みと、画像のロード
 		string   chipFileName, chipFilePath;
 		fin >> chipFileName;
 		chipFilePath = "./data/image/" + chipFileName;
 		this->img = DG::Image::Create(chipFilePath);
-
 
 		//マップ配列サイズの読み込み
 		fin >> this->sizeX >> this->sizeY;
@@ -174,7 +172,7 @@ namespace  Map2D
 		//範囲内の障害物を探す
 		for (int y = sy; y <= ey; ++y) {
 			for (int x = sx; x <= ex; ++x) {
-				if (8 <= this->arr[y][x]) {
+				if (mapChip >= this->arr[y][x]) {
 					return true;
 				}
 			}
