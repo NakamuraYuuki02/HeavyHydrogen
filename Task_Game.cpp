@@ -47,8 +47,8 @@ namespace  Game
 
 		//マップの生成
 		auto  map = Map2D::Object::Create(true);
-		map->Load("./data/Map/map.txt");
-
+		map->Load("./data/Map/map01.txt");
+	
 		//敵の生成
 		auto en01 = Enemy01::Object::Create(true);
 		en01->pos.x = 500;
