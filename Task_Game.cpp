@@ -7,11 +7,8 @@
 #include  "Task_Goal.h"
 #include  "Task_Map2D.h"
 #include  "Task_Player.h"
-#include  "Task_Enemy01.h"
 #include  "Task_Title.h"
 #include  "Task_Ending.h"
-#include "Task_Enemy02.h"
-#include "Task_Enemy03.h"
 
 namespace  Game
 {
@@ -50,19 +47,6 @@ namespace  Game
 		//マップの生成
 		auto  map = Map2D::Object::Create(true);
 		map->Load("./data/Map/map01.txt");
-	
-		//敵の生成
-		/*auto en01 = Enemy01::Object::Create(true);
-		en01->pos.x = 500;
-		en01->pos.y = 240;*/
-
-		/*auto en02 = Enemy02::Object::Create(true);
-		en02->pos.x = 500;
-		en02->pos.y = 240;*/
-
-		auto en03 = Enemy03::Object::Create(true);
-		en03->pos.x = 500;
-		en03->pos.y = 240;
 
 		//プレイヤの生成
 		auto  pl = Player::Object::Create(true);
