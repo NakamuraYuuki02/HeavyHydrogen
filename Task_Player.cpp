@@ -6,6 +6,7 @@
 #include  "Task_Map2D.h"
 #include  "Task_Shot00.h"
 #include  "Task_Sword.h"
+#include  "Task_Axe.h"
 
 #include  "Task_Skill.h"
 
@@ -52,7 +53,7 @@ namespace  Player
 		this->hp = 10;
 		this->atk = 5;
 		this->jumpCnt = 0;
-		this->jumpMax = 1;			//ジャンプ上限回数
+		this->jumpMax = 3;			//ジャンプ上限回数
 		this->dashCnt = 0;
 		this->dashMax = 1;			//ダッシュ上限回数
 		this->attackCnt = 0;
@@ -399,7 +400,7 @@ namespace  Player
 			this->jumpCnt = 2;
 			if (this->moveCnt == 0)
 			{
-				this->moveVec.y = this->jumpPow; //初速設定
+				this->moveVec.y = this->jumpPow * 0.9f; //初速設定
 			}
 			if (this->CheckHead() == true)
 			{
@@ -418,7 +419,7 @@ namespace  Player
 			this->jumpCnt = 3;
 			if (this->moveCnt == 0)
 			{
-				this->moveVec.y = this->jumpPow; //初速設定
+				this->moveVec.y = this->jumpPow * 0.9f; //初速設定
 			}
 			if (this->CheckHead() == true)
 			{
@@ -448,20 +449,28 @@ namespace  Player
 		case Motion::DashCt:
 			break;
 		case  Motion::Attack:	//攻撃中
-			if (this->moveCnt ==8)
+			if (this->moveCnt == 8)
 			{
 				if (this->angle_LR == Angle_LR::Right)
 				{
-					auto attack = sword::Object::Create(true);
-					attack->pos = this->pos + ML::Vec2(30, 0);
+					auto axe = Axe::Object::Create(true);
+					axe->WeaponLevel = 0;
+					axe->Level(this);
+					axe->moveVec = ML::Vec2(7, -8);
+					axe->pos = this->pos + ML::Vec2(30, 0);
+					/*auto attack = sword::Object::Create(true);
+					attack->pos = this->pos + ML::Vec2(30, 0);*/
 					/*auto shot = Shot00::Object::Create(true);
 					shot->moveVec = ML::Vec2(8, 0);
 					shot->pos = this->pos + ML::Vec2(30, 0);*/
 				}
 				else
 				{
-					auto attack = sword::Object::Create(true);
-					attack->pos = this->pos + ML::Vec2(-30, 0);
+					auto axe = Axe::Object::Create(true);
+					axe->moveVec = ML::Vec2(-7, -8);
+					axe->pos = this->pos + ML::Vec2(-30, 0);
+					/*auto attack = sword::Object::Create(true);
+					attack->pos = this->pos + ML::Vec2(-30, 0);*/
 					/*auto shot = Shot00::Object::Create(true);
 					shot->moveVec = ML::Vec2(-8, 0);
 					shot->pos = this->pos + ML::Vec2(-30, 0);*/
