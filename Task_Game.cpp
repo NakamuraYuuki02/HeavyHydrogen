@@ -84,6 +84,7 @@ namespace  Game
 		ge->KillAll_G("Shot(Player)");
 		ge->KillAll_G("Shot(Enemy)");
 		ge->KillAll_G("Sword");
+		ge->KillAll_G("Axe");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate)
 		{
