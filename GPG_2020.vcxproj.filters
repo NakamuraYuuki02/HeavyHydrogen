@@ -104,6 +104,11 @@
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
     <ClCompile Include="Task_Enemy04.cpp">
+    <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Axe.cpp">
+    <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -204,7 +209,12 @@
     <ClInclude Include="Task_Skill.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
+    <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
     <ClInclude Include="Task_Enemy04.h">
+    <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Axe.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
   </ItemGroup>
