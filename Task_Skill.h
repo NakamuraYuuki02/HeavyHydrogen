@@ -52,10 +52,11 @@ namespace Skill
 		int		atk;
 		int		jumpMax;
 		int		dashMax;
-		int		actionNo;
-		int		statusNo;
-
-		void Skill(BChara* from_);
-		void SkillImage();
+		int		actionSkillNo;
+		int		statusSkillNo;
+		int		weaponSkillNo;
+		
+		void	Skill(BChara* from_);
+		void	SkillImage();
 	};
 }
