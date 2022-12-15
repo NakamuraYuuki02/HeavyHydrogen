@@ -81,6 +81,24 @@ namespace  MyPG
 		bool goalFlag = false;//ゴールフラグ
 		bool PlayerFlag = false;//キャラクターフラグ
 		bool returnFlag = false;//タイトルに戻るフラグ
+
+		//選択された武器
+		enum class Weapon
+		{
+			Sword,
+			Axe,
+			Gun
+		};
+		Weapon weapon;
+		
+		//選ばれたスキル
+		//二つの選んだスキルの番号を格納する。
+		vector<int> selectedActionSkill;
+		vector<int> selectedStatusSkill;
+		vector<int> selectedWeaponSkill;
+
+		//選ばれたステージ
+		int selectedStage;
 	//----------------------------------------------
 	};
 }
