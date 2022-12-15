@@ -99,6 +99,16 @@ namespace  MyPG
 
 		//選ばれたステージ
 		int selectedStage;
+
+		//プレイヤーステータス
+		int hp = 3;				//体力
+		int hpMax = 10;			//最大体力
+		int atk = 5;			//攻撃力
+		int jumpCnt = 0;		//ジャンプ回数
+		int jumpMax = 3;		//ジャンプ上限回数
+		int dashCnt = 0;		//ダッシュ回数
+		int dashMax = 0;		//ダッシュ上限回数
+
 	//----------------------------------------------
 	};
 }
