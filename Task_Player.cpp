@@ -50,13 +50,15 @@ namespace  Player
 		this->maxFallSpeed = 10.0f;	//最大落下速度
 		this->jumpPow = -8.0f;		//ジャンプ力（初速）縦5マスくらい
 		this->gravity = ML::Gravity(32) * 5; //重力加速度＆時間速度による加算量
-		this->hp = 10;
+		this->hp = 3;
+		this->hpMax = 10;
 		this->atk = 5;
-		this->jumpCnt = 0;
+		this->jumpCnt = 0;			//ジャンプ回数
 		this->jumpMax = 3;			//ジャンプ上限回数
-		this->dashCnt = 0;
-		this->dashMax = 1;			//ダッシュ上限回数
-		this->attackCnt = 0;
+		this->dashCnt = 0;			//ダッシュ回数
+		this->dashMax = 0;			//ダッシュ上限回数
+		this->attackCnt = 0;		//攻撃回数
+		this->attackMax = 0;		//攻撃上限回数
 
 		//★タスクの生成
 		
@@ -200,42 +202,42 @@ namespace  Player
 			break;
 		case  Motion::Jump:		//上昇中
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
-			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
 			if (inp.S1.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
 			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case Motion::Jump2:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall2; }
-			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
 			if (inp.S1.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
 			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case Motion::Jump3:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall3; }
-			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
 			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case  Motion::Fall:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
 			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			if (inp.S1.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
 			break;
 		case  Motion::Fall2:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
 			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			if (inp.S1.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
 			break;
 		case  Motion::Fall3:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.B4.down && this->attackCnt == 0) { nm = Motion::Attack; }
+			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
 			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
-			//空中で出来る攻撃は一回
+			//空中で出来る攻撃は一回　武器Lv上昇で+1
 		case  Motion::Attack:	//攻撃中
-			if (this->moveCnt == 15 && this->CheckFoot() == true) { nm = Motion::Stand; }
-			if (this->moveCnt == 15 && this->CheckFoot() == false) { nm = Motion::Fall3; }
+			if (this->moveCnt == 30 && this->CheckFoot() == true) { nm = Motion::Stand; }
+			if (this->moveCnt == 30 && this->CheckFoot() == false) { nm = Motion::Fall3; }
 			
 			/*if (this->jumpCnt == 1 && this->moveVec.y >= 0) { nm = Motion::Fall; }
 			if (this->jumpCnt == 2 && this->moveVec.y >= 0) { nm = Motion::Fall2; }*/
@@ -448,37 +450,83 @@ namespace  Player
 			break;
 		case Motion::DashCt:
 			break;
-		case  Motion::Attack:	//攻撃中
+		case Motion::Attack:	//攻撃中
 			if (this->moveCnt == 8)
 			{
 				if (this->angle_LR == Angle_LR::Right)
 				{
-					auto axe = Axe::Object::Create(true);
-					axe->WeaponLevel = 0;
-					axe->Level(this);
-					axe->moveVec = ML::Vec2(7, -8);
-					axe->pos = this->pos + ML::Vec2(30, 0);
-					/*auto attack = sword::Object::Create(true);
-					attack->pos = this->pos + ML::Vec2(30, 0);*/
-					/*auto shot = Shot00::Object::Create(true);
-					shot->moveVec = ML::Vec2(8, 0);
-					shot->pos = this->pos + ML::Vec2(30, 0);*/
+					switch (this->weapon)
+					{
+						case Weapon::Sword:
+						{
+							auto sword = Sword::Object::Create(true);
+							/*sword->WeaponLevel = 0;
+							sword->Level(this);*/
+							sword->pos = this->pos + ML::Vec2(30, -5);
+							break;
+						}
+						//break;
+						case Weapon::Axe:
+						{
+							auto axe = Axe::Object::Create(true);
+							/*axe->WeaponLevel = 0;
+							axe->Level(this);*/
+							axe->moveVec = ML::Vec2(7, -8);
+							axe->pos = this->pos + ML::Vec2(30, 0);
+							break;
+						}
+						//break;
+						case Weapon::Gun:
+						{
+							auto gun = Shot00::Object::Create(true);
+							/*gun->WeaponLevel = 0;
+							gun->Level(this);*/
+							gun->moveVec = ML::Vec2(8, 0);
+							gun->pos = this->pos + ML::Vec2(30, 0);
+							break;
+						}
+						//break;
+					}
 				}
-				else
+				else if(this->angle_LR==Angle_LR::Left)
 				{
-					auto axe = Axe::Object::Create(true);
-					axe->moveVec = ML::Vec2(-7, -8);
-					axe->pos = this->pos + ML::Vec2(-30, 0);
-					/*auto attack = sword::Object::Create(true);
-					attack->pos = this->pos + ML::Vec2(-30, 0);*/
-					/*auto shot = Shot00::Object::Create(true);
-					shot->moveVec = ML::Vec2(-8, 0);
-					shot->pos = this->pos + ML::Vec2(-30, 0);*/
+					switch (this->weapon)
+					{
+						case Weapon::Sword:
+						{
+							auto sword = Sword::Object::Create(true);
+							/*sword->WeaponLevel = 0;
+							sword->Level(this);*/
+							sword->pos = this->pos + ML::Vec2(-30, -5);
+							break;
+						}
+						//break;
+						case Weapon::Axe:
+						{
+							auto axe = Axe::Object::Create(true);
+							/*axe->WeaponLevel = 0;
+							axe->Level(this);*/
+							axe->moveVec = ML::Vec2(-7, -8);
+							axe->pos = this->pos + ML::Vec2(-30, 0);
+							break;
+						}
+						//break;
+						case Weapon::Gun:
+						{
+							auto gun = Shot00::Object::Create(true);
+							/*gun->WeaponLevel = 0;
+							gun->Level(this);*/
+							gun->moveVec = ML::Vec2(-8, 0);
+							gun->pos = this->pos + ML::Vec2(-30, 0);
+							break;
+						}
+						//break;
+					}
 				}
 				if (this->CheckFoot() == false)
 				{
 					this->moveVec.y = 0;
-				    this->attackCnt++;
+					this->attackCnt++;
 				}
 			}
 			break;
@@ -599,6 +647,10 @@ namespace  Player
 		this->UpdateMotion(Motion::Bound);
 		//from_は攻撃してきた相手、カウンターなどで逆にダメージを与えたいときに使う
 	}
+	//-----------------------------------------------------------------------------
+	//
+	
+
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
