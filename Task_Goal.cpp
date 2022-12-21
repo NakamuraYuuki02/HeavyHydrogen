@@ -81,7 +81,7 @@ namespace  Goal
 		ML::Box2D Draw(-16, -16, 32, 32);
 		Draw.Offset(this->pos);
 		ML::Box2D Src(0, 0, 32, 32);
-		Draw.Offset(-ge->camera2D .x, -ge->camera2D.y);
+		Draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		this->res->goal->Draw(Draw, Src);
 	}
 

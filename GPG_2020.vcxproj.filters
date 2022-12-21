@@ -4,6 +4,12 @@
     <ClCompile Include="GameEngine_Ver3_83.cpp">
       <Filter>GameEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Dm2008_Ver1_4.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
+    <ClCompile Include="XI2018_Ver1_0.cpp">
+      <Filter>Lib</Filter>
+    </ClCompile>
     <ClCompile Include="DG2014\DG2014_DGObject.cpp">
       <Filter>Lib\DG2014</Filter>
     </ClCompile>
@@ -40,142 +46,94 @@
     <ClCompile Include="DG2014\DG2014_VertexContainer.cpp">
       <Filter>Lib\DG2014</Filter>
     </ClCompile>
-    <ClCompile Include="Dm2008_Ver1_4.cpp">
-      <Filter>Lib</Filter>
-    </ClCompile>
-    <ClCompile Include="myLib.cpp">
-      <Filter>Lib</Filter>
-    </ClCompile>
-    <ClCompile Include="MyPG.cpp">
+    <ClCompile Include="BChara.cpp">
       <Filter>MyPG</Filter>
     </ClCompile>
-    <ClCompile Include="BChara.cpp">
+    <ClCompile Include="myLib.cpp">
+      <Filter>MyPG</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPG.cpp">
       <Filter>MyPG</Filter>
     </ClCompile>
     <ClCompile Include="WinMain.cpp">
       <Filter>MyPG</Filter>
     </ClCompile>
-    <ClCompile Include="MyPG.cpp">
-      <Filter>MyPG</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Axe.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Title.cpp">
-      <Filter>MyPG\Task\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Enemy01.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Enemy02.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Game.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_GameBG.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Enemy03.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Enemy04.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_EnemyShot01.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Select.cpp">
-      <Filter>MyPG\Task\Select</Filter>
-    </ClCompile>
-    <ClCompile Include="XI2018_Ver1_0.cpp">
-      <Filter>Lib</Filter>
-    </ClCompile>
-    <ClCompile Include="BChara.cpp">
-      <Filter>MyPG</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Axe.cpp">
-      <Filter>MyPG\Task\Game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Player.cpp">
-      <Filter>MyPG\Task\Game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_GameBG.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Map2D.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Player.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Shot00.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Skill.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Sword.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Task_Ending.cpp">
-      <Filter>MyPG\Task\Ending</Filter>
+      <Filter>MyPG\Ending</Filter>
     </ClCompile>
-    <ClCompile Include="Task_Title.cpp">
-      <Filter>MyPG\Task\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Select.cpp">
-      <Filter>MyPG\Task\Select</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_GoalMap2D.cpp">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Shot00.cpp">
-      <Filter>MyPG\Task\Game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Skill.cpp">
-      <Filter>MyPG\Task\Game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Sword.cpp">
-      <Filter>MyPG\Task\Game\Player</Filter>
+    <ClCompile Include="Task_Axe.cpp">
+      <Filter>MyPG\Game\Player</Filter>
     </ClCompile>
     <ClCompile Include="Task_Enemy01.cpp">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Task_Enemy02.cpp">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Task_Enemy03.cpp">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Task_Enemy04.cpp">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Task_EnemyShot01.cpp">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Task_Goal.cpp">
-      <Filter>MyPG\Task\Game\Goal</Filter>
+      <Filter>MyPG\Game\Map</Filter>
     </ClCompile>
     <ClCompile Include="Task_Goal5.cpp">
-      <Filter>MyPG\Task\Game\Goal</Filter>
+      <Filter>MyPG\Game\Map</Filter>
     </ClCompile>
     <ClCompile Include="Task_Goal6.cpp">
-      <Filter>MyPG\Task\Game\Goal</Filter>
+      <Filter>MyPG\Game\Map</Filter>
     </ClCompile>
     <ClCompile Include="Task_Goal7.cpp">
-      <Filter>MyPG\Task\Game\Goal</Filter>
+      <Filter>MyPG\Game\Map</Filter>
     </ClCompile>
     <ClCompile Include="Task_Goal8.cpp">
-      <Filter>MyPG\Task\Game\Goal</Filter>
+      <Filter>MyPG\Game\Map</Filter>
     </ClCompile>
     <ClCompile Include="Task_Goal9.cpp">
-      <Filter>MyPG\Task\Game\Goal</Filter>
+      <Filter>MyPG\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_GoalMap2D.cpp">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Map2D.cpp">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Player.cpp">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Shot00.cpp">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Skill.cpp">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Sword.cpp">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Select.cpp">
+      <Filter>MyPG\Select</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Title.cpp">
+      <Filter>MyPG\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Game.cpp">
+      <Filter>MyPG\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine_Ver3_83.h">
       <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Dm2008_Ver1_4.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="XI2018_Ver1_0.h">
+      <Filter>Lib</Filter>
     </ClInclude>
     <ClInclude Include="DG2014\DG2014_DGObject.h">
       <Filter>Lib\DG2014</Filter>
@@ -210,192 +168,118 @@
     <ClInclude Include="DG2014\DG2014_VertexContainer.h">
       <Filter>Lib\DG2014</Filter>
     </ClInclude>
+    <ClInclude Include="BChara.h">
+      <Filter>MyPG</Filter>
+    </ClInclude>
     <ClInclude Include="myLib.h">
-      <Filter>Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="Dm2008_Ver1_4.h">
-      <Filter>Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="XI2018_Ver1_0.h">
-      <Filter>Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="BChara.h">
       <Filter>MyPG</Filter>
     </ClInclude>
     <ClInclude Include="MyPG.h">
       <Filter>MyPG</Filter>
-    </ClInclude>
-    <ClInclude Include="MyPG.h">
-      <Filter>MyPG</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Axe.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Enemy01.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Enemy02.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Enemy03.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Enemy04.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_EnemyShot01.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Game.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_GameBG.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Map2D.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Select.h">
-      <Filter>MyPG\Task\Select</Filter>
-    </ClInclude>
-    <ClInclude Include="XI2018_Ver1_0.h">
-      <Filter>Lib</Filter>
-    </ClInclude>
-    <ClInclude Include="BChara.h">
-      <Filter>MyPG</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Axe.h">
-      <Filter>MyPG\Task\Game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Player.h">
-      <Filter>MyPG\Task\Game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Shot00.h">
-      <Filter>MyPG\Task\Game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Skill.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Sword.h">
-      <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
     <ClInclude Include="Task_Ending.h">
-      <Filter>MyPG\Task\Ending</Filter>
+      <Filter>MyPG\Ending</Filter>
     </ClInclude>
-    <ClInclude Include="Task_Title.h">
-      <Filter>MyPG\Task\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Select.h">
-      <Filter>MyPG\Task\Select</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_GoalMap2D.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Goal.h">
-      <Filter>MyPG\Task\Game\Goal</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Goal5.h">
-      <Filter>MyPG\Task\Game\Goal</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Goal6.h">
-      <Filter>MyPG\Task\Game\Goal</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Goal7.h">
-      <Filter>MyPG\Task\Game\Goal</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Goal8.h">
-      <Filter>MyPG\Task\Game\Goal</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Goal9.h">
-      <Filter>MyPG\Task\Game\Goal</Filter>
-    </ClInclude>
-      <Filter>MyPG\Task\Game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Sword.h">
-      <Filter>MyPG\Task\Game\Player</Filter>
+    <ClInclude Include="Task_Axe.h">
+      <Filter>MyPG\Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="Task_Enemy01.h">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Task_Enemy02.h">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Task_Enemy03.h">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Task_Enemy04.h">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Task_EnemyShot01.h">
-      <Filter>MyPG\Task\Game\Enemy</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal5.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal6.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal7.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal8.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal9.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_GoalMap2D.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Map2D.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Player.h">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Shot00.h">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Skill.h">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Sword.h">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Select.h">
+      <Filter>MyPG\Select</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Title.h">
+      <Filter>MyPG\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Game.h">
+      <Filter>MyPG\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameEngine">
-      <UniqueIdentifier>{50832946-bf80-4f7f-b44d-f5cb1f8fd306}</UniqueIdentifier>
+      <UniqueIdentifier>{b9e6ce86-ecc2-4567-8ee4-f898c07b8b18}</UniqueIdentifier>
     </Filter>
     <Filter Include="Lib">
-      <UniqueIdentifier>{c745e869-4598-45dd-bef3-974884722ce5}</UniqueIdentifier>
+      <UniqueIdentifier>{83094678-0fd0-4e96-a340-f42394ca7014}</UniqueIdentifier>
     </Filter>
     <Filter Include="Lib\DG2014">
-      <UniqueIdentifier>{0969f2e0-fd16-453e-9d05-ce87022ce368}</UniqueIdentifier>
+      <UniqueIdentifier>{b7bba568-940b-4bee-a46f-eb4bc4195d1b}</UniqueIdentifier>
     </Filter>
     <Filter Include="MyPG">
-      <UniqueIdentifier>{eedfa273-03e8-44bb-ae0e-da6e191f5da8}</UniqueIdentifier>
+      <UniqueIdentifier>{589cde34-993c-439a-a0d8-96d9c12b730a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyPG\Task">
-      <UniqueIdentifier>{6648e11b-9b47-43a4-8dfc-1de0c6ebadd1}</UniqueIdentifier>
+    <Filter Include="MyPG\Ending">
+      <UniqueIdentifier>{38c5c17c-4ad0-4eea-bee4-677abe038ec6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyPG\Task\Game">
-      <UniqueIdentifier>{e476aac1-1754-4620-be80-722dd4fb86ea}</UniqueIdentifier>
+    <Filter Include="MyPG\Title">
+      <UniqueIdentifier>{ac5f2f93-b423-40cf-8eb5-3a1bd687abb6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyPG\Task\Ending">
-      <UniqueIdentifier>{b3a68569-b3a1-43b7-b5a5-ffed4bdcbe5a}</UniqueIdentifier>
+    <Filter Include="MyPG\Game">
+      <UniqueIdentifier>{ab99da33-61a1-4789-b953-208cc93af4cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyPG\Task\Title">
-      <UniqueIdentifier>{26aee4ff-d8e8-4b57-9d84-473783ee143b}</UniqueIdentifier>
+    <Filter Include="MyPG\Game\Enemy">
+      <UniqueIdentifier>{20abbf50-a145-4d0a-a1ac-b701a9437930}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyPG\Task\Select">
-      <UniqueIdentifier>{1f6a9896-3b0a-4614-846d-d400fc2f683f}</UniqueIdentifier>
+    <Filter Include="MyPG\Game\Map">
+      <UniqueIdentifier>{8795d3e7-f33a-49ce-b2ca-695e16b0fa5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyPG\Task\Game\Goal">
-      <UniqueIdentifier>{617f6b9c-8f24-4abd-8c12-b43b167a363b}</UniqueIdentifier>
+    <Filter Include="MyPG\Select">
+      <UniqueIdentifier>{0318248a-32bf-46d4-a36f-7bb596d1f3da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameEngine">
-      <UniqueIdentifier>{39a8a3c8-a221-432b-af30-77f6dd37246b}</UniqueIdentifier>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{4e040d62-d7cf-4160-8831-fe5874ade75f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Lib">
-      <UniqueIdentifier>{bfec7281-9fca-4675-85f8-a3c89da5cdb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyPG">
-      <UniqueIdentifier>{1412333a-8b7d-4a7b-9710-a86cd4cd916a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="リソースファイル">
-      <UniqueIdentifier>{a497e242-80af-49f7-a8e3-4df335c70649}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Lib\DG2014">
-      <UniqueIdentifier>{9d7dd700-fe83-40a1-b636-57589f130c64}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyPG\Task">
-      <UniqueIdentifier>{7375b689-8779-48d2-8c78-e76690d6bb43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyPG\Task\Ending">
-      <UniqueIdentifier>{48f0ae4e-a8f8-4a3b-b61f-acd99a08809d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyPG\Task\Title">
-      <UniqueIdentifier>{df742463-b193-4340-989b-f4bf860d746f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyPG\Task\Game">
-      <UniqueIdentifier>{02e29afe-e372-4e16-9247-8da883618d84}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyPG\Task\Select">
-      <UniqueIdentifier>{e507434b-0ab8-4b05-868b-fdb90a52acd0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyPG\Task\Game\Player">
-      <UniqueIdentifier>{3ad4f3d5-4f9d-425e-a942-c3848d5e8cd5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyPG\Task\Game\Enemy">
-      <UniqueIdentifier>{2ccbffd1-6858-41dc-b3a5-35161200b801}</UniqueIdentifier>
+    <Filter Include="MyPG\Game\Player">
+      <UniqueIdentifier>{05c46dcc-c1b0-42be-9edc-857a3b2bc22a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
