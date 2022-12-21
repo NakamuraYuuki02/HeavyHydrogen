@@ -91,8 +91,7 @@ namespace  MyPG
 		};
 		Weapon weapon;
 		
-		//選ばれたスキル
-		//二つの選んだスキルの番号を格納する。
+		//選ばれたスキル、二つの選んだスキルの番号を格納する。
 		vector<int> selectedActionSkill;
 		vector<int> selectedStatusSkill;
 		vector<int> selectedWeaponSkill;
@@ -100,6 +99,8 @@ namespace  MyPG
 		//選ばれたステージ
 		int selectedStage;
 
+		//ステージ通過数、ゲーム進行度
+		int stageNum;
 		//プレイヤーステータス
 		int hp = 3;				//体力
 		int hpMax = 10;			//最大体力
