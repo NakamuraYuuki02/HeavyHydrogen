@@ -2,12 +2,12 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Goal.h"
+#include  "Task_Goal9.h"
 #include  "Task_Player.h"
 #include  "Task_Ending.h"
 #include  "Task_GoalMap2D.h"
 
-namespace  Goal
+namespace  Goal9
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
@@ -49,7 +49,7 @@ namespace  Goal
 		ge->KillAll_G("Field");
 		ge->KillAll_G("Player");
 		ge->KillAll_G("Enemy");
-		ge->KillAll_G("Goal");
+		ge->KillAll_G("Goal9");
 			
 		//šˆø‚«Œp‚¬ƒ^ƒXƒN‚Ì¶¬
 		if (!ge->QuitFlag() && this->nextTaskCreate)
@@ -80,7 +80,7 @@ namespace  Goal
 	{
 		ML::Box2D Draw(-16, -16, 32, 32);
 		Draw.Offset(this->pos);
-		ML::Box2D Src(0, 0, 32, 32);
+		ML::Box2D Src(288, 0, 32, 32);
 		Draw.Offset(-ge->camera2D .x, -ge->camera2D.y);
 		this->res->goal->Draw(Draw, Src);
 	}

@@ -9,6 +9,7 @@
 #include  "Task_Player.h"
 #include  "Task_Title.h"
 #include  "Task_Ending.h"
+#include "Task_GoalMap2D.h"
 
 namespace  Game
 {
@@ -42,11 +43,16 @@ namespace  Game
 		//auto  bg = GameBG::Object::Create(true);
 
 		//ゴールタスク
-		auto  goal = Goal::Object::Create(true);
+		//auto  goal = Goal::Object::Create(true);
 
-		//マップの生成
+		//マップ(ステージ)の生成
 		auto  map = Map2D::Object::Create(true);
-		map->Load("./data/Map/map01.txt");
+		map->Load("./data/Map/01MapStage.txt");
+
+		//マップ(ゴール)の生成
+		auto  g = GoalMap2D::Object::Create(true);
+		g->Load("./data/Map/01MapGoal.txt");
+		g->SetGoal();
 
 		//プレイヤの生成
 		auto  pl = Player::Object::Create(true);
@@ -62,9 +68,15 @@ namespace  Game
 		//★データ＆タスク解放
 		ge->KillAll_G("Main");
 		ge->KillAll_G("Field");
+		ge->KillAll_G("GM");
 		ge->KillAll_G("Player");
 		ge->KillAll_G("Enemy");
 		ge->KillAll_G("Goal");
+		ge->KillAll_G("Goal5");
+		ge->KillAll_G("Goal6");
+		ge->KillAll_G("Goal7");
+		ge->KillAll_G("Goal8");
+		ge->KillAll_G("Goal9");
 		ge->KillAll_G("Shot(Player)");
 		ge->KillAll_G("Shot(Enemy)");
 		ge->KillAll_G("Sword");
