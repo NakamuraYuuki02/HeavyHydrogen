@@ -148,6 +148,12 @@
     <ClCompile Include="Task_Game.cpp" />
     <ClCompile Include="Task_GameBG.cpp" />
     <ClCompile Include="Task_Goal.cpp" />
+    <ClCompile Include="Task_Goal5.cpp" />
+    <ClCompile Include="Task_Goal6.cpp" />
+    <ClCompile Include="Task_Goal7.cpp" />
+    <ClCompile Include="Task_Goal8.cpp" />
+    <ClCompile Include="Task_Goal9.cpp" />
+    <ClCompile Include="Task_GoalMap2D.cpp" />
     <ClCompile Include="Task_Map2D.cpp" />
     <ClCompile Include="Task_Player.cpp" />
     <ClCompile Include="Task_Select.cpp" />
@@ -185,6 +191,12 @@
     <ClInclude Include="Task_Game.h" />
     <ClInclude Include="Task_GameBG.h" />
     <ClInclude Include="Task_Goal.h" />
+    <ClInclude Include="Task_Goal5.h" />
+    <ClInclude Include="Task_Goal6.h" />
+    <ClInclude Include="Task_Goal7.h" />
+    <ClInclude Include="Task_Goal8.h" />
+    <ClInclude Include="Task_Goal9.h" />
+    <ClInclude Include="Task_GoalMap2D.h" />
     <ClInclude Include="Task_Map2D.h" />
     <ClInclude Include="Task_Player.h" />
     <ClInclude Include="Task_Select.h" />

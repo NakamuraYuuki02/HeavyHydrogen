@@ -49,14 +49,26 @@
     <ClCompile Include="MyPG.cpp">
       <Filter>MyPG</Filter>
     </ClCompile>
+    <ClCompile Include="BChara.cpp">
+      <Filter>MyPG</Filter>
+    </ClCompile>
     <ClCompile Include="WinMain.cpp">
       <Filter>MyPG</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPG.cpp">
+      <Filter>MyPG</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Axe.cpp">
+      <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
     <ClCompile Include="Task_Title.cpp">
       <Filter>MyPG\Task\Title</Filter>
     </ClCompile>
-    <ClCompile Include="Task_Ending.cpp">
-      <Filter>MyPG\Task\Ending</Filter>
+    <ClCompile Include="Task_Enemy01.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Enemy02.cpp">
+      <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
     <ClCompile Include="Task_Game.cpp">
       <Filter>MyPG\Task\Game</Filter>
@@ -64,10 +76,13 @@
     <ClCompile Include="Task_GameBG.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Task_Goal.cpp">
+    <ClCompile Include="Task_Enemy03.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Task_Map2D.cpp">
+    <ClCompile Include="Task_Enemy04.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_EnemyShot01.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
     <ClCompile Include="Task_Select.cpp">
@@ -84,6 +99,36 @@
     </ClCompile>
     <ClCompile Include="Task_Player.cpp">
       <Filter>MyPG\Task\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_GameBG.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Map2D.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Player.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Shot00.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Skill.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Sword.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Ending.cpp">
+      <Filter>MyPG\Task\Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Title.cpp">
+      <Filter>MyPG\Task\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Select.cpp">
+      <Filter>MyPG\Task\Select</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_GoalMap2D.cpp">
+      <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
     <ClCompile Include="Task_Shot00.cpp">
       <Filter>MyPG\Task\Game\Player</Filter>
@@ -108,6 +153,24 @@
     </ClCompile>
     <ClCompile Include="Task_EnemyShot01.cpp">
       <Filter>MyPG\Task\Game\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Goal.cpp">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Goal5.cpp">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Goal6.cpp">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Goal7.cpp">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Goal8.cpp">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Goal9.cpp">
+      <Filter>MyPG\Task\Game\Goal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -147,28 +210,46 @@
     <ClInclude Include="DG2014\DG2014_VertexContainer.h">
       <Filter>Lib\DG2014</Filter>
     </ClInclude>
+    <ClInclude Include="myLib.h">
+      <Filter>Lib</Filter>
+    </ClInclude>
     <ClInclude Include="Dm2008_Ver1_4.h">
       <Filter>Lib</Filter>
     </ClInclude>
-    <ClInclude Include="myLib.h">
+    <ClInclude Include="XI2018_Ver1_0.h">
       <Filter>Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="BChara.h">
+      <Filter>MyPG</Filter>
     </ClInclude>
     <ClInclude Include="MyPG.h">
       <Filter>MyPG</Filter>
     </ClInclude>
-    <ClInclude Include="Task_Title.h">
-      <Filter>MyPG\Task\Title</Filter>
+    <ClInclude Include="MyPG.h">
+      <Filter>MyPG</Filter>
     </ClInclude>
-    <ClInclude Include="Task_Ending.h">
-      <Filter>MyPG\Task\Ending</Filter>
+    <ClInclude Include="Task_Axe.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy01.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy02.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy03.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy04.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_EnemyShot01.h">
+      <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
     <ClInclude Include="Task_Game.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
     <ClInclude Include="Task_GameBG.h">
-      <Filter>MyPG\Task\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Goal.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
     <ClInclude Include="Task_Map2D.h">
@@ -193,6 +274,41 @@
       <Filter>MyPG\Task\Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="Task_Skill.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Sword.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Ending.h">
+      <Filter>MyPG\Task\Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Title.h">
+      <Filter>MyPG\Task\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Select.h">
+      <Filter>MyPG\Task\Select</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_GoalMap2D.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal.h">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal5.h">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal6.h">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal7.h">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal8.h">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Goal9.h">
+      <Filter>MyPG\Task\Game\Goal</Filter>
+    </ClInclude>
       <Filter>MyPG\Task\Game\Player</Filter>
     </ClInclude>
     <ClInclude Include="Task_Sword.h">
@@ -215,6 +331,36 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="GameEngine">
+      <UniqueIdentifier>{50832946-bf80-4f7f-b44d-f5cb1f8fd306}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{c745e869-4598-45dd-bef3-974884722ce5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\DG2014">
+      <UniqueIdentifier>{0969f2e0-fd16-453e-9d05-ce87022ce368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG">
+      <UniqueIdentifier>{eedfa273-03e8-44bb-ae0e-da6e191f5da8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG\Task">
+      <UniqueIdentifier>{6648e11b-9b47-43a4-8dfc-1de0c6ebadd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG\Task\Game">
+      <UniqueIdentifier>{e476aac1-1754-4620-be80-722dd4fb86ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG\Task\Ending">
+      <UniqueIdentifier>{b3a68569-b3a1-43b7-b5a5-ffed4bdcbe5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG\Task\Title">
+      <UniqueIdentifier>{26aee4ff-d8e8-4b57-9d84-473783ee143b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG\Task\Select">
+      <UniqueIdentifier>{1f6a9896-3b0a-4614-846d-d400fc2f683f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyPG\Task\Game\Goal">
+      <UniqueIdentifier>{617f6b9c-8f24-4abd-8c12-b43b167a363b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GameEngine">
       <UniqueIdentifier>{39a8a3c8-a221-432b-af30-77f6dd37246b}</UniqueIdentifier>
     </Filter>

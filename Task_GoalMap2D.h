@@ -5,10 +5,10 @@
 //-------------------------------------------------------------------
 #include "GameEngine_Ver3_83.h"
 
-namespace   Map2D
+namespace   GoalMap2D
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("Field");	//グループ名
+	const  string  defGroupName("GM");	//グループ名
 	const  string  defName("Map");	//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource
@@ -52,11 +52,8 @@ namespace   Map2D
 		ML::Box2D			hitBase;//ピクセル単位のマップサイズを持つ
 		ML::Box2D  chip[100];//マップチップ素材の配列
 		bool  Load(const  string&  fpath_);//マップ読み込み
-		bool  CheckHit(const  ML::Box2D&  hit_);//あたり判定
 		int block = 16;//マップの表示
 		int mapChip = 40;//マップチップ番号
-
-		//マップ外を見せないようにカメラを位置調整する
-		void  AdjustCameraPos();
+		void SetGoal();
 	};
 }

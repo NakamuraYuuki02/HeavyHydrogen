@@ -2,26 +2,27 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Goal.h"
-#include  "Task_Player.h"
-#include  "Task_Ending.h"
 #include  "Task_GoalMap2D.h"
+#include  "Task_Goal.h"
+#include  "Task_Goal5.h"
+#include  "Task_Goal6.h"
+#include  "Task_Goal7.h"
+#include  "Task_Goal8.h"
+#include  "Task_Goal9.h"
 
-namespace  Goal
+namespace  GoalMap2D
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->goal = DG::Image::Create("./data/image/Goaltile.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
-		this->goal.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -34,8 +35,24 @@ namespace  Goal
 		this->res = Resource::Create();
 
 		//★データ初期化
-		this->hitBase = ML::Box2D(0, 0, 32, 32);
-		
+		this->render2D_Priority[1] = 0.9f;
+		//マップのゼロクリア
+		for (int y = 0; y < 100; ++y) {
+			for (int x = 0; x < 100; ++x) {
+				this->arr[y][x] = 0;
+			}
+		}
+		this->sizeX = 0;
+		this->sizeY = 0;
+		this->hitBase = ML::Box2D(block, block, block, block);
+
+		//マップチップ情報の初期化
+		for (int c = 0; c < 100; ++c) {
+			int  x = (c % 10);
+			int  y = (c / 10);
+			this->chip[c] = ML::Box2D(x * 32, y * 32, 32, 32);
+		}
+
 		//★タスクの生成
 
 		return  true;
@@ -45,16 +62,10 @@ namespace  Goal
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-		ge->KillAll_G("Main");
-		ge->KillAll_G("Field");
-		ge->KillAll_G("Player");
-		ge->KillAll_G("Enemy");
-		ge->KillAll_G("Goal");
-			
-		//★引き継ぎタスクの生成
-		if (!ge->QuitFlag() && this->nextTaskCreate)
-		{
+		this->img.reset();
 
+		if (!ge->QuitFlag() && this->nextTaskCreate) {
+			//★引き継ぎタスクの生成
 		}
 
 		return  true;
@@ -63,28 +74,90 @@ namespace  Goal
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
-		ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-		auto player = ge->GetTasks<BChara>("Player");
-		for (auto it = player->begin(); it != player->end(); ++it)
-		{
-			if ((*it)->CheckHit(me))
-			{
-				this->Kill();
-				break;
-			}
-		}
+
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D Draw(-16, -16, 32, 32);
-		Draw.Offset(this->pos);
-		ML::Box2D Src(0, 0, 32, 32);
-		Draw.Offset(-ge->camera2D .x, -ge->camera2D.y);
-		this->res->goal->Draw(Draw, Src);
+	
 	}
+	//-------------------------------------------------------------------
+	//マップ読み込み
+	bool  Object::Load(const  string&  fpath_)
+	{
+		//ファイルを開く（読み込み）
+		ifstream   fin(fpath_);
+		if (!fin) { return  false; }//読み込み失敗
 
+		//マップ配列サイズの読み込み
+		fin >> this->sizeX >> this->sizeY;
+		this->hitBase = ML::Box2D(0, 0, this->sizeX * block, this->sizeY * block);
+
+		//マップ配列データの読み込み
+		for (int y = 0; y < this->sizeY; ++y) {
+			for (int x = 0; x < this->sizeX; ++x) {
+				fin >> this->arr[y][x];
+			}
+		}
+		fin.close();
+
+		return true;
+	}
+	//-------------------------------------------------------------------
+	void Object::SetGoal()
+	{
+		for (int y = 0; y < this->sizeY; ++y) {
+			for (int x = 0; x < this->sizeX; ++x) {
+				// チップの番号によって変える
+				switch (this->arr[y][x])
+				{
+				   case 0:
+				   {
+					  auto g = Goal::Object::Create(true);
+					  g->pos.x = x * 16;
+					  g->pos.y = y * 16;
+					  break;
+				   }
+				   case 5:
+				   {
+					   auto g5 = Goal5::Object::Create(true);
+					   g5->pos.x = x * 16;
+					   g5->pos.y = y * 16;
+					   break;
+				   }
+				   case 6:
+				   {
+					   auto g6 = Goal6::Object::Create(true);
+					   g6->pos.x = x * 16;
+					   g6->pos.y = y * 16;
+					   break;
+				   }
+				   case 7:
+				   {
+					   auto g7 = Goal7::Object::Create(true);
+					   g7->pos.x = x * 16;
+					   g7->pos.y = y * 16;
+					   break;
+				   }
+				   case 8:
+				   {
+					   auto g8 = Goal8::Object::Create(true);
+					   g8->pos.x = x * 16;
+					   g8->pos.y = y * 16;
+					   break;
+				   }
+				   case 9:
+				   {
+					   auto g9 = Goal9::Object::Create(true);
+					   g9->pos.x = x * 16;
+					   g9->pos.y = y * 16;
+					   break;
+				   }
+				}
+			}
+		}
+	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
@@ -97,7 +170,7 @@ namespace  Goal
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
 				ge->PushBack(ob);//ゲームエンジンに登録
-				
+				//（メソッド名が変なのは旧バージョンのコピーによるバグを回避するため
 			}
 			if (!ob->B_Initialize()) {
 				ob->Kill();//イニシャライズに失敗したらKill
