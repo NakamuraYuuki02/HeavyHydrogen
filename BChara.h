@@ -48,7 +48,7 @@ public:
 		DashCt,     //　ダッシュクールタイム
 	};
 	Motion			motion;			//	現在の行動を示すフラグ
-	int				animCnt;		//アニメーションカウンタ
+	int				animCnt;		//	アニメーションカウンタ
 	float			jumpPow;		//	ジャンプ初速
 	float			maxFallSpeed;	//	落下最大速度
 	float			gravity;		//	フレーム単位の加算量
@@ -57,12 +57,10 @@ public:
 	float			decSpeed;		//	左右方向への移動の減衰量
 	float           dashSpeed;      //  ダッシュ時に加算される移動量
 	int             unHitTime;      //  無敵時間
-	int				jumpCnt;        //  ジャンプ回数
 	int				jumpMax;		//	ジャンプ上限回数
-	int             dashCnt;        //  ダッシュ回数
-	int				dashMax;		//　ダッシュ上限回数
-	int				attackCnt;      //  攻撃回数
-
+	int				dashMax;		//	ダッシュ上限回数
+	int				attackCnt;
+	int				WeaponLevel;	//	武器	Lv
 
 	//メンバ変数に最低限の初期化を行う
 	//★★メンバ変数を追加したら必ず初期化も追加する事★★
@@ -83,11 +81,10 @@ public:
 		, hp(1)
 		, atk(0)
 		, unHitTime(0)
-		, jumpCnt(0)
 		, jumpMax(1)
-		, dashCnt(0)
 		, dashMax(1)
 		, attackCnt(0)
+		, WeaponLevel(0)
 	{
 	}
 	virtual  ~BChara() {}

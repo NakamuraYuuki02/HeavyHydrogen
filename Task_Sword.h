@@ -1,11 +1,11 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//
+//剣
 //-------------------------------------------------------------------
 #include "BChara.h"
 
-namespace  sword
+namespace  Sword
 {
 	//タスクに割り当てるグループ名と固有名
 	const  string  defGroupName("Sword");	//グループ名
@@ -49,5 +49,7 @@ namespace  sword
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 		//追加したい変数・メソッドはここに追加する
 		//BCharaに含まれないモノのみここに追加する
+
+		void Level(BChara* from_);
 	};
 }
