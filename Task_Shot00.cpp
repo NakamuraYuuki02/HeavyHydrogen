@@ -130,25 +130,30 @@ namespace  Shot00
 		{
 			this->res->img->Draw(draw2, src);
 		}
+
+		//BChara::DrawInfo  di = this->Anim();
+		//di.draw.Offset(this->pos);
+		////スクロール対応
+		//di.draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
+
+		//this->res->img->Draw(di.draw, di.src);
 	}
 	//-------------------------------------------------------------------
 	//武器のLevel
-	void Object::Level(BChara* from_)
+	void Object::Level(BChara* from_) //基礎的な能力の強化
 	{
 		switch (from_->WeaponLevel)
 		{
 		case 0:
 			break;
 		case 1:
-			//this->hitBase = ML::Box2D(-16, -16, 32, 32);
+			this->hitBase = ML::Box2D(-16, -16, 32, 32);
 			break;
 		case 2:
-			//from_->attackMax = 2;
-			//this->hitBase = ML::Box2D(-16, -16, 32, 32);
+			this->hitBase = ML::Box2D(-16, -16, 32, 32);
 			break;
 		case 3:
-			//from_->attackMax = 2;
-			//this->hitBase = ML::Box2D(-16, -16, 32, 32);
+			this->hitBase = ML::Box2D(-16, -16, 32, 32);
 			break;
 		}
 	}

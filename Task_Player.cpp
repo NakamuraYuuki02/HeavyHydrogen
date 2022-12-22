@@ -17,7 +17,7 @@ namespace  Player
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/chara02.png");
+		this->img = DG::Image::Create("./data/image/Fumiko.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -56,9 +56,10 @@ namespace  Player
 		this->jumpCnt = 0;			//ジャンプ回数
 		this->jumpMax = 3;			//ジャンプ上限回数
 		this->dashCnt = 0;			//ダッシュ回数
-		this->dashMax = 0;			//ダッシュ上限回数
+		this->dashMax = 1;			//ダッシュ上限回数
 		this->attackCnt = 0;		//攻撃回数
 		this->attackMax = 0;		//攻撃上限回数
+		this->WeaponLevel = 0;		//武器レベル
 
 		//★タスクの生成
 		
@@ -234,13 +235,18 @@ namespace  Player
 			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
 			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
-			//空中で出来る攻撃は一回　武器Lv上昇で+1
+			//空中で出来る攻撃は一回
 		case  Motion::Attack:	//攻撃中
-			if (this->moveCnt == 30 && this->CheckFoot() == true) { nm = Motion::Stand; }
-			if (this->moveCnt == 30 && this->CheckFoot() == false) { nm = Motion::Fall3; }
-			
-			/*if (this->jumpCnt == 1 && this->moveVec.y >= 0) { nm = Motion::Fall; }
-			if (this->jumpCnt == 2 && this->moveVec.y >= 0) { nm = Motion::Fall2; }*/
+			if (this->WeaponLevel < 2)
+			{
+				if (this->moveCnt == 45 && this->CheckFoot() == true) { nm = Motion::Stand; }
+				if (this->moveCnt == 45 && this->CheckFoot() == false) { nm = Motion::Fall3; }
+			}
+			else
+			{
+				if (this->moveCnt == 15 && this->CheckFoot() == true) { nm = Motion::Stand; }
+				if (this->moveCnt == 15 && this->CheckFoot() == false) { nm = Motion::Fall3; }
+			}
 			break;
 		//case  Motion::Attack2:	//攻撃中
 		//	if (this->moveCnt == 8) { nm = Motion::Stand; }
@@ -459,31 +465,69 @@ namespace  Player
 					{
 						case Weapon::Sword:
 						{
-							auto sword = Sword::Object::Create(true);
-							/*sword->WeaponLevel = 0;
-							sword->Level(this);*/
-							sword->pos = this->pos + ML::Vec2(30, -5);
-							break;
+							if (this->WeaponLevel <= 2)
+							{
+								auto sword = Sword::Object::Create(true);
+								sword->Level(this);
+								sword->pos = this->pos + ML::Vec2(30, -5);
+								break;
+							}
+							else
+							{
+								for (int i = 1; i <= 3; ++i)
+								{
+									auto sword = Sword::Object::Create(true);
+									sword->Level(this);
+									sword->pos = this->pos + ML::Vec2(15 + 15 * i, -5);
+								}
+								break;
+							}
 						}
 						//break;
 						case Weapon::Axe:
 						{
-							auto axe = Axe::Object::Create(true);
-							/*axe->WeaponLevel = 0;
-							axe->Level(this);*/
-							axe->moveVec = ML::Vec2(7, -8);
-							axe->pos = this->pos + ML::Vec2(30, 0);
-							break;
+							if (this->WeaponLevel <= 2)
+							{
+								auto axe = Axe::Object::Create(true);
+								axe->Level(this);
+								axe->moveVec = ML::Vec2(7, -8);
+								axe->pos = this->pos + ML::Vec2(30, 0);
+								break;
+							}
+							else
+							{
+								for (int i = 1; i <= 3; ++i)
+								{
+									auto axe = Axe::Object::Create(true);
+									axe->Level(this);
+									axe->moveVec = ML::Vec2(7, -3 * i);
+									axe->pos = this->pos + ML::Vec2(30, 0);
+								}
+								break;
+							}
 						}
 						//break;
 						case Weapon::Gun:
 						{
-							auto gun = Shot00::Object::Create(true);
-							/*gun->WeaponLevel = 0;
-							gun->Level(this);*/
-							gun->moveVec = ML::Vec2(8, 0);
-							gun->pos = this->pos + ML::Vec2(30, 0);
-							break;
+							if (this->WeaponLevel <= 2)
+							{
+								auto gun = Shot00::Object::Create(true);
+								gun->Level(this);
+								gun->moveVec = ML::Vec2(8, 0);
+								gun->pos = this->pos + ML::Vec2(30, 0);
+								break;
+							}
+							else
+							{
+								for (int i = 1; i <= 3; ++i)
+								{
+									auto gun = Shot00::Object::Create(true);
+									gun->Level(this);
+									gun->moveVec = ML::Vec2(8, 0);
+									gun->pos = this->pos + ML::Vec2(20 * i, 0);
+								}
+								break;
+							}
 						}
 						//break;
 					}
@@ -494,31 +538,69 @@ namespace  Player
 					{
 						case Weapon::Sword:
 						{
-							auto sword = Sword::Object::Create(true);
-							/*sword->WeaponLevel = 0;
-							sword->Level(this);*/
-							sword->pos = this->pos + ML::Vec2(-30, -5);
-							break;
+							if (this->WeaponLevel <= 2)
+							{
+								auto sword = Sword::Object::Create(true);
+								sword->Level(this);
+								sword->pos = this->pos + ML::Vec2(-30, -5);
+								break;
+							}
+							else
+							{
+								for (int i = 1; i <= 3; ++i)
+								{
+									auto sword = Sword::Object::Create(true);
+									sword->Level(this);
+									sword->pos = this->pos + ML::Vec2(-15 - 15 * i, -5);
+								}
+								break;
+							}
 						}
 						//break;
 						case Weapon::Axe:
 						{
-							auto axe = Axe::Object::Create(true);
-							/*axe->WeaponLevel = 0;
-							axe->Level(this);*/
-							axe->moveVec = ML::Vec2(-7, -8);
-							axe->pos = this->pos + ML::Vec2(-30, 0);
-							break;
+							if (this->WeaponLevel <= 2)
+							{
+								auto axe = Axe::Object::Create(true);
+								axe->Level(this);
+								axe->moveVec = ML::Vec2(-7, -8);
+								axe->pos = this->pos + ML::Vec2(-30, 0);
+								break;
+							}
+							else
+							{
+								for (int i = 1; i <= 3; ++i)
+								{
+									auto axe = Axe::Object::Create(true);
+									axe->Level(this);
+									axe->moveVec = ML::Vec2(-7, -3 * i);
+									axe->pos = this->pos + ML::Vec2(-30, 0);
+								}
+								break;
+							}
 						}
 						//break;
 						case Weapon::Gun:
 						{
-							auto gun = Shot00::Object::Create(true);
-							/*gun->WeaponLevel = 0;
-							gun->Level(this);*/
-							gun->moveVec = ML::Vec2(-8, 0);
-							gun->pos = this->pos + ML::Vec2(-30, 0);
-							break;
+							if (this->WeaponLevel <= 2)
+							{
+								auto gun = Shot00::Object::Create(true);
+								gun->Level(this);
+								gun->moveVec = ML::Vec2(-8, 0);
+								gun->pos = this->pos + ML::Vec2(-30, 0);
+								break;
+							}
+							else
+							{
+								for (int i = 1; i <= 3; ++i)
+								{
+									auto gun = Shot00::Object::Create(true);
+									gun->Level(this);
+									gun->moveVec = ML::Vec2(-8, 0);
+									gun->pos = this->pos + ML::Vec2(-20 * i, 0);
+								}
+								break;
+							}
 						}
 						//break;
 					}
@@ -559,42 +641,53 @@ namespace  Player
 	{
 		ML::Color  defColor(1, 1, 1, 1);
 		BChara::DrawInfo imageTable[] = {
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(0, 32, 24, 32), defColor },	//停止						 0
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },	//歩行1					 1
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 3, 32, 24, 32), defColor },	//歩行２					 2
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },	//歩行３					 3
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 5, 32, 24, 32), defColor },	//歩行４					 4
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 16, 32 * 3, 24, 32), defColor },	//ジャンプ			 5
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 10, 32, 24, 32), defColor },	//落下 飛び立つ直前		 6
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 11, 32, 24, 32), defColor },	//着地					 7
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 6, 32, 24, 32), defColor },   //ダメージ				 8
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 9, 32, 24, 32), defColor },  //攻撃					 9
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 8, 32 * 4, 24, 32), defColor }, //ダッシュ				10
 			//draw							src
-			{ ML::Box2D(-8, -20, 16, 40), ML::Box2D(0, 0, 32, 80), defColor },	//停止
-			{ ML::Box2D(-2, -20, 16, 40), ML::Box2D(32, 0, 32, 80), defColor },	//歩行１
-			{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(64, 0, 48, 80), defColor },	//歩行２ dash
-			{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(112, 0, 48, 80), defColor },	//歩行３
-			{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(48, 80, 48, 80), defColor },	//ジャンプ
-			{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(96, 80, 48, 80), defColor },	//落下
-			{ ML::Box2D(-12, -12, 24, 32), ML::Box2D(0, 80, 48, 64), defColor },	//飛び立つ直前
-			{ ML::Box2D(-12, -12, 24, 32), ML::Box2D(144, 80, 48, 64), defColor },	//着地
-			{ ML::Box2D(-12, -12, 24, 40), ML::Box2D(176, 0, 48, 80), defColor },   //ダメージ
-			{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(190, 80, 48, 80), defColor },  //攻撃
+			//{ ML::Box2D(-8, -20, 16, 40), ML::Box2D(0, 0, 32, 80), defColor },	//停止
+			//{ ML::Box2D(-2, -20, 16, 40), ML::Box2D(32, 0, 32, 80), defColor },	//歩行１
+			//{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(64, 0, 48, 80), defColor },	//歩行２ dash
+			//{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(112, 0, 48, 80), defColor },	//歩行３
+			//{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(48, 80, 48, 80), defColor },	//ジャンプ
+			//{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(96, 80, 48, 80), defColor },	//落下
+			//{ ML::Box2D(-12, -12, 24, 32), ML::Box2D(0, 80, 48, 64), defColor },	//飛び立つ直前
+			//{ ML::Box2D(-12, -12, 24, 32), ML::Box2D(144, 80, 48, 64), defColor },	//着地
+			//{ ML::Box2D(-12, -12, 24, 40), ML::Box2D(176, 0, 48, 80), defColor },   //ダメージ
+			//{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(190, 80, 48, 80), defColor },  //攻撃
 		};
 		BChara::DrawInfo  rtv;
 		int  work;
 		switch (this->motion) {
 		default:		rtv = imageTable[0];	break;
 			//	ジャンプ------------------------------------------------------------------------
-		case  Motion::Jump:		rtv = imageTable[4];	break;
+		case  Motion::Jump:		rtv = imageTable[5];	break;
 			//	ジャンプ2------------------------------------------------------------------------
-		case  Motion::Jump2:		rtv = imageTable[4];	break;
+		case  Motion::Jump2:		rtv = imageTable[5];	break;
 			//	ジャンプ3------------------------------------------------------------------------
-		case  Motion::Jump3:		rtv = imageTable[4];	break;
+		case  Motion::Jump3:		rtv = imageTable[5];	break;
 			//	停止----------------------------------------------------------------------------
 		case  Motion::Stand:	rtv = imageTable[0];	break;
 			//	歩行----------------------------------------------------------------------------
 		case  Motion::Walk:
 			work = this->animCnt / 8;
-			work %= 3;
+			work %= 4;
 			rtv = imageTable[work + 1];
 			break;
 			//	落下----------------------------------------------------------------------------
-		case  Motion::Fall:		rtv = imageTable[5];	break;
+		case  Motion::Fall:		rtv = imageTable[6];	break;
 			//	落下2----------------------------------------------------------------------------
-		case  Motion::Fall2:		rtv = imageTable[5];	break;
+		case  Motion::Fall2:		rtv = imageTable[6];	break;
 			//	落下3----------------------------------------------------------------------------
-		case  Motion::Fall3:		rtv = imageTable[5];	break;
+		case  Motion::Fall3:		rtv = imageTable[6];	break;
 			//飛び立つ直前-----------------------------------------------------------------------
 		case  Motion::TakeOff:  rtv = imageTable[6];    break;
 			//  着地----------------------------------------------------------------------------
@@ -604,9 +697,9 @@ namespace  Player
 			//　攻撃----------------------------------------------------------------------------
 		case  Motion::Attack:   rtv = imageTable[9]; break;
 			//　ダッシュ------------------------------------------------------------------------
-		case  Motion::Dash:      rtv = imageTable[2]; break;
+		case  Motion::Dash:      rtv = imageTable[10]; break;
 			//  ダッシュクール------------------------------------------------------------------
-		case  Motion::DashCt:    rtv = imageTable[2]; break;
+		case  Motion::DashCt:    rtv = imageTable[10]; break;
 			//  攻撃2--------------------------------------------------------------------------
 		//case  Motion::Attack2:  rtv = imageTable[9]; break;
 		}
@@ -650,7 +743,6 @@ namespace  Player
 	//-----------------------------------------------------------------------------
 	//
 	
-
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

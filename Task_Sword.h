@@ -51,5 +51,6 @@ namespace  Sword
 		//BChara‚ÉŠÜ‚Ü‚ê‚È‚¢ƒ‚ƒm‚Ì‚Ý‚±‚±‚É’Ç‰Á‚·‚é
 
 		void Level(BChara* from_);
+		void Special(BChara* from_);
 	};
 }

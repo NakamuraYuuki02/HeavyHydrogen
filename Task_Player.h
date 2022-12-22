@@ -51,8 +51,7 @@ namespace  Player
 		int				hpMax;			//	体力上限
 		int				jumpCnt;        //  ジャンプ回数
 		int             dashCnt;        //  ダッシュ回数
-		int				attackMax;		//	攻撃上限回数
-
+		
 		XI::GamePad::SP  controller;
 
 		//思考＆状況判断(ステータス決定）
@@ -71,7 +70,6 @@ namespace  Player
 			Axe,
 			Gun
 		};
-
 		Weapon weapon;
 	};
 }

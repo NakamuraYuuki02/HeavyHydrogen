@@ -50,5 +50,7 @@ namespace  Axe
 		//BCharaに持たせていない変数・メソッドのみここに書く
 
 		void Level(BChara* from_);
+		//アニメーション制御
+		BChara::DrawInfo  Anim();
 	};
 }

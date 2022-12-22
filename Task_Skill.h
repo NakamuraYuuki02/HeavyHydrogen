@@ -52,11 +52,28 @@ namespace Skill
 		int		atk;
 		int		jumpMax;
 		int		dashMax;
-		int		actionSkillNo;
-		int		statusSkillNo;
-		int		weaponSkillNo;
 		
+		enum class SelectedSkill
+		{
+			JumpUp,
+			DashUp,
+			HpUp,
+			AtkUp,
+			Special1,
+			Special2
+		};
+		SelectedSkill ss;
+
+		enum class Weapon
+		{
+			Sword,
+			Axe,
+			Gun
+		};
+		Weapon weapon;
+
 		void	Skill(BChara* from_);
+		void	WeaponSpecial(Weapon);
 		void	SkillImage();
 	};
 }
