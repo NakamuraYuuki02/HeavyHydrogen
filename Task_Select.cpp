@@ -13,14 +13,14 @@ namespace  Select
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->UI = DG::Image::Create("./data/image/debug.png");
+		this->selectUI = DG::Image::Create("./data/image/debug.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
-		this->UI.reset();
+		this->selectUI.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -104,7 +104,27 @@ namespace  Select
 			ML::Box2D draw = drawBase;
 			ML::Box2D src(0, 0, 32, 32);
 			draw.Offset(this->pos);
-			this->res->UI->Draw(draw, src);
+			this->res->selectUI->Draw(draw, src);
+		}
+		switch (this->ss)
+		{
+		case SelectionState::Before:
+			//選択前
+			break;
+		case SelectionState::Weapon:
+			//武器選択
+			break;
+		case SelectionState::Skill:
+			//スキル選択
+			SelectedSkill();
+			break;
+		case SelectionState::Stage:
+			//ステージ選択
+			SelectedStage();
+			break;
+		case SelectionState::After:
+			//選択後
+			break;
 		}
 	}
 	//-------------------------------------------------------------------
