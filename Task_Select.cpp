@@ -35,12 +35,14 @@ namespace  Select
 		//★データ初期化
 		this->nos = 2;					//2回選択可能
 		this->selectedNumber = 0;
-		//画面中央
-		this->center = ML::Vec2(ge->screen2DWidth / 2, ge->screen2DHeight / 2);
-		this->pos = this->center;
-		this->posMax = this->center - ML::Vec2(100, 0);
+		this->moveVec = ML::Vec2(75, 0);												//移動力
+		int x = ge->screen2DWidth / 2;
+		int y = ge->screen2DHeight / 2;
+		this->posMin = ML::Vec2(x - moveVec.x * 2, y);									//画面中央から x - moveVec.x * 2
+		this->pos = this->posMin;														//初期値はMin
+		this->posMax = this->posMin + moveVec * 4;								        //Minから x + moveVec * 4
 		this->drawBase = ML::Box2D(-25, -25, 50, 50);
-		this->moveVec = ML::Vec2(50, 0);
+		
 
 		//★タスクの生成
 		auto skill = Skill::Object::Create(true);
@@ -71,25 +73,27 @@ namespace  Select
 			this->Kill();
 		}
 
-		//A決定
+		//A左移動
 		if (inp.SE.down)
 		{
-			this->pos -= moveVec;
+			if (this->pos.x > this->posMin.x)//140/135>140/135
+			{
+				this->pos -= moveVec;
+			}
 		}
-		//D決定
+		//D右移動
 		if (inp.L3.down)
 		{
-			this->pos += moveVec;
+			if (this->pos.x < this->posMax.x)
+			{
+ 				this->pos += moveVec;
+			}
 		}
 		//スペース決定
 		if (inp.S1.down)
 		{
 
 		}
-		//スキル選択処理
-
-		//マップ選択処理
-
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
@@ -110,13 +114,30 @@ namespace  Select
 		//初回以降
 		if (stageNum > 0)
 		{
+			//  Before		//選択前
+			//  Weapon		//武器選択
+			// 	Skill		//スキル選択
+			//	Stage		//ステージ選択
+			//	After		//選択後
 			switch (this->ss)
 			{
+			case SelectionState::Before:
+				//選択前
+				break;
+			case SelectionState::Weapon:
+				//武器選択
+				//初回以降処理なし
+				break;
 			case SelectionState::Skill:
+				//スキル選択
 				SelectedSkill();
 				break;
 			case SelectionState::Stage:
+				//ステージ選択
 				SelectedStage();
+				break;
+			case SelectionState::After:
+				//選択後
 				break;
 			}
 		}
@@ -125,14 +146,23 @@ namespace  Select
 		{
 			switch (this->ss)
 			{
+			case SelectionState::Before:
+				//選択前
+				break;
 			case SelectionState::Weapon:
+				//武器選択
 				SelectedWeapon();
 				break;
 			case SelectionState::Skill:
+				//スキル選択
 				SelectedSkill();
 				break;
 			case SelectionState::Stage:
+				//ステージ選択
 				SelectedStage();
+				break;
+			case SelectionState::After:
+				//選択後
 				break;
 			}
 		}

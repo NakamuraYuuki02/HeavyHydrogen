@@ -96,22 +96,21 @@ namespace  Select
 		void SelectedSkill();
 		void SelectedStage();
 
-		//中央位置
-		ML::Vec2 center;
-
 		//選択回数 number of selections
 		int nos;
 		//選択された番号
 		int selectedNumber;
 
-		//選択UI表示位置
+		//選択UI
+		//表示最小値
+		ML::Vec2 posMin;
+		//表示位置
 		ML::Vec2 pos;
-		//選択UI移動限界
+		//表示最大値
 		ML::Vec2 posMax;
-		//選択UI移動距離
+		//移動距離
 		ML::Vec2 moveVec;
-
-		//選択UI描画サイズ
+		//描画サイズ
 		ML::Box2D drawBase;
 	};
 }
