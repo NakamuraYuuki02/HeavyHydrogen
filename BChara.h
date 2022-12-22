@@ -59,7 +59,8 @@ public:
 	int             unHitTime;      //  無敵時間
 	int				jumpMax;		//	ジャンプ上限回数
 	int				dashMax;		//	ダッシュ上限回数
-	int				attackCnt;
+	int				attackCnt;		//
+	int				attackMax;		//
 	int				WeaponLevel;	//	武器	Lv
 
 	//メンバ変数に最低限の初期化を行う

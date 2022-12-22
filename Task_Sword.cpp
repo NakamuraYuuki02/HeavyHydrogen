@@ -133,22 +133,20 @@ namespace  Sword
 	}
 	//-------------------------------------------------------------------
 	//•Ší‚ÌLevel
-	void Object::Level(BChara* from_)
+	void Object::Level(BChara* from_) //Šî‘b“I‚È”\—Í‚Ì‹­‰»
 	{
 		switch (from_->WeaponLevel)
 		{
 		case 0:
 			break;
 		case 1:
-			//this->hitBase = ML::Box2D(-24, -24, 48, 48);
+			this->hitBase = ML::Box2D(-24, -24, 48, 48);
 			break;
 		case 2:
-			//from_->attackMax = 2;
-			//this->hitBase = ML::Box2D(-24, -24, 48, 48);
+			this->hitBase = ML::Box2D(-24, -24, 48, 48);
 			break;
 		case 3:
-			//from_->attackMax = 2;
-			//this->hitBase = ML::Box2D(-24, -24, 48, 48);
+			this->hitBase = ML::Box2D(-24, -24, 48, 48);
 			break;
 		}
 	}
