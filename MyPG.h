@@ -107,6 +107,7 @@ namespace  MyPG
 
 		//ステージ通過数、ゲーム進行度
 		int stageNum;
+
 		//プレイヤーステータス
 		int hp;				//体力
 		int hpMax;			//最大体力

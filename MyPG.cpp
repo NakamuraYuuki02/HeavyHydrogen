@@ -98,7 +98,7 @@ namespace MyPG
 		//共通変数
 
 		//ステージ通過数、ゲーム進行度
-		int stageNum=0;
+		int stageNum = 0;
 		//プレイヤーステータス
 		this->hp = 3;				//体力	
 		this->hpMax = 10;			//最大体力
