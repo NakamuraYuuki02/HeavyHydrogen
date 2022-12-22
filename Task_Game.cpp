@@ -9,7 +9,8 @@
 #include  "Task_Player.h"
 #include  "Task_Title.h"
 #include  "Task_Ending.h"
-#include "Task_GoalMap2D.h"
+#include  "Task_GoalMap2D.h"
+#include  "Task_UI.h"
 
 namespace  Game
 {
@@ -39,11 +40,6 @@ namespace  Game
 		ge->camera2D = ML::Box2D(0, 0, 480, 270);
 
 		//★タスクの生成
-		//背景タスク
-		//auto  bg = GameBG::Object::Create(true);
-
-		//ゴールタスク
-		//auto  goal = Goal::Object::Create(true);
 
 		//マップ(ステージ)の生成
 		auto  map = Map2D::Object::Create(true);
@@ -58,6 +54,9 @@ namespace  Game
 		auto  pl = Player::Object::Create(true);
 		pl->pos.x = 480 / 2;
 		pl->pos.y = 270 / 3 * 2;
+
+		//UIの生成
+		auto ui = UI::Object::Create(true);
 
 		return  true;
 	}
@@ -81,6 +80,7 @@ namespace  Game
 		ge->KillAll_G("Shot(Enemy)");
 		ge->KillAll_G("Sword");
 		ge->KillAll_G("Axe");
+		ge->KillAll_G("UI");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate)
 		{

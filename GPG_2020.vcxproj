@@ -160,6 +160,7 @@
     <ClCompile Include="Task_Skill.cpp" />
     <ClCompile Include="Task_Sword.cpp" />
     <ClCompile Include="Task_Title.cpp" />
+    <ClCompile Include="Task_UI.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="XI2018_Ver1_0.cpp" />
   </ItemGroup>
@@ -202,6 +203,7 @@
     <ClInclude Include="Task_Skill.h" />
     <ClInclude Include="Task_Sword.h" />
     <ClInclude Include="Task_Title.h" />
+    <ClInclude Include="Task_UI.h" />
     <ClInclude Include="XI2018_Ver1_0.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
