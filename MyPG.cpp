@@ -95,6 +95,20 @@ namespace MyPG
 		this->in4 = XI::GamePad::CreateGP(3, but);
 		this->mouse = XI::Mouse::Create(ge->viewScaleW, ge->viewScaleH);
 
+		//共通変数
+
+		//ステージ通過数、ゲーム進行度
+		int stageNum=0;
+		//プレイヤーステータス
+		this->hp = 3;				//体力	
+		this->hpMax = 10;			//最大体力
+		this->atk = 5;				//攻撃力
+		this->jumpCnt = 0;			//ジャンプ回数
+		this->jumpMax = 3;			//ジャンプ上限回数
+		this->dashCnt = 0;			//ダッシュ回数
+		this->dashMax = 0;			//ダッシュ上限回数
+
+
 		//デバッグ用情報の表示ON/OFF
 		DebugMode(false);
 

@@ -23,12 +23,12 @@ namespace  Select
 		static   WP  instance;
 		static  Resource::SP  Create();
 		//共有する変数はここに追加する
-		DG::Image::SP img;
+		DG::Image::SP UI;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
 	{
-	//変更不可◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
+		//変更不可◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
 	public:
 		virtual  ~Object();
 		typedef  shared_ptr<Object>		SP;
@@ -47,6 +47,70 @@ namespace  Select
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 	public:
 		//追加したい変数・メソッドはここに追加する
-		
+
+		//選択回数
+		const int selectNum = 2;
+
+		//選択された武器
+		enum class Weapon
+		{
+			Sword,
+			Axe,
+			Gun
+		};
+		Weapon weapon;
+
+		//選ばれたスキル、二つの選んだスキルの番号を格納する。
+		vector<int> selectedActionSkill;
+		vector<int> selectedStatusSkill;
+		vector<int> selectedWeaponSkill;
+
+		//選ばれたステージ
+		int selectedStage;
+
+		//ステージ通過数、ゲーム進行度
+		int stageNum;
+		//プレイヤーステータス
+		int hp;				//体力
+		int hpMax;			//最大体力
+		int atk;			//攻撃力
+		int jumpCnt;		//ジャンプ回数
+		int jumpMax;		//ジャンプ上限回数
+		int dashCnt;		//ダッシュ回数
+		int dashMax;		//ダッシュ上限回数
+
+		//選択状態
+		enum class SelectionState
+		{
+			Before,		//選択前
+			Weapon,		//武器選択
+			Skill,		//スキル選択
+			Stage,		//ステージ選択
+			After		//選択後
+		};
+		SelectionState ss;
+
+		//選択メソッド スキル、ステージを選択、初回は武器も選択
+		void Select();
+		void SelectedWeapon();
+		void SelectedSkill();
+		void SelectedStage();
+
+		//選択回数 number of selections
+		int nos;
+		//選択された番号
+		int selectedNumber;
+
+		//選択UI
+		//表示最小値
+		ML::Vec2 posMin;
+		//表示位置
+		ML::Vec2 pos;
+		//表示最大値
+		ML::Vec2 posMax;
+		//移動距離
+		ML::Vec2 moveVec;
+		//描画サイズ
+		ML::Box2D drawBase;
 	};
 }
