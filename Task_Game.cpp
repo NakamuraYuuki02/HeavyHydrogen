@@ -12,6 +12,8 @@
 #include  "Task_Ending.h"
 #include "Task_Enemy02.h"
 #include "Task_Enemy03.h"
+#include "Task_Enemy04.h"
+#include "Task_Enemy05.h"
 
 namespace  Game
 {
@@ -54,15 +56,23 @@ namespace  Game
 		//敵の生成
 		/*auto en01 = Enemy01::Object::Create(true);
 		en01->pos.x = 500;
-		en01->pos.y = 240;*/
+		en01->pos.y = 260;*/
 
 		/*auto en02 = Enemy02::Object::Create(true);
 		en02->pos.x = 500;
-		en02->pos.y = 240;*/
+		en02->pos.y = 260;*/
 
-		auto en03 = Enemy03::Object::Create(true);
+		/*auto en03 = Enemy03::Object::Create(true);
 		en03->pos.x = 500;
-		en03->pos.y = 240;
+		en03->pos.y = 260;*/
+		
+		auto en04 = Enemy04::Object::Create(true);
+		en04->pos.x = 500;
+		en04->pos.y = 260;
+
+		/*auto en05 = Enemy05::Object::Create(true);
+		en05->pos.x = 500;
+		en05->pos.y = 260;*/
 
 		//プレイヤの生成
 		auto  pl = Player::Object::Create(true);

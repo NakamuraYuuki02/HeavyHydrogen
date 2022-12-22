@@ -2,10 +2,11 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Enemy02.h"
+#include  "Task_Enemy04.h"
 #include "Task_Player.h"
+#include "Task_EnemyShot01.h"
 
-namespace  Enemy02
+namespace  Enemy04
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
@@ -36,13 +37,15 @@ namespace  Enemy02
 		this->hitBase = ML::Box2D(-15, -15, 30, 30);
 		this->angle_LR = Angle_LR::Left;
 		this->motion = Motion::Stand;
-		this->maxSpeed = 2.0f;
+		this->maxSpeed = 1.5f;
 		this->addSpeed = 0.7f;
 		this->decSpeed = 0.5f;
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 100;
+		this->hp = 20;
+		this->attackCnt = 0;
+		this->attackSpeed = 5;
 		//★タスクの生成
 
 		return  true;
@@ -65,9 +68,11 @@ namespace  Enemy02
 	void  Object::UpDate()
 	{
 		this->moveCnt++;
+		this->attackCnt++;
 		this->Move();
 		//思考・状況判断
 		this->Think();
+
 		ML::Vec2 est = this->moveVec;
 		this->CheckMove(est);
 		//当たり判定
@@ -75,7 +80,6 @@ namespace  Enemy02
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
 			auto targets = ge->GetTasks<BChara>("Player");
 			for (auto it = targets->begin(); it != targets->end(); ++it) {
-
 				//相手に接触の有無を確認させる
 				if ((*it)->CheckHit(me)) {
 					//相手にダメージの処理を行わせる
@@ -85,6 +89,7 @@ namespace  Enemy02
 				}
 			}
 		}
+
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
@@ -94,7 +99,7 @@ namespace  Enemy02
 		draw.Offset(this->pos);
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		ML::Box2D src(24, 7, 32, 23);
-		this->res->img->Draw(draw, src);
+		this->res->img->Draw(draw, src, ML::Color(1, 1, 1, 1));
 	}
 	//-----------------------------------------------------------------------------
 	//思考＆状況判断　モーション決定
@@ -107,12 +112,12 @@ namespace  Enemy02
 		switch (nm) {
 		case  Motion::Stand:	//立っている
 			nm = Motion::Walk;
-			if (this->CheckFoot() == false) { nm = Motion::Fall; }//足元 障害　無し
+			//if (this->CheckFoot() == false) { nm = Motion::Fall; }//足元 障害　無し
 			break;
 		case  Motion::Walk:		//歩いている
 			if (this->CheckFront_LR() == true) { nm = Motion::Turn; }
-			if (this->CheckFoot() == false) { nm = Motion::Fall; }
-			if (this->CheckFrontFoot_LR() == false) { nm = Motion::Turn; }
+			if (this->moveCnt >= 180) { nm = Motion::Turn; }
+			//if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			// プレイヤとの接近チェック
 			{
 				auto pl = ge->GetTask<Player::Object>("Player");
@@ -138,10 +143,10 @@ namespace  Enemy02
 		case  Motion::TakeOff:	//飛び立ち
 			break;
 		case  Motion::Landing:	//着地
-			if (this->CheckFoot() == false) { nm = Motion::Fall; }
+			//if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case Motion::Bound:     //ダメージを受けて吹き飛んでいる
-			if (this->moveCnt >= 12 && this->CheckFoot() == true)
+			if (this->moveCnt >= 12 /*&& this->CheckFoot() == true*/)
 			{
 				nm = Motion::Stand;
 			}
@@ -156,7 +161,7 @@ namespace  Enemy02
 			{
 				if (this->CheckNear(pl->pos) == false)
 				{
-					nm = Motion::Stand;
+					nm = Motion::Walk;
 				}
 			}
 			break;
@@ -185,6 +190,12 @@ namespace  Enemy02
 			break;
 			//重力加速を無効化する必要があるモーションは下にcaseを書く（現在対象無し）
 		case Motion::Unnon:	break;
+		case Motion::Stand: break;
+		case Motion::Walk: break;
+		case Motion::Fall: break;
+		case Motion::Turn: break;
+		case Motion::Bound: break;
+		case Motion::Follow: break;
 		}
 
 		//移動速度減衰
@@ -250,6 +261,19 @@ namespace  Enemy02
 				this->moveVec.x =
 					min(+this->maxSpeed, this->moveVec.x + this->addSpeed);
 			}
+			//	弾を撃つ処理
+			if (this->attackCnt % this->attackSpeed == 0)
+			{
+				auto shot = EnemyShot01::Object::Create(true);
+				shot->pos = this->pos;
+				if (this->angle_LR == Angle_LR::Right)
+				{
+					shot->moveVec = ML::Vec2(8, 0);
+				}
+				else {
+					shot->moveVec = ML::Vec2(-8, 0);
+				}
+			}
 			break;
 		}
 	}
@@ -275,11 +299,11 @@ namespace  Enemy02
 		//吹き飛ばされる
 		if (this->pos.x > from_->pos.x)
 		{
-			this->moveVec = ML::Vec2(+3, -3);
+			this->moveVec = ML::Vec2(+5, 0);
 		}
 		else
 		{
-			this->moveVec = ML::Vec2(-3, -3);
+			this->moveVec = ML::Vec2(-5, 0);
 		}
 		this->UpdateMotion(Motion::Bound);
 	}
@@ -295,7 +319,7 @@ namespace  Enemy02
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
 				ge->PushBack(ob);//ゲームエンジンに登録
-
+				
 			}
 			if (!ob->B_Initialize()) {
 				ob->Kill();//イニシャライズに失敗したらKill

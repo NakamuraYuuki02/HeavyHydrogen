@@ -4,9 +4,6 @@
     <ClCompile Include="MyPG.cpp">
       <Filter>MyPG</Filter>
     </ClCompile>
-    <ClCompile Include="BChara.cpp">
-      <Filter>MyPG</Filter>
-    </ClCompile>
     <ClCompile Include="DG2014\DG2014_DGObject.cpp">
       <Filter>Lib\DG2014</Filter>
     </ClCompile>
@@ -104,6 +101,15 @@
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
     <ClCompile Include="Task_Axe.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BChara.cpp">
+      <Filter>MyPG\Task\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Enemy04.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Enemy05.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -205,6 +211,12 @@
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
     <ClInclude Include="Task_Axe.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy04.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy05.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
   </ItemGroup>

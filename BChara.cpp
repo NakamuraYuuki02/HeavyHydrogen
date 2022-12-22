@@ -113,6 +113,31 @@ bool BChara::CheckFront_LR()
 	return map->CheckHit(front);
 }
 //-----------------------------------------------------------------------------
+// 
+bool BChara::CheckFrontFoot_LR()
+{
+	ML::Box2D front(this->hitBase.x, this->hitBase.y + this->hitBase.h, 1, 1);
+	//キャラクタの向きにより矩形の位置を調整
+	if (this->angle_LR == Angle_LR::Left)
+	{
+		front.Offset(-1, 0);//左側に移動
+	}
+	else
+	{
+		front.Offset(this->hitBase.w, 0);//右側に移動
+	}
+	//現在位置に合わせる
+	front.Offset((int)this->pos.x, (int)this->pos.y);
+	auto map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName);
+	if (nullptr == map)
+	{
+		return false;
+		//マップが無ければ判定しない(出来ない)
+	}
+	return map->CheckHit(front);
+
+}
+//-----------------------------------------------------------------------------
 //接触時の応答処理(これ自体はダミーのようなもの)
 void BChara::Received(BChara* from_, AttackInfo at_)
 {
@@ -124,4 +149,11 @@ bool BChara::CheckHit(const ML::Box2D& hit_)
 {
 	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
 	return me.Hit(hit_);
+}
+//-----------------------------------------------------------------------
+//索敵範囲判定
+bool BChara::CheckNear(const ML::Vec2& tg_)
+{
+	ML::Vec2 newVec = this->pos - tg_;
+	return (newVec.Length() <= this->searchRadius);
 }

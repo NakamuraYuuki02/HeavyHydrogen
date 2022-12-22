@@ -2,10 +2,11 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Enemy02.h"
+#include  "Task_Enemy05.h"
+#include "Task_EnemyShot01.h"
 #include "Task_Player.h"
 
-namespace  Enemy02
+namespace  Enemy05
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
@@ -43,6 +44,7 @@ namespace  Enemy02
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
 		this->hp = 100;
+		this->attackSpeed = 20;
 		//★タスクの生成
 
 		return  true;
@@ -65,6 +67,7 @@ namespace  Enemy02
 	void  Object::UpDate()
 	{
 		this->moveCnt++;
+		this->attackCnt++;
 		this->Move();
 		//思考・状況判断
 		this->Think();
@@ -83,6 +86,19 @@ namespace  Enemy02
 					(*it)->Received(this, at);
 					break;
 				}
+			}
+		}
+		//	弾を撃つ処理
+		if (this->attackCnt % this->attackSpeed == 0)
+		{
+			auto shot = EnemyShot01::Object::Create(true);
+			shot->pos = this->pos;
+			if (this->angle_LR == Angle_LR::Right)
+			{
+				shot->moveVec = ML::Vec2(8, 0);
+			}
+			else {
+				shot->moveVec = ML::Vec2(-8, 0);
 			}
 		}
 	}

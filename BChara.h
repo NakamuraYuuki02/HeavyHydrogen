@@ -26,6 +26,9 @@ public:
 	Angle_LR	angle_LR;
 	WP			target;
 
+	//索敵範囲
+	float searchRadius = 100;
+
 	//キャラクタの行動状態フラグ
 	enum class Motion
 	{
@@ -46,6 +49,7 @@ public:
 		Lose,       //　消滅中
 		Dash,       //  ダッシュ
 		DashCt,     //　ダッシュクールタイム
+		Follow,		//　近づく（敵用）
 	};
 	Motion			motion;			//	現在の行動を示すフラグ
 	int				animCnt;		//アニメーションカウンタ
@@ -62,6 +66,9 @@ public:
 	int             dashCnt;        //  ダッシュ回数
 	int				dashMax;		//　ダッシュ上限回数
 	int				attackCnt;      //  攻撃回数
+	float			angle;			//	なんだろう
+	float			rotPow;			//	旋回能力
+	float			searchDist;		//	有効距離
 
 
 	//メンバ変数に最低限の初期化を行う
@@ -88,6 +95,8 @@ public:
 		, dashCnt(0)
 		, dashMax(1)
 		, attackCnt(0)
+		, rotPow(0)
+		, searchDist(0)
 	{
 	}
 	virtual  ~BChara() {}
@@ -120,4 +129,7 @@ public:
 	virtual void Received(BChara* from_, AttackInfo at_);
 	//接触判定
 	virtual bool CheckHit(const ML::Box2D& hit_);
+	//正面足元チェック
+	virtual bool CheckFrontFoot_LR();
+	bool CheckNear(const ML::Vec2& tg_);
 };

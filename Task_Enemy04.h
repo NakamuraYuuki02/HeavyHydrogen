@@ -1,11 +1,11 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//近距離攻撃敵（飛行）
+//
 //-------------------------------------------------------------------
 #include "BChara.h"
 
-namespace  Enemy03
+namespace  Enemy04
 {
 	//タスクに割り当てるグループ名と固有名
 	const  string  defGroupName("Enemy");	//グループ名
@@ -48,6 +48,7 @@ namespace  Enemy03
 	public:
 		//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 			//追加したい変数・メソッドはここに追加する
+		int attackSpeed;
 		void Think();
 		void Move();
 		void Received(BChara* from_, AttackInfo at_) override;
