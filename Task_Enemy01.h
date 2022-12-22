@@ -1,7 +1,7 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//
+//‹ß‹——£UŒ‚i‰•œj
 //-------------------------------------------------------------------
 #include "BChara.h"
 
@@ -53,6 +53,6 @@ namespace  Enemy01
 		void Received(BChara* from_, AttackInfo at_) override;
 		BChara::DrawInfo	Anim();
 		//BChara‚ÉŠÜ‚Ü‚ê‚È‚¢ƒ‚ƒm‚Ì‚İ‚±‚±‚É’Ç‰Á‚·‚é
-		/*int		hp;*/
+
 	};
 }

@@ -50,10 +50,11 @@ namespace   Map2D
 		int  arr[100][100];
 		int					sizeY, sizeX;
 		ML::Box2D			hitBase;//ピクセル単位のマップサイズを持つ
-		ML::Box2D  chip[16];
+		ML::Box2D  chip[100];//マップチップ素材の配列
 		bool  Load(const  string&  fpath_);//マップ読み込み
 		bool  CheckHit(const  ML::Box2D&  hit_);//あたり判定
-		int block = 16;//マップの表示 元は32
+		int block = 16;//マップの表示
+		int mapChip = 40;//マップチップ番号
 
 		//マップ外を見せないようにカメラを位置調整する
 		void  AdjustCameraPos();

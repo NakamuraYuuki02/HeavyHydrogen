@@ -20,6 +20,7 @@ public:
 	ML::Vec2	moveVec;	//移動ベクトル
 	int			moveCnt;	//行動カウンタ
 	int         hp;         //キャラクタ体力
+	int			atk;		//攻撃力
 	//左右の向き（2D横視点ゲーム専用）
 	enum class Angle_LR { Left, Right };
 	Angle_LR	angle_LR;
@@ -34,8 +35,10 @@ public:
 		Attack,		//	攻撃
 		Jump,		//	ジャンプ
 		Jump2,      //  ジャンプ2
+		Jump3,      //	ジャンプ3
 		Fall,		//	落下
 		Fall2,      //  落下2
+		Fall3,		//	落下3
 		TakeOff,	//	飛び立つ瞬間
 		Landing,	//	着地
 		Turn,       //  向き変える
@@ -45,7 +48,7 @@ public:
 		DashCt,     //　ダッシュクールタイム
 	};
 	Motion			motion;			//	現在の行動を示すフラグ
-	int				animCnt;		//アニメーションカウンタ
+	int				animCnt;		//	アニメーションカウンタ
 	float			jumpPow;		//	ジャンプ初速
 	float			maxFallSpeed;	//	落下最大速度
 	float			gravity;		//	フレーム単位の加算量
@@ -54,11 +57,10 @@ public:
 	float			decSpeed;		//	左右方向への移動の減衰量
 	float           dashSpeed;      //  ダッシュ時に加算される移動量
 	int             unHitTime;      //  無敵時間
-	int				jumpCnt;        //  ジャンプ回数
-	int             dashCnt;        //  ダッシュ回数
+	int				jumpMax;		//	ジャンプ上限回数
+	int				dashMax;		//	ダッシュ上限回数
 	int				attackCnt;
-
-
+	int				WeaponLevel;	//	武器	Lv
 
 	//メンバ変数に最低限の初期化を行う
 	//★★メンバ変数を追加したら必ず初期化も追加する事★★
@@ -75,11 +77,14 @@ public:
 		, maxSpeed(0)
 		, addSpeed(0)
 		, decSpeed(0)
+		, dashSpeed(0)
 		, hp(1)
+		, atk(0)
 		, unHitTime(0)
-		, jumpCnt(0)
-		, dashCnt(0)
+		, jumpMax(1)
+		, dashMax(1)
 		, attackCnt(0)
+		, WeaponLevel(0)
 	{
 	}
 	virtual  ~BChara() {}

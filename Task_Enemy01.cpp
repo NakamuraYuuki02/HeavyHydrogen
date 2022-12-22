@@ -33,16 +33,16 @@ namespace  Enemy01
 
 		//★データ初期化
 		this->render2D_Priority[1] = 0.6f;
-		this->hitBase = ML::Box2D(-25, -25, 80, 80);
+		this->hitBase = ML::Box2D(-15, -15, 30, 30);
 		this->angle_LR = Angle_LR::Left;
 		this->motion = Motion::Stand;
-		this->maxSpeed = 2.0f;
+		this->maxSpeed = 1.5f;
 		this->addSpeed = 0.7f;
 		this->decSpeed = 0.5f;
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 100;
+		this->hp = 20;
 		//★タスクの生成
 
 		return  true;
@@ -229,6 +229,16 @@ namespace  Enemy01
 		if (this->hp <= 0) {
 			this->Kill();
 		}
+		//吹き飛ばされる
+		if (this->pos.x > from_->pos.x)
+		{
+			this->moveVec = ML::Vec2(+3, -3);
+		}
+		else
+		{
+			this->moveVec = ML::Vec2(-3, -3);
+		}
+		this->UpdateMotion(Motion::Bound);
 	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
