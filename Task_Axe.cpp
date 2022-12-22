@@ -143,13 +143,13 @@ namespace  Axe
 		case 0:
 			break;
 		case 1:
-			this->hitBase = ML::Box2D(-16, -16, 32, 32);
+			//this->hitBase = ML::Box2D(-16, -16, 32, 32);
 			break;
 		case 2:
-			this->hitBase = ML::Box2D(-16, -16, 32, 32);
+			//this->hitBase = ML::Box2D(-16, -16, 32, 32);
 			break;
 		case 3:
-			this->hitBase = ML::Box2D(-16, -16, 32, 32);
+			//this->hitBase = ML::Box2D(-16, -16, 32, 32);
 			break;
 		}
 	}

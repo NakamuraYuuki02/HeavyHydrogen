@@ -59,7 +59,10 @@ namespace  Player
 		this->dashMax = 1;			//ダッシュ上限回数
 		this->attackCnt = 0;		//攻撃回数
 		this->attackMax = 0;		//攻撃上限回数
-		this->WeaponLevel = 0;		//武器レベル
+		this->WeaponLevel = 3;		//武器レベル
+		this->CreateNum = 3;
+
+		this->weapon = Weapon::Axe;
 
 		//★タスクの生成
 		
@@ -465,25 +468,25 @@ namespace  Player
 					{
 						case Weapon::Sword:
 						{
+							auto sword = Sword::Object::Create(true);
 							if (this->WeaponLevel <= 2)
 							{
-								auto sword = Sword::Object::Create(true);
+								
 								sword->Level(this);
 								sword->pos = this->pos + ML::Vec2(30, -5);
-								break;
 							}
 							else
 							{
-								for (int i = 1; i <= 3; ++i)
+								this->WeaponSpecial1(weapon);
+								/*for (int i = 1; i <= 3; ++i)
 								{
 									auto sword = Sword::Object::Create(true);
 									sword->Level(this);
 									sword->pos = this->pos + ML::Vec2(15 + 15 * i, -5);
-								}
-								break;
+								}*/
 							}
 						}
-						//break;
+						break;
 						case Weapon::Axe:
 						{
 							if (this->WeaponLevel <= 2)
@@ -492,7 +495,6 @@ namespace  Player
 								axe->Level(this);
 								axe->moveVec = ML::Vec2(7, -8);
 								axe->pos = this->pos + ML::Vec2(30, 0);
-								break;
 							}
 							else
 							{
@@ -503,10 +505,9 @@ namespace  Player
 									axe->moveVec = ML::Vec2(7, -3 * i);
 									axe->pos = this->pos + ML::Vec2(30, 0);
 								}
-								break;
 							}
 						}
-						//break;
+						break;
 						case Weapon::Gun:
 						{
 							if (this->WeaponLevel <= 2)
@@ -515,7 +516,6 @@ namespace  Player
 								gun->Level(this);
 								gun->moveVec = ML::Vec2(8, 0);
 								gun->pos = this->pos + ML::Vec2(30, 0);
-								break;
 							}
 							else
 							{
@@ -526,10 +526,9 @@ namespace  Player
 									gun->moveVec = ML::Vec2(8, 0);
 									gun->pos = this->pos + ML::Vec2(20 * i, 0);
 								}
-								break;
 							}
 						}
-						//break;
+						break;
 					}
 				}
 				else if(this->angle_LR==Angle_LR::Left)
@@ -559,27 +558,42 @@ namespace  Player
 						//break;
 						case Weapon::Axe:
 						{
-							if (this->WeaponLevel <= 2)
+							for (int i = 0; i < CreateNum; ++i)
 							{
 								auto axe = Axe::Object::Create(true);
+								axe->moveVec = ML::Vec2(-7, -12);
+								//pw
+								auto axe2 = Axe::Object::Create(true);
+								axe2->moveVec = ML::Vec2(-7, -8);
+								auto axe3 = Axe::Object::Create(true);
+								axe3->moveVec = ML::Vec2(-7, -4);
+								axe2->Level(this);
+								axe2->pos = this->pos + ML::Vec2(-30, 0);
+								axe3->Level(this);
+								axe3->pos = this->pos + ML::Vec2(-30, 0);
+								//pw
 								axe->Level(this);
-								axe->moveVec = ML::Vec2(-7, -8);
 								axe->pos = this->pos + ML::Vec2(-30, 0);
+							}
+							
+							/*if (this->WeaponLevel <= 2)
+							{
+								
+								
 								break;
 							}
 							else
 							{
 								for (int i = 1; i <= 3; ++i)
 								{
-									auto axe = Axe::Object::Create(true);
 									axe->Level(this);
 									axe->moveVec = ML::Vec2(-7, -3 * i);
 									axe->pos = this->pos + ML::Vec2(-30, 0);
 								}
 								break;
-							}
+							}*/
 						}
-						//break;
+						break;
 						case Weapon::Gun:
 						{
 							if (this->WeaponLevel <= 2)
@@ -740,9 +754,123 @@ namespace  Player
 		this->UpdateMotion(Motion::Bound);
 		//from_は攻撃してきた相手、カウンターなどで逆にダメージを与えたいときに使う
 	}
-	//-----------------------------------------------------------------------------
-	//
-	
+	//-------------------------------------------------------------------
+	//スキル
+	void Object::Skill(BChara* from_)
+	{
+		switch (this->ss)
+		{
+		case SelectedSkill::JumpUp:
+			//ジャンプ回数増加（最大3回）
+			this->jumpMax++;
+			break;
+		case SelectedSkill::DashUp:
+			//ダッシュ回数増加
+			this->dashMax++;
+			break;
+		case SelectedSkill::HpUp:
+			//体力増加
+			this->hp++;
+			break;
+		case SelectedSkill::AtkUp:
+			//攻撃力増加
+			this->atk++;
+			break;
+		case SelectedSkill::Special1:
+			//武器の特殊強化1
+			this->WeaponSpecial1(weapon);
+			break;
+		case SelectedSkill::Special2:
+			//武器の特殊強化2
+			break;
+		}
+	}
+	//-------------------------------------------------------------------
+	void Object::SkillImage()
+	{
+
+	}
+	//-------------------------------------------------------------------
+	//武器の特殊強化
+	void Object::WeaponSpecial1(Weapon weapon_)
+	{
+		//this->CreateNum = 3;
+		switch (this->weapon)
+		{
+		case Weapon::Sword:
+		{
+			auto sword = ge->GetTask<Sword::Object>(Map2D::defGroupName, Map2D::defName);
+			//剣の特殊強化1
+			if (this->angle_LR == Angle_LR::Right)
+			{
+				for (int i = 0; i < 1; ++i)
+				{
+					sword->Level(this);
+					sword->moveVec = ML::Vec2(-8 * i, 0);
+					sword->pos = this->pos + ML::Vec2(30, -5);
+				}
+			}
+			else
+			{
+				for (int i = 0; i < 1; ++i)
+				{
+					sword->Level(this);
+					sword->moveVec = ML::Vec2(-8 * i, 0);
+					sword->pos = this->pos + ML::Vec2(-30, -5);
+				}
+			}
+		}	
+		break;
+		case Weapon::Axe:
+		{
+			auto axe = ge->GetTask<Axe::Object>(Map2D::defGroupName, Map2D::defName);
+			//斧の特殊強化1
+			if (this->angle_LR == Angle_LR::Right)
+			{
+				for (int i = 1; i <= 3; ++i)
+				{
+					axe->Level(this);
+					axe->moveVec = ML::Vec2(7, -3 * i);
+					axe->pos = this->pos + ML::Vec2(30, 0);
+				}
+			}
+			else
+			{
+				for (int i = 1; i <= 3; ++i)
+				{
+					axe->Level(this);
+					axe->moveVec = ML::Vec2(-7, -3 * i);
+					axe->pos = this->pos + ML::Vec2(-30, 0);
+				}
+			}
+		}	
+		break;
+		case Weapon::Gun:
+		{
+			auto gun = ge->GetTask<Shot00::Object>(Map2D::defGroupName, Map2D::defName);
+			//銃の特殊強化1
+			if (this->angle_LR == Angle_LR::Right)
+			{
+				for (int i = 1; i <= 3; ++i)
+				{
+					gun->Level(this);
+					gun->moveVec = ML::Vec2(8, 0);
+					gun->pos = this->pos + ML::Vec2(20 * i, 0);
+				}
+			}
+			else
+			{
+				for (int i = 1; i <= 3; ++i)
+				{
+					gun->Level(this);
+					gun->moveVec = ML::Vec2(-8, 0);
+					gun->pos = this->pos + ML::Vec2(-20 * i, 0);
+				}
+			}
+		}
+		break;
+		}
+	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

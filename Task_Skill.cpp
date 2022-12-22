@@ -3,6 +3,10 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Skill.h"
+#include  "Task_Player.h"
+#include  "Task_Sword.h"
+#include  "Task_Axe.h"
+#include  "Task_Shot00.h"
 
 namespace  Skill
 {
@@ -85,15 +89,6 @@ namespace  Skill
 			//from_->atk++;
 			break;
 		case SelectedSkill::Special1:
-			switch (this->weapon)
-			{
-			case Weapon::Sword:
-				break;
-			case Weapon::Axe:
-				break;
-			case Weapon::Gun:
-				break;
-			}
 			break;
 		}
 	}
@@ -102,6 +97,43 @@ namespace  Skill
 	{
 
 	}
+	//-------------------------------------------------------------------
+	//武器の特殊強化
+	void Object::WeaponSpecial1(Weapon weapon_)
+	{
+		auto   player = ge->GetTasks<Player::Object>(Player::defGroupName, Player::defName);
+		auto   axe = ge->GetTask<Axe::Object>(Axe::defGroupName, Axe::defName);
+		switch (this->weapon)
+		{
+		case Weapon::Sword:
+			//剣の特殊強化1
+
+			break;
+		case Weapon::Axe:
+			//斧の特殊強化1
+			for (int i = 1; i <= 3; ++i)
+			{
+				axe->moveVec = ML::Vec2(-7, -3 * i);
+				//axe->pos = player->pos + ML::Vec2(-30, 0);
+				/*auto axe = Axe::Object::Create(true);
+				axe->Level(this);
+				axe->moveVec = ML::Vec2(-7, -3 * i);
+				axe->pos = this->pos + ML::Vec2(-30, 0);*/
+			}
+			break;
+		case Weapon::Gun:
+			//銃の特殊強化1
+			for (int i = 1; i <= 3; ++i)
+			{
+				/*auto gun = Shot00::Object::Create(true);
+				gun->Level(this);
+				gun->moveVec = ML::Vec2(-8, 0);
+				gun->pos = this->pos + ML::Vec2(-20 * i, 0);*/
+			}
+			break;
+		}
+	}
+
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
