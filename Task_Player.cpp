@@ -59,10 +59,10 @@ namespace  Player
 		this->dashMax = 1;			//ダッシュ上限回数
 		this->attackCnt = 0;		//攻撃回数
 		this->attackMax = 0;		//攻撃上限回数
-		this->WeaponLevel = 3;		//武器レベル
+		this->WeaponLevel = 1;		//武器レベル
 		this->CreateNum = 3;
 
-		this->weapon = Weapon::Axe;
+		this->weapon = Weapon::Sword;
 
 		//★タスクの生成
 		
@@ -462,162 +462,144 @@ namespace  Player
 		case Motion::Attack:	//攻撃中
 			if (this->moveCnt == 8)
 			{
-				if (this->angle_LR == Angle_LR::Right)
+				switch (this->weapon)
 				{
-					switch (this->weapon)
+				case Weapon::Sword:
+				{
+					if (this->angle_LR == Angle_LR::Right)
 					{
-						case Weapon::Sword:
+						for (int i = 0; i < CreateNum; ++i)
 						{
 							auto sword = Sword::Object::Create(true);
-							if (this->WeaponLevel <= 2)
-							{
-								
-								sword->Level(this);
-								sword->pos = this->pos + ML::Vec2(30, -5);
-							}
-							else
-							{
-								this->WeaponSpecial1(weapon);
-								/*for (int i = 1; i <= 3; ++i)
-								{
-									auto sword = Sword::Object::Create(true);
-									sword->Level(this);
-									sword->pos = this->pos + ML::Vec2(15 + 15 * i, -5);
-								}*/
-							}
+
+							//pw
+							/*auto axe2 = Axe::Object::Create(true);
+							axe2->moveVec = ML::Vec2(7, -8);
+							auto axe3 = Axe::Object::Create(true);
+							axe3->moveVec = ML::Vec2(7, -4);
+
+							axe2->pos = this->pos + ML::Vec2(30, 0);
+
+							axe3->pos = this->pos + ML::Vec2(30, 0);*/
+							//pw
+
+							sword->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
 						}
-						break;
-						case Weapon::Axe:
+					}
+					else
+					{
+						for (int i = 0; i < CreateNum; ++i)
 						{
-							if (this->WeaponLevel <= 2)
-							{
-								auto axe = Axe::Object::Create(true);
-								axe->Level(this);
-								axe->moveVec = ML::Vec2(7, -8);
-								axe->pos = this->pos + ML::Vec2(30, 0);
-							}
-							else
-							{
-								for (int i = 1; i <= 3; ++i)
-								{
-									auto axe = Axe::Object::Create(true);
-									axe->Level(this);
-									axe->moveVec = ML::Vec2(7, -3 * i);
-									axe->pos = this->pos + ML::Vec2(30, 0);
-								}
-							}
+							auto sword = Sword::Object::Create(true);
+
+							//pw
+							/*auto axe2 = Axe::Object::Create(true);
+							axe2->moveVec = ML::Vec2(7, -8);
+							auto axe3 = Axe::Object::Create(true);
+							axe3->moveVec = ML::Vec2(7, -4);
+
+							axe2->pos = this->pos + ML::Vec2(30, 0);
+
+							axe3->pos = this->pos + ML::Vec2(30, 0);*/
+							//pw
+
+							sword->pos = this->pos + ML::Vec2(-30 + (-15 * i), 0);
 						}
-						break;
-						case Weapon::Gun:
-						{
-							if (this->WeaponLevel <= 2)
-							{
-								auto gun = Shot00::Object::Create(true);
-								gun->Level(this);
-								gun->moveVec = ML::Vec2(8, 0);
-								gun->pos = this->pos + ML::Vec2(30, 0);
-							}
-							else
-							{
-								for (int i = 1; i <= 3; ++i)
-								{
-									auto gun = Shot00::Object::Create(true);
-									gun->Level(this);
-									gun->moveVec = ML::Vec2(8, 0);
-									gun->pos = this->pos + ML::Vec2(20 * i, 0);
-								}
-							}
-						}
-						break;
 					}
 				}
-				else if(this->angle_LR==Angle_LR::Left)
+				break;
+				case Weapon::Axe:
 				{
-					switch (this->weapon)
+					if (this->angle_LR == Angle_LR::Right)
 					{
-						case Weapon::Sword:
+						for (int i = 0; i < CreateNum; ++i)
 						{
-							if (this->WeaponLevel <= 2)
-							{
-								auto sword = Sword::Object::Create(true);
-								sword->Level(this);
-								sword->pos = this->pos + ML::Vec2(-30, -5);
-								break;
-							}
-							else
-							{
-								for (int i = 1; i <= 3; ++i)
-								{
-									auto sword = Sword::Object::Create(true);
-									sword->Level(this);
-									sword->pos = this->pos + ML::Vec2(-15 - 15 * i, -5);
-								}
-								break;
-							}
+							auto axe = Axe::Object::Create(true);
+							axe->moveVec = ML::Vec2(7, -4 + (-4 * i));
+
+							//pw
+							/*auto axe2 = Axe::Object::Create(true);
+							axe2->moveVec = ML::Vec2(7, -8);
+							auto axe3 = Axe::Object::Create(true);
+							axe3->moveVec = ML::Vec2(7, -4);
+
+							axe2->pos = this->pos + ML::Vec2(30, 0);
+
+							axe3->pos = this->pos + ML::Vec2(30, 0);*/
+							//pw
+
+							axe->pos = this->pos + ML::Vec2(30, 0);
 						}
-						//break;
-						case Weapon::Axe:
-						{
-							for (int i = 0; i < CreateNum; ++i)
-							{
-								auto axe = Axe::Object::Create(true);
-								axe->moveVec = ML::Vec2(-7, -12);
-								//pw
-								auto axe2 = Axe::Object::Create(true);
-								axe2->moveVec = ML::Vec2(-7, -8);
-								auto axe3 = Axe::Object::Create(true);
-								axe3->moveVec = ML::Vec2(-7, -4);
-								axe2->Level(this);
-								axe2->pos = this->pos + ML::Vec2(-30, 0);
-								axe3->Level(this);
-								axe3->pos = this->pos + ML::Vec2(-30, 0);
-								//pw
-								axe->Level(this);
-								axe->pos = this->pos + ML::Vec2(-30, 0);
-							}
-							
-							/*if (this->WeaponLevel <= 2)
-							{
-								
-								
-								break;
-							}
-							else
-							{
-								for (int i = 1; i <= 3; ++i)
-								{
-									axe->Level(this);
-									axe->moveVec = ML::Vec2(-7, -3 * i);
-									axe->pos = this->pos + ML::Vec2(-30, 0);
-								}
-								break;
-							}*/
-						}
-						break;
-						case Weapon::Gun:
-						{
-							if (this->WeaponLevel <= 2)
-							{
-								auto gun = Shot00::Object::Create(true);
-								gun->Level(this);
-								gun->moveVec = ML::Vec2(-8, 0);
-								gun->pos = this->pos + ML::Vec2(-30, 0);
-								break;
-							}
-							else
-							{
-								for (int i = 1; i <= 3; ++i)
-								{
-									auto gun = Shot00::Object::Create(true);
-									gun->Level(this);
-									gun->moveVec = ML::Vec2(-8, 0);
-									gun->pos = this->pos + ML::Vec2(-20 * i, 0);
-								}
-								break;
-							}
-						}
-						//break;
 					}
+					else
+					{
+						for (int i = 0; i < CreateNum; ++i)
+						{
+							auto axe = Axe::Object::Create(true);
+							axe->moveVec = ML::Vec2(-7, -4 + (-4 * i));
+
+							//pw
+							/*auto axe2 = Axe::Object::Create(true);
+							axe2->moveVec = ML::Vec2(7, -8);
+							auto axe3 = Axe::Object::Create(true);
+							axe3->moveVec = ML::Vec2(7, -4);
+
+							axe2->pos = this->pos + ML::Vec2(30, 0);
+
+							axe3->pos = this->pos + ML::Vec2(30, 0);*/
+							//pw
+
+							axe->pos = this->pos + ML::Vec2(-30, 0);
+						}
+					}
+				}
+				break;
+				case Weapon::Gun:
+				{
+					if (this->angle_LR == Angle_LR::Right)
+					{
+						for (int i = 0; i < CreateNum; ++i)
+						{
+							auto gun = Shot00::Object::Create(true);
+							gun->moveVec = ML::Vec2(7, 0);
+
+							//pw
+							/*auto gun2 = Shot00::Object::Create(true);
+							gun2->moveVec = ML::Vec2(7, 0);
+							auto gun3 = Shot00::Object::Create(true);
+							gun3->moveVec = ML::Vec2(7, 0);
+
+							gun2->pos = this->pos + ML::Vec2(30, 0);
+
+							gun3->pos = this->pos + ML::Vec2(30, 0);*/
+							//pw
+
+							gun->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
+						}
+					}
+					else
+					{
+						for (int i = 0; i < CreateNum; ++i)
+						{
+							auto gun = Shot00::Object::Create(true);
+							gun->moveVec = ML::Vec2(-7, 0);
+
+							//pw
+							/*auto gun2 = Shot00::Object::Create(true);
+							gun2->moveVec = ML::Vec2(7, 0);
+							auto gun3 = Shot00::Object::Create(true);
+							gun3->moveVec = ML::Vec2(7, 0);
+
+							gun2->pos = this->pos + ML::Vec2(30, 0);
+
+							gun3->pos = this->pos + ML::Vec2(30, 0);*/
+							//pw
+
+							gun->pos = this->pos + ML::Vec2(-30 + (-15 * i), 0);
+						}
+					}
+				}
+				break;
 				}
 				if (this->CheckFoot() == false)
 				{
@@ -778,7 +760,8 @@ namespace  Player
 			break;
 		case SelectedSkill::Special1:
 			//武器の特殊強化1
-			this->WeaponSpecial1(weapon);
+			//this->WeaponSpecial1(weapon);
+			this->CreateNum = 3;
 			break;
 		case SelectedSkill::Special2:
 			//武器の特殊強化2
@@ -792,85 +775,84 @@ namespace  Player
 	}
 	//-------------------------------------------------------------------
 	//武器の特殊強化
-	void Object::WeaponSpecial1(Weapon weapon_)
-	{
-		//this->CreateNum = 3;
-		switch (this->weapon)
-		{
-		case Weapon::Sword:
-		{
-			auto sword = ge->GetTask<Sword::Object>(Map2D::defGroupName, Map2D::defName);
-			//剣の特殊強化1
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				for (int i = 0; i < 1; ++i)
-				{
-					sword->Level(this);
-					sword->moveVec = ML::Vec2(-8 * i, 0);
-					sword->pos = this->pos + ML::Vec2(30, -5);
-				}
-			}
-			else
-			{
-				for (int i = 0; i < 1; ++i)
-				{
-					sword->Level(this);
-					sword->moveVec = ML::Vec2(-8 * i, 0);
-					sword->pos = this->pos + ML::Vec2(-30, -5);
-				}
-			}
-		}	
-		break;
-		case Weapon::Axe:
-		{
-			auto axe = ge->GetTask<Axe::Object>(Map2D::defGroupName, Map2D::defName);
-			//斧の特殊強化1
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				for (int i = 1; i <= 3; ++i)
-				{
-					axe->Level(this);
-					axe->moveVec = ML::Vec2(7, -3 * i);
-					axe->pos = this->pos + ML::Vec2(30, 0);
-				}
-			}
-			else
-			{
-				for (int i = 1; i <= 3; ++i)
-				{
-					axe->Level(this);
-					axe->moveVec = ML::Vec2(-7, -3 * i);
-					axe->pos = this->pos + ML::Vec2(-30, 0);
-				}
-			}
-		}	
-		break;
-		case Weapon::Gun:
-		{
-			auto gun = ge->GetTask<Shot00::Object>(Map2D::defGroupName, Map2D::defName);
-			//銃の特殊強化1
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				for (int i = 1; i <= 3; ++i)
-				{
-					gun->Level(this);
-					gun->moveVec = ML::Vec2(8, 0);
-					gun->pos = this->pos + ML::Vec2(20 * i, 0);
-				}
-			}
-			else
-			{
-				for (int i = 1; i <= 3; ++i)
-				{
-					gun->Level(this);
-					gun->moveVec = ML::Vec2(-8, 0);
-					gun->pos = this->pos + ML::Vec2(-20 * i, 0);
-				}
-			}
-		}
-		break;
-		}
-	}
+	//void Object::WeaponSpecial1(Weapon weapon_)
+	//{
+	//	//this->CreateNum = 3;
+	//	switch (this->weapon)
+	//	{
+	//	case Weapon::Sword:
+	//	{
+	//		auto sword = ge->GetTask<Sword::Object>(Map2D::defGroupName, Map2D::defName);
+	//		//剣の特殊強化1
+	//		if (this->angle_LR == Angle_LR::Right)
+	//		{
+	//			for (int i = 0; i < 1; ++i)
+	//			{
+	//				
+	//				sword->moveVec = ML::Vec2(-8 * i, 0);
+	//				sword->pos = this->pos + ML::Vec2(30, -5);
+	//			}
+	//		}
+	//		else
+	//		{
+	//			for (int i = 0; i < 1; ++i)
+	//			{
+	//				
+	//				sword->moveVec = ML::Vec2(-8 * i, 0);
+	//				sword->pos = this->pos + ML::Vec2(-30, -5);
+	//			}
+	//		}
+	//	}	
+	//	break;
+	//	case Weapon::Axe:
+	//	{
+	//		auto axe = ge->GetTask<Axe::Object>(Map2D::defGroupName, Map2D::defName);
+	//		//斧の特殊強化1
+	//		if (this->angle_LR == Angle_LR::Right)
+	//		{
+	//			for (int i = 1; i <= 3; ++i)
+	//			{
+	//				axe->moveVec = ML::Vec2(7, -3 * i);
+	//				axe->pos = this->pos + ML::Vec2(30, 0);
+	//			}
+	//		}
+	//		else
+	//		{
+	//			for (int i = 1; i <= 3; ++i)
+	//			{
+	//				
+	//				axe->moveVec = ML::Vec2(-7, -3 * i);
+	//				axe->pos = this->pos + ML::Vec2(-30, 0);
+	//			}
+	//		}
+	//	}	
+	//	break;
+	//	case Weapon::Gun:
+	//	{
+	//		auto gun = ge->GetTask<Shot00::Object>(Map2D::defGroupName, Map2D::defName);
+	//		//銃の特殊強化1
+	//		if (this->angle_LR == Angle_LR::Right)
+	//		{
+	//			for (int i = 1; i <= 3; ++i)
+	//			{
+	//				
+	//				gun->moveVec = ML::Vec2(8, 0);
+	//				gun->pos = this->pos + ML::Vec2(20 * i, 0);
+	//			}
+	//		}
+	//		else
+	//		{
+	//			for (int i = 1; i <= 3; ++i)
+	//			{
+	//				
+	//				gun->moveVec = ML::Vec2(-8, 0);
+	//				gun->pos = this->pos + ML::Vec2(-20 * i, 0);
+	//			}
+	//		}
+	//	}
+	//	break;
+	//	}
+	//}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

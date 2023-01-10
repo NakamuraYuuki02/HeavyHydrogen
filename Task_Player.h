@@ -85,7 +85,7 @@ namespace  Player
 		Weapon weapon;
 
 		void	Skill(BChara* from_);
-		void	WeaponSpecial1(Weapon weapon_);
+		//void	WeaponSpecial1(Weapon weapon_);
 		void	SkillImage();
 	};
 }
