@@ -5,6 +5,7 @@
 #include  "Task_Goal.h"
 #include  "Task_Player.h"
 #include  "Task_Ending.h"
+#include  "Task_GoalMap2D.h"
 
 namespace  Goal
 {
@@ -13,7 +14,7 @@ namespace  Goal
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->goal = DG::Image::Create("./data/image/Goal.png");
+		this->goal = DG::Image::Create("./data/image/Goaltile.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -33,8 +34,7 @@ namespace  Goal
 		this->res = Resource::Create();
 
 		//★データ初期化
-		this->hitBase = ML::Box2D(0, 0, 5, 5);
-		this->goalPos = ML::Vec2(ge->screen2DWidth * 1 / 8, ge->screen2DHeight * 1 / 5.3f);
+		this->hitBase = ML::Box2D(0, 0, 32, 32);
 		
 		//★タスクの生成
 
@@ -63,7 +63,7 @@ namespace  Goal
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
-		ML::Box2D me = this->hitBase.OffsetCopy(this->goalPos);
+		ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
 		auto player = ge->GetTasks<BChara>("Player");
 		for (auto it = player->begin(); it != player->end(); ++it)
 		{
@@ -79,9 +79,9 @@ namespace  Goal
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D Draw(-16, -16, 32, 32);
-		Draw.Offset(this->goalPos);
-		ML::Box2D Src(0, 0, 31, 31);
-		Draw.Offset(-ge->camera2D .x, -ge->camera2D.y);
+		Draw.Offset(this->pos);
+		ML::Box2D Src(0, 0, 32, 32);
+		Draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		this->res->goal->Draw(Draw, Src);
 	}
 

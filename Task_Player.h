@@ -48,6 +48,10 @@ namespace  Player
 	public:
 		//追加したい変数・メソッドはここに追加する
 		//BCharaに持たせていない変数・メソッドのみここに書く
+		int				hpMax;			//	体力上限
+		int				jumpCnt;        //  ジャンプ回数
+		int             dashCnt;        //  ダッシュ回数
+		
 		XI::GamePad::SP  controller;
 
 		//思考＆状況判断(ステータス決定）
@@ -58,5 +62,14 @@ namespace  Player
 		BChara::DrawInfo  Anim();
 		//接触時の応答処理（必ず受け身の処理として実装する）
 		void Received(BChara* from_, AttackInfo at_) override;
+
+		//武器
+		enum class Weapon
+		{
+			Sword,
+			Axe,
+			Gun
+		};
+		Weapon weapon;
 	};
 }

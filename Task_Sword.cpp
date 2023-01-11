@@ -6,7 +6,7 @@
 #include  "Task_Map2D.h"
 #include  "Task_Player.h"
 
-namespace  sword
+namespace  Sword
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
@@ -41,6 +41,7 @@ namespace  sword
 		this->moveCnt = 0;
 		this->hp = 5;
 		this->atk = 5;
+		this->WeaponLevel = 0;
 
 		//★タスクの生成
 
@@ -113,14 +114,42 @@ namespace  sword
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D  draw(-16, -16, 32, 32);
+		ML::Box2D  draw2(-24, -24, 48, 48);
 		draw.Offset(this->pos);
+		draw2.Offset(this->pos);
 		ML::Box2D  src(0, 0, 32, 32);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		this->res->img->Draw(draw, src);
+		draw2.Offset(-ge->camera2D.x, -ge->camera2D.y);
+		if (WeaponLevel == 0)
+		{
+			this->res->img->Draw(draw, src);
+		}
+		else
+		{
+			this->res->img->Draw(draw2, src);
+		}
 	}
-
+	//-------------------------------------------------------------------
+	//武器のLevel
+	void Object::Level(BChara* from_) //基礎的な能力の強化
+	{
+		switch (from_->WeaponLevel)
+		{
+		case 0:
+			break;
+		case 1:
+			this->hitBase = ML::Box2D(-24, -24, 48, 48);
+			break;
+		case 2:
+			this->hitBase = ML::Box2D(-24, -24, 48, 48);
+			break;
+		case 3:
+			this->hitBase = ML::Box2D(-24, -24, 48, 48);
+			break;
+		}
+	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

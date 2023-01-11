@@ -47,6 +47,7 @@ namespace  Map2D
 			this->chip[c] = ML::Box2D(x * 32, y * 32, 32, 32);
 		}
 
+		++ge->stageNum;
 		//★タスクの生成
 
 		return  true;
@@ -204,6 +205,7 @@ namespace  Map2D
 		if (this->hitBase.w < ge->camera2D.w) { ge->camera2D.x = m.left; }
 		if (this->hitBase.h < ge->camera2D.h) { ge->camera2D.y = m.top; }
 	}
+	//-------------------------------------------------------------------
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
