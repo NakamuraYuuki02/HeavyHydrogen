@@ -48,5 +48,8 @@ namespace  Shot00
 	public:
 		//追加したい変数・メソッドはここに追加する
 		//BCharaに持たせていない変数・メソッドのみここに書く
+
+		void Level(BChara* from_);
+		BChara::DrawInfo Anim();
 	};
 }

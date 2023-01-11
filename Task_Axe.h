@@ -1,7 +1,7 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//プレイヤの出す弾
+//斧
 //-------------------------------------------------------------------
 #include "BChara.h"
 
@@ -13,8 +13,8 @@ namespace  Axe
 	//-------------------------------------------------------------------
 	class  Resource : public BResource
 	{
-		bool  Initialize()	override;
-		bool  Finalize()	override;
+		bool  Initialize()		override;
+		bool  Finalize()		override;
 		Resource();
 	public:
 		~Resource();
@@ -48,7 +48,9 @@ namespace  Axe
 	public:
 		//追加したい変数・メソッドはここに追加する
 		//BCharaに持たせていない変数・メソッドのみここに書く
-		int WeaponLevel;
+
 		void Level(BChara* from_);
+		//アニメーション制御
+		BChara::DrawInfo  Anim();
 	};
 }

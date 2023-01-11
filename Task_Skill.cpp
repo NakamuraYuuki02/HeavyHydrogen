@@ -32,9 +32,7 @@ namespace  Skill
 
 		//★データ初期化
 		this->render2D_Priority[1] = 1.0f;
-		this->actionNo = 99;
-		this->statusNo = 99;
-
+	
 		//★タスクの生成
 
 		return  true;
@@ -68,28 +66,34 @@ namespace  Skill
 	//-------------------------------------------------------------------
 	void Object::Skill(BChara* from_)
 	{
-		//action
-		switch (actionNo)
+		switch (this->ss)
 		{
-		case 0:
-			from_->jumpMax++;
+		case SelectedSkill::JumpUp:
+			//ジャンプ回数増加（最大3回）
+			//from_->jumpMax++;
 			break;
-		case 1:
-			from_->dashMax++;
+		case SelectedSkill::DashUp:
+			//ダッシュ回数増加
+			//from_->dashMax++;
 			break;
-		default:
+		case SelectedSkill::HpUp:
+			//体力増加
+			//from_->hp++;
 			break;
-		}
-		//status
-		switch (statusNo)
-		{
-		case 0:
-			from_->hp++;
+		case SelectedSkill::AtkUp:
+			//攻撃力増加
+			//from_->atk++;
 			break;
-		case 1:
-			from_->atk++;
-			break;
-		default:
+		case SelectedSkill::Special1:
+			switch (this->weapon)
+			{
+			case Weapon::Sword:
+				break;
+			case Weapon::Axe:
+				break;
+			case Weapon::Gun:
+				break;
+			}
 			break;
 		}
 	}

@@ -54,7 +54,7 @@ namespace   Map2D
 		bool  Load(const  string&  fpath_);//マップ読み込み
 		bool  CheckHit(const  ML::Box2D&  hit_);//あたり判定
 		int block = 16;//マップの表示
-		int mapChip = 36;//マップチップ番号
+		int mapChip = 40;//マップチップ番号
 
 		//マップ外を見せないようにカメラを位置調整する
 		void  AdjustCameraPos();
