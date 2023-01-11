@@ -12,6 +12,10 @@ namespace  UI
 	bool  Resource::Initialize()
 	{
 		this->UIhp = DG::Image::Create("./data/image/HPheart.png");
+		this->UInum = DG::Image::Create("./data/image/UItext.png");
+		this->gun = DG::Image::Create("./data/image/Gun.png");
+		this->sword = DG::Image::Create("./data/image/Gun.png");
+		this->axe = DG::Image::Create("./data/image/Gun.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -19,6 +23,8 @@ namespace  UI
 	bool  Resource::Finalize()
 	{
 		this->UIhp.reset();
+		this->UInum.reset();
+		this->gun.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -31,7 +37,6 @@ namespace  UI
 		this->res = Resource::Create();
 
 		//★データ初期化
-		ML::Vec2(ge->screen2DWidth * 7 / 8, ge->screen2DHeight * 1 / 4);
 		
 		//★タスクの生成
 
@@ -64,8 +69,44 @@ namespace  UI
 		{
 			ML::Box2D hpDraw(i * 22, 0, 22, 22);
 			ML::Box2D hpSrc(0, 0, 465, 396);
-			hpDraw.Offset(this->HPpos);//表示場所
 			this->res->UIhp->Draw(hpDraw, hpSrc);
+		}
+
+		//マップ数表示
+		char mapNum[10];
+		sprintf(mapNum, "%02d", ge->stageNum);
+		for (int i = 0; i < 2; ++i) {
+			int num = mapNum[i] - '0';//'0'== 48
+			ML::Box2D numDraw(0, 25, 32, 32);
+			ML::Box2D numSrc(num * 30, 0, 30, 52);
+			numDraw.Offset(i * 22, 0);//文字間隔
+			this->res->UInum->Draw(numDraw, numSrc);
+		}
+
+		//武器アイコン
+		switch (this->ui)
+		{
+		case UI::Sword:
+		    {
+			  ML::Box2D SwordDraw(50, 30, 45, 30);
+			  ML::Box2D SwordSrc(0, 0, 15, 10);
+			  this->res->sword->Draw(SwordDraw, SwordSrc);
+			  break;
+		    }
+		case UI::Axe:
+		    { 
+			  ML::Box2D AxeDraw(50, 30, 45, 30);
+			  ML::Box2D AxeSrc(0, 0, 15, 10);
+			  this->res->axe->Draw(AxeDraw, AxeSrc);
+			  break;
+			}
+		case UI::Gun:
+		    { 
+			  ML::Box2D GunDraw(50, 30, 45, 30);
+			  ML::Box2D GunSrc(0, 0, 15, 10);
+			  this->res->gun->Draw(GunDraw, GunSrc);
+			  break;
+			}
 		}
 	}
 

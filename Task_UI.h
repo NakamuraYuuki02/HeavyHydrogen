@@ -24,6 +24,10 @@ namespace  UI
 		static  Resource::SP  Create();
 		//共有する変数はここに追加する
 		DG::Image::SP UIhp;
+		DG::Image::SP UInum;
+		DG::Image::SP sword;
+		DG::Image::SP axe;
+		DG::Image::SP gun;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
@@ -48,5 +52,14 @@ namespace  UI
 	public:
 		//追加したい変数・メソッドはここに追加する
 		ML::Vec2 HPpos;
+		ML::Vec2 mapNumpos;
+
+		enum class UI
+		{
+			Sword,
+			Axe,
+			Gun
+		};
+		UI ui;
 	};
 }
