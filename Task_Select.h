@@ -23,7 +23,8 @@ namespace  Select
 		static   WP  instance;
 		static  Resource::SP  Create();
 		//‹¤—L‚·‚é•Ï”‚Í‚±‚±‚É’Ç‰Á‚·‚é
-		DG::Image::SP UI;
+		DG::Image::SP selectUI;
+		DG::Image::SP 
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
