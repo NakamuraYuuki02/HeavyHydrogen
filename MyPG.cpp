@@ -96,9 +96,10 @@ namespace MyPG
 		this->mouse = XI::Mouse::Create(ge->viewScaleW, ge->viewScaleH);
 
 		//共通変数
-
+		//ステージ番号
+		this->selectedStage = 1;
 		//ステージ通過数、ゲーム進行度
-		int stageNum = 0;
+		this->stageNum = 0;
 		//プレイヤーステータス
 		this->hp = 3;				//体力	
 		this->hpMax = 10;			//最大体力

@@ -133,8 +133,14 @@
     <ClCompile Include="Task_Enemy04.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Task_CharaMap2D.cpp">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_EnemyMap2D.cpp">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClCompile>
     <ClCompile Include="Task_Enemy05.cpp">
-      <Filter>MyPG\Task\Game</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -261,8 +267,14 @@
     <ClInclude Include="Task_Enemy04.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Task_CharaMap2D.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_EnemyMap2D.h">
+      <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
     <ClInclude Include="Task_Enemy05.h">
-      <Filter>MyPG\Task\Game</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
