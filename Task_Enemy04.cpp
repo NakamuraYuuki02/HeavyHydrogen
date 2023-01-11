@@ -76,8 +76,6 @@ namespace  Enemy04
 		ML::Vec2 est = this->moveVec;
 		this->CheckMove(est);
 
-		ML::Vec2 est = this->moveVec;
-		this->CheckMove(est);
 		if (attackCnt % 10 == 0) {
 			//弾を生成
 			auto shot = EnemyShot01::Object::Create(true);
@@ -178,10 +176,6 @@ namespace  Enemy04
 			}
 
 			break;
-		case  Motion::Walk:		//歩いている
-			if (this->CheckFront_LR() == true) { nm = Motion::Turn; }
-
-			break;
 		case  Motion::Jump:		//上昇中
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
 			break;
@@ -201,12 +195,6 @@ namespace  Enemy04
 		case Motion::Bound:     //ダメージを受けて吹き飛んでいる
 			if (this->moveCnt >= 12 /*&& this->CheckFoot() == true*/)
 
-			break;
-		case Motion::Bound:     //ダメージを受けて吹き飛んでいる
-			if (this->moveCnt >= 12 && this->CheckFoot() == true)
-			{
-				nm = Motion::Stand;
-			}
 			break;
 		case Motion::Turn:
 			if (this->moveCnt >= 5) { nm = Motion::Stand; }
@@ -253,10 +241,6 @@ namespace  Enemy04
 		case Motion::Turn: break;
 		case Motion::Bound: break;
 		case Motion::Follow: break;
-		case Motion::Walk: break;
-		case Motion::Fall: break;
-		case Motion::Stand: break;
-		case Motion::Turn: break;
 		}
 
 		//移動速度減衰
@@ -367,10 +351,10 @@ namespace  Enemy04
 			this->moveVec = ML::Vec2(-5, 0);
 			this->moveVec = ML::Vec2(+3, -3);
 		}
-		else
+		/*else
 		{
 			this->moveVec = ML::Vec2(-3, -3);
-		}
+		}*/
 		this->UpdateMotion(Motion::Bound);
 	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

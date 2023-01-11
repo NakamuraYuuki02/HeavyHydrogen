@@ -67,7 +67,6 @@ public:
 	float			angle;			//	なんだろう
 	float			rotPow;			//	旋回能力
 	float			searchDist;		//	有効距離
-	int				dashMax;		//	ダッシュ上限回数
 	int				attackCnt;		//
 	int				attackMax;		//
 	int				WeaponLevel;	//	武器	Lv
