@@ -62,7 +62,7 @@ namespace  Player
 		this->WeaponLevel = 1;		//武器レベル
 		this->CreateNum = 3;
 
-		this->weapon = Weapon::Sword;
+		this->weapon = Weapon::Axe;
 
 		//★タスクの生成
 		
@@ -763,9 +763,9 @@ namespace  Player
 			//this->WeaponSpecial1(weapon);
 			this->CreateNum = 3;
 			break;
-		case SelectedSkill::Special2:
-			//武器の特殊強化2
-			break;
+		//case SelectedSkill::Special2:
+		//	//武器の特殊強化2
+		//	break;
 		}
 	}
 	//-------------------------------------------------------------------
