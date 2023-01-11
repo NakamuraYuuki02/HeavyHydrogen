@@ -49,28 +49,31 @@ namespace  Select
 	public:
 		//追加したい変数・メソッドはここに追加する
 
-		//選択回数
-		const int selectNum = 2;
-
 		//選択された武器
-		enum class Weapon
+		enum class SelectedWeapon
 		{
 			Sword,
 			Axe,
 			Gun
 		};
-		Weapon weapon;
-
+		SelectedWeapon sw;
 		//選ばれたスキル、二つの選んだスキルの番号を格納する。
-		vector<int> selectedActionSkill;
-		vector<int> selectedStatusSkill;
-		vector<int> selectedWeaponSkill;
-
+		enum class SelectedSkill
+		{
+			JumpUp,
+			DashUp,
+			HpUp,
+			AtkUp,
+			Special1,
+			Special2
+		};
+		vector<SelectedSkill> ss;
 		//選ばれたステージ
 		int selectedStage;
 
-		//ステージ通過数、ゲーム進行度
-		int stageNum;
+		//選択用
+		SelectedSkill s;
+
 		//プレイヤーステータス
 		int hp;				//体力
 		int hpMax;			//最大体力
@@ -89,13 +92,13 @@ namespace  Select
 			Stage,		//ステージ選択
 			After		//選択後
 		};
-		SelectionState ss;
+		SelectionState state;
 
 		//選択メソッド スキル、ステージを選択、初回は武器も選択
 		void Select();
-		void SelectedWeapon();
-		void SelectedSkill();
-		void SelectedStage();
+		void SelectWeapon();
+		void SelectSkill();
+		void SelectStage();
 
 		//選択回数 number of selections
 		int nos;

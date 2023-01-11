@@ -133,8 +133,9 @@
     <ClCompile Include="Task_Enemy04.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Task_Enemy05.cpp">
-      <Filter>MyPG\Task\Game</Filter>
+    <ClCompile Include="Task_Enemy05.cpp" />
+    <ClCompile Include="randomLib.cpp">
+      <Filter>MyPG</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -261,8 +262,9 @@
     <ClInclude Include="Task_Enemy04.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Task_Enemy05.h">
-      <Filter>MyPG\Task\Game</Filter>
+    <ClInclude Include="Task_Enemy05.h" />
+    <ClInclude Include="randomLib.h">
+      <Filter>MyPG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

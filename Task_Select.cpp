@@ -3,8 +3,9 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Select.h"
-#include  "Task_Skill.h"
 #include  "Task_Game.h"
+
+#include  "randomLib.h"
 
 namespace  Select
 {
@@ -45,7 +46,6 @@ namespace  Select
 		
 
 		//★タスクの生成
-		auto skill = Skill::Object::Create(true);
 
 		return  true;
 	}
@@ -54,7 +54,6 @@ namespace  Select
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-		ge->KillAll_G("Skill");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
@@ -68,29 +67,8 @@ namespace  Select
 	void  Object::UpDate()
 	{
 		auto inp = ge->in1->GetState();
-		if (inp.L1.down) {
-			//自身に消滅要請
-			this->Kill();
-		}
-
-		//A左移動
-		if (inp.SE.down)
-		{
-			if (this->pos.x > this->posMin.x)//140/135>140/135
-			{
-				this->pos -= moveVec;
-			}
-		}
-		//D右移動
-		if (inp.L3.down)
-		{
-			if (this->pos.x < this->posMax.x)
-			{
- 				this->pos += moveVec;
-			}
-		}
-		//スペース決定
-		if (inp.ST.down ||inp.S1.down)
+		
+		if (inp.ST.down)
 		{
 			//自身に消滅要請
 			this->Kill();
@@ -107,7 +85,7 @@ namespace  Select
 			draw.Offset(this->pos);
 			this->res->selectUI->Draw(draw, src);
 		}
-		switch (this->ss)
+		switch (this->state)
 		{
 		case SelectionState::Before:
 			//選択前
@@ -133,14 +111,14 @@ namespace  Select
 	void  Object::Select()
 	{
 		//初回以降
-		if (stageNum > 0)
+		if (ge->stageNum > 0)
 		{
 			//  Before		//選択前
 			//  Weapon		//武器選択
 			// 	Skill		//スキル選択
 			//	Stage		//ステージ選択
 			//	After		//選択後
-			switch (this->ss)
+			switch (this->state)
 			{
 			case SelectionState::Before:
 				//選択前
@@ -165,7 +143,7 @@ namespace  Select
 		//初回
 		else
 		{
-			switch (this->ss)
+			switch (this->state)
 			{
 			case SelectionState::Before:
 				//選択前
@@ -190,20 +168,65 @@ namespace  Select
 	}
 	//-------------------------------------------------------------------
 	//武器選択メソッド
-	void Object::SelectedWeapon()
+	void Object::SelectWeapon()
 	{
 		auto inp = ge->in1->GetState();
 
 	}
 	//-------------------------------------------------------------------
-	//武器選択メソッド
-	void Object::SelectedSkill()
+	//スキル選択メソッド
+	void Object::SelectSkill()
 	{
 		auto inp = ge->in1->GetState();
+		this->pos = this->posMin;
+		this->selectedNumber = 0;
+		
+		//A左移動
+		if (inp.SE.down && this->pos.x > this->posMin.x)
+		{
+			//140/135>140/135
+			this->pos -= moveVec;
+			++this->selectedNumber;
+		}
+		//D右移動
+		if (inp.L3.down && this->pos.x < this->posMax.x)
+		{
+			this->pos += moveVec;
+			--this->selectedNumber;
+		}
+
+		//スペース決定
+		if (inp.S1.down)
+		{
+			//snをssへ変換
+			switch (this->selectedNumber)
+			{
+			case 0:
+				this->s = SelectedSkill::JumpUp;
+				break;
+			case 1:
+				this->s = SelectedSkill::DashUp;
+				break;
+			case 2:
+				this->s = SelectedSkill::HpUp;
+				break;
+			case 3:
+				this->s = SelectedSkill::AtkUp;
+				break;
+			case 4:
+				//sp1 or sp2
+				/*if ()
+				{
+
+				}*/
+				break;
+			}
+
+		}
 	}
 	//-------------------------------------------------------------------
-	//武器選択メソッド
-	void Object::SelectedStage()
+	//ステージ選択メソッド
+	void Object::SelectStage()
 	{
 		auto inp = ge->in1->GetState();
 	}
