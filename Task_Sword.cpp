@@ -41,8 +41,7 @@ namespace  Sword
 		this->moveCnt = 0;
 		this->hp = 5;
 		this->atk = 5;
-		this->WeaponLevel = 0;
-
+		
 		//★タスクの生成
 
 		return  true;
@@ -132,24 +131,7 @@ namespace  Sword
 		}
 	}
 	//-------------------------------------------------------------------
-	//武器のLevel
-	void Object::Level(BChara* from_) //基礎的な能力の強化
-	{
-		switch (from_->WeaponLevel)
-		{
-		case 0:
-			break;
-		case 1:
-			this->hitBase = ML::Box2D(-24, -24, 48, 48);
-			break;
-		case 2:
-			this->hitBase = ML::Box2D(-24, -24, 48, 48);
-			break;
-		case 3:
-			this->hitBase = ML::Box2D(-24, -24, 48, 48);
-			break;
-		}
-	}
+	
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

@@ -73,7 +73,7 @@ namespace Skill
 		Weapon weapon;
 
 		void	Skill(BChara* from_);
-		void	WeaponSpecial(Weapon);
+		void	WeaponSpecial1(Weapon weapon_);
 		void	SkillImage();
 	};
 }
