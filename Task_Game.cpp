@@ -54,9 +54,9 @@ namespace  Game
 		map->Load("./data/Map/map01.txt");
 	
 		//敵の生成
-		/*auto en01 = Enemy01::Object::Create(true);
+		auto en01 = Enemy01::Object::Create(true);
 		en01->pos.x = 500;
-		en01->pos.y = 260;*/
+		en01->pos.y = 260;
 
 		/*auto en02 = Enemy02::Object::Create(true);
 		en02->pos.x = 500;
@@ -66,9 +66,9 @@ namespace  Game
 		en03->pos.x = 500;
 		en03->pos.y = 260;*/
 		
-		auto en04 = Enemy04::Object::Create(true);
+		/*auto en04 = Enemy04::Object::Create(true);
 		en04->pos.x = 500;
-		en04->pos.y = 260;
+		en04->pos.y = 260;*/
 
 		/*auto en05 = Enemy05::Object::Create(true);
 		en05->pos.x = 500;

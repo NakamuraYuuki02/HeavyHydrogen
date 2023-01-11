@@ -114,16 +114,6 @@ namespace  Enemy01
 				if (this->CheckFront_LR() == true) { nm = Motion::Turn; }
 				if (this->CheckFoot() == false) { nm = Motion::Fall; }
 				if (this->CheckFrontFoot_LR() == false) { nm = Motion::Turn; }
-
-				// プレイヤとの接近チェック
-				auto pl = ge->GetTask<Player::Object>("Player");
-				if (pl != NULL)
-				{
-					if (this->CheckNear(pl->pos))
-					{
-						nm = Motion::Follow;
-					}
-				}
 			}
 			break;
 		case  Motion::Jump:		//上昇中
@@ -151,15 +141,6 @@ namespace  Enemy01
 			if (this->moveCnt >= 5) { nm = Motion::Stand; }
 			break;
 		case Motion::Follow:
-			// プレイヤとの接近チェック
-			auto pl = ge->GetTask<Player::Object>("Player");
-			if (pl != NULL)
-			{
-				if (this->CheckNear(pl->pos) == false)
-				{
-					nm = Motion::Stand;
-				}
-			}
 			break;
 		}
 		//モーション更新
@@ -234,23 +215,6 @@ namespace  Enemy01
 			}
 			break;
 		case Motion::Follow:
-			auto pl = ge->GetTask<Player::Object>("Player");
-			if (this->pos.x >= pl->pos.x)
-			{
-				this->angle_LR = Angle_LR::Left;
-			}
-			else
-			{
-				this->angle_LR = Angle_LR::Right;
-			}
-			if (this->angle_LR == Angle_LR::Left) {
-				this->moveVec.x =
-					max(-this->maxSpeed, this->moveVec.x - this->addSpeed);
-			}
-			if (this->angle_LR == Angle_LR::Right) {
-				this->moveVec.x =
-					min(+this->maxSpeed, this->moveVec.x + this->addSpeed);
-			}
 			break;
 		}
 	}
