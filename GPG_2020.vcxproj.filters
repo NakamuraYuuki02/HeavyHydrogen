@@ -124,6 +124,18 @@
     <ClCompile Include="Task_Game.cpp">
       <Filter>MyPG\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Task_UI.cpp">
+      <Filter>MyPG\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="BChara.cpp">
+      <Filter>MyPG\Task\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Enemy04.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Enemy05.cpp">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine_Ver3_83.h">
@@ -242,6 +254,15 @@
     </ClInclude>
     <ClInclude Include="Task_Game.h">
       <Filter>MyPG\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_UI.h">
+      <Filter>MyPG\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy04.h">
+      <Filter>MyPG\Task\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Enemy05.h">
+      <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

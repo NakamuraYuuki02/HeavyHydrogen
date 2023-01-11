@@ -2,25 +2,29 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Axe.h"
-#include  "Task_Map2D.h"
+#include  "Task_UI.h"
 
-
-namespace  Axe
+namespace  UI
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/debug.png");
+		this->UIhp = DG::Image::Create("./data/image/HPheart.png");
+		this->UInum = DG::Image::Create("./data/image/UItext.png");
+		this->gun = DG::Image::Create("./data/image/Gun.png");
+		this->sword = DG::Image::Create("./data/image/Gun.png");
+		this->axe = DG::Image::Create("./data/image/Gun.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
-		this->img.reset();
+		this->UIhp.reset();
+		this->UInum.reset();
+		this->gun.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -33,15 +37,6 @@ namespace  Axe
 		this->res = Resource::Create();
 
 		//★データ初期化
-		this->render2D_Priority[1] = 0.4f;
-		this->pos.x = 0;
-		this->pos.y = 0;
-		this->hitBase = ML::Box2D(-8, -8, 16, 16);
-		this->moveVec = ML::Vec2(0, 0);
-		this->moveCnt = 0;
-		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 5;
-		this->atk = 5;
 		
 		//★タスクの生成
 
@@ -64,77 +59,57 @@ namespace  Axe
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
-		this->moveCnt++;
-		//限界の時間を迎えたら消滅
-		if (this->moveCnt >= 30) {
-			//消滅申請
-			this->Kill();
-			return;
-		}
-		//移動
-		this->pos += this->moveVec;
-		//重力
-		this->moveVec.y += this->gravity;
-
-		//当たり判定
-		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("Enemy");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
-			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { this->hp,0,0 };
-					(*it)->Received(this, at);
-					this->Kill();
-					break;
-				}
-			}
-		}
-
-		//移動先で障害物に接触したら消滅
-		//マップが存在するか調べてからアクセス
-		if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
-			ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
-			if (true == map->CheckHit(hit)) {
-				//消滅申請
-				this->Kill();
-
-				////とりあえず星はばら撒くよ
-				//for (int c = 0; c < 4; ++c) {
-				//	auto  eff = Effect00::Object::Create(true);
-				//	eff->pos = this->pos;
-				//}
-				//return;
-			}
-		}
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-8, -8, 16, 16);
-		ML::Box2D  draw2(-16, -16, 32, 32);
-		draw.Offset(this->pos);
-		draw2.Offset(this->pos);
-		ML::Box2D  src(0, 0, 32, 32);
-
-		//スクロール対応
-		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		draw2.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		if (WeaponLevel == 0)
+		//hp分(初期値3)ハートを表示
+		for (int i = 0; i < ge->hp; ++i)
 		{
-			this->res->img->Draw(draw, src);
+			ML::Box2D hpDraw(i * 22, 0, 22, 22);
+			ML::Box2D hpSrc(0, 0, 465, 396);
+			this->res->UIhp->Draw(hpDraw, hpSrc);
 		}
-		else
+
+		//マップ数表示
+		char mapNum[10];
+		sprintf(mapNum, "%02d", ge->stageNum);
+		for (int i = 0; i < 2; ++i) {
+			int num = mapNum[i] - '0';//'0'== 48
+			ML::Box2D numDraw(0, 25, 32, 32);
+			ML::Box2D numSrc(num * 30, 0, 30, 52);
+			numDraw.Offset(i * 22, 0);//文字間隔
+			this->res->UInum->Draw(numDraw, numSrc);
+		}
+
+		//武器アイコン
+		switch (this->ui)
 		{
-			this->res->img->Draw(draw2, src);
+		case UI::Sword:
+		    {
+			  ML::Box2D SwordDraw(50, 30, 45, 30);
+			  ML::Box2D SwordSrc(0, 0, 15, 10);
+			  this->res->sword->Draw(SwordDraw, SwordSrc);
+			  break;
+		    }
+		case UI::Axe:
+		    { 
+			  ML::Box2D AxeDraw(50, 30, 45, 30);
+			  ML::Box2D AxeSrc(0, 0, 15, 10);
+			  this->res->axe->Draw(AxeDraw, AxeSrc);
+			  break;
+			}
+		case UI::Gun:
+		    { 
+			  ML::Box2D GunDraw(50, 30, 45, 30);
+			  ML::Box2D GunSrc(0, 0, 15, 10);
+			  this->res->gun->Draw(GunDraw, GunSrc);
+			  break;
+			}
 		}
 	}
-	//-------------------------------------------------------------------
-	
+
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
@@ -147,7 +122,7 @@ namespace  Axe
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
 				ge->PushBack(ob);//ゲームエンジンに登録
-				//（メソッド名が変なのは旧バージョンのコピーによるバグを回避するため
+				
 			}
 			if (!ob->B_Initialize()) {
 				ob->Kill();//イニシャライズに失敗したらKill

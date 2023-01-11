@@ -51,8 +51,9 @@ namespace  Player
 		int				hpMax;			//	体力上限
 		int				jumpCnt;        //  ジャンプ回数
 		int             dashCnt;        //  ダッシュ回数
-		int				attackMax;		//	攻撃上限回数
 
+		int				CreateNum;		//  攻撃の生成数 特殊強化で追加される要素のfor文の元
+		
 		XI::GamePad::SP  controller;
 
 		//思考＆状況判断(ステータス決定）
@@ -64,14 +65,27 @@ namespace  Player
 		//接触時の応答処理（必ず受け身の処理として実装する）
 		void Received(BChara* from_, AttackInfo at_) override;
 
-		//武器
+		enum class SelectedSkill
+		{
+			JumpUp,
+			DashUp,
+			HpUp,
+			AtkUp,
+			Special1,
+			Special2
+		};
+		SelectedSkill ss;
+
 		enum class Weapon
 		{
 			Sword,
 			Axe,
 			Gun
 		};
-
 		Weapon weapon;
+
+		void	Skill(BChara* from_);
+		//void	WeaponSpecial1(Weapon weapon_);
+		void	SkillImage();
 	};
 }

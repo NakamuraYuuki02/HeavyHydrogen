@@ -47,6 +47,7 @@ namespace  Map2D
 			this->chip[c] = ML::Box2D(x * 32, y * 32, 32, 32);
 		}
 
+		++ge->stageNum;
 		//šƒ^ƒXƒN‚Ì¶¬
 
 		return  true;

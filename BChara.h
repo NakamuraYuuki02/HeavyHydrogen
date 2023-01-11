@@ -2,68 +2,77 @@
 #pragma warning(disable:4996)
 #pragma once
 //-----------------------------------------------------------------------------
-//ƒLƒƒƒ‰ƒNƒ^”Ä—pƒX[ƒp[ƒNƒ‰ƒX
+//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿æ±ç”¨ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹
 //-----------------------------------------------------------------------------
 #include "GameEngine_Ver3_83.h"
 
 class BChara : public BTask
 {
-	//•ÏX•s‰ÂŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸŸ
+	//å¤‰æ›´ä¸å¯â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†â—†
 public:
 	typedef shared_ptr<BChara>		SP;
 	typedef weak_ptr<BChara>		WP;
 public:
-	//•ÏX‰Â
-	//ƒLƒƒƒ‰ƒNƒ^‹¤’Êƒƒ“ƒo•Ï”
-	ML::Vec2    pos;		//ƒLƒƒƒ‰ƒNƒ^ˆÊ’u
-	ML::Box2D   hitBase;	//‚ ‚½‚è”»’è”ÍˆÍ
-	ML::Vec2	moveVec;	//ˆÚ“®ƒxƒNƒgƒ‹
-	int			moveCnt;	//s“®ƒJƒEƒ“ƒ^
-	int         hp;         //ƒLƒƒƒ‰ƒNƒ^‘Ì—Í
-	int			atk;		//UŒ‚—Í
-	//¶‰E‚ÌŒü‚«i2D‰¡‹“_ƒQ[ƒ€ê—pj
+	//å¤‰æ›´å¯â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡â—‡
+	//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿å…±é€šãƒ¡ãƒ³ãƒå¤‰æ•°
+	ML::Vec2    pos;		//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ä½ç½®
+	ML::Box2D   hitBase;	//ã‚ãŸã‚Šåˆ¤å®šç¯„å›²
+	ML::Vec2	moveVec;	//ç§»å‹•ãƒ™ã‚¯ãƒˆãƒ«
+	int			moveCnt;	//è¡Œå‹•ã‚«ã‚¦ãƒ³ã‚¿
+	int         hp;         //ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ä½“åŠ›
+	int			atk;		//æ”»æ’ƒåŠ›
+	//å·¦å³ã®å‘ãï¼ˆ2Dæ¨ªè¦–ç‚¹ã‚²ãƒ¼ãƒ å°‚ç”¨ï¼‰
 	enum class Angle_LR { Left, Right };
 	Angle_LR	angle_LR;
 	WP			target;
 
-	//ƒLƒƒƒ‰ƒNƒ^‚Ìs“®ó‘Ôƒtƒ‰ƒO
+	//ç´¢æ•µç¯„å›²
+	float searchRadius = 100;
+
+	//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ã®è¡Œå‹•çŠ¶æ…‹ãƒ•ãƒ©ã‚°
 	enum class Motion
 	{
-		Unnon = -1,	//	–³Œø(g‚¦‚Ü‚¹‚ñj
-		Stand,		//	’â~
-		Walk,		//	•às
-		Attack,		//	UŒ‚
-		Jump,		//	ƒWƒƒƒ“ƒv
-		Jump2,      //  ƒWƒƒƒ“ƒv2
-		Jump3,      //	ƒWƒƒƒ“ƒv3
-		Fall,		//	—‰º
-		Fall2,      //  —‰º2
-		Fall3,		//	—‰º3
-		TakeOff,	//	”ò‚Ñ—§‚ÂuŠÔ
-		Landing,	//	’…’n
-		Turn,       //  Œü‚«•Ï‚¦‚é
-		Bound,      //@’e‚«”ò‚Î‚³‚ê‚Ä‚¢‚é
-		Lose,       //@Á–Å’†
-		Dash,       //  ƒ_ƒbƒVƒ…
-		DashCt,     //@ƒ_ƒbƒVƒ…ƒN[ƒ‹ƒ^ƒCƒ€
+		Unnon = -1,	//	ç„¡åŠ¹(ä½¿ãˆã¾ã›ã‚“ï¼‰
+		Stand,		//	åœæ­¢
+		Walk,		//	æ­©è¡Œ
+		Attack,		//	æ”»æ’ƒ
+		Jump,		//	ã‚¸ãƒ£ãƒ³ãƒ—
+		Jump2,      //  ã‚¸ãƒ£ãƒ³ãƒ—2
+		Jump3,      //	ã‚¸ãƒ£ãƒ³ãƒ—3
+		Fall,		//	è½ä¸‹
+		Fall2,      //  è½ä¸‹2
+		Fall3,		//	è½ä¸‹3
+		TakeOff,	//	é£›ã³ç«‹ã¤ç¬é–“
+		Landing,	//	ç€åœ°
+		Turn,       //  å‘ãå¤‰ãˆã‚‹
+		Bound,      //ã€€å¼¾ãé£›ã°ã•ã‚Œã¦ã„ã‚‹
+		Lose,       //ã€€æ¶ˆæ»…ä¸­
+		Dash,       //  ãƒ€ãƒƒã‚·ãƒ¥
+		DashCt,     //ã€€ãƒ€ãƒƒã‚·ãƒ¥ã‚¯ãƒ¼ãƒ«ã‚¿ã‚¤ãƒ 
+		Follow,		//ã€€è¿‘ã¥ãï¼ˆæ•µç”¨ï¼‰
 	};
-	Motion			motion;			//	Œ»İ‚Ìs“®‚ğ¦‚·ƒtƒ‰ƒO
-	int				animCnt;		//	ƒAƒjƒ[ƒVƒ‡ƒ“ƒJƒEƒ“ƒ^
-	float			jumpPow;		//	ƒWƒƒƒ“ƒv‰‘¬
-	float			maxFallSpeed;	//	—‰ºÅ‘å‘¬“x
-	float			gravity;		//	ƒtƒŒ[ƒ€’PˆÊ‚Ì‰ÁZ—Ê
-	float			maxSpeed;		//	¶‰E•ûŒü‚Ö‚ÌˆÚ“®‚Ì‰ÁZ—Ê
-	float			addSpeed;		//	¶‰E•ûŒü‚Ö‚ÌˆÚ“®‚Ì‰ÁZ—Ê
-	float			decSpeed;		//	¶‰E•ûŒü‚Ö‚ÌˆÚ“®‚ÌŒ¸Š—Ê
-	float           dashSpeed;      //  ƒ_ƒbƒVƒ…‚É‰ÁZ‚³‚ê‚éˆÚ“®—Ê
-	int             unHitTime;      //  –³“GŠÔ
-	int				jumpMax;		//	ƒWƒƒƒ“ƒvãŒÀ‰ñ”
-	int				dashMax;		//	ƒ_ƒbƒVƒ…ãŒÀ‰ñ”
-	int				attackCnt;
-	int				WeaponLevel;	//	•Ší	Lv
+	Motion			motion;			//	ç¾åœ¨ã®è¡Œå‹•ã‚’ç¤ºã™ãƒ•ãƒ©ã‚°
+	int				animCnt;		//	ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚«ã‚¦ãƒ³ã‚¿
+	float			jumpPow;		//	ã‚¸ãƒ£ãƒ³ãƒ—åˆé€Ÿ
+	float			maxFallSpeed;	//	è½ä¸‹æœ€å¤§é€Ÿåº¦
+	float			gravity;		//	ãƒ•ãƒ¬ãƒ¼ãƒ å˜ä½ã®åŠ ç®—é‡
+	float			maxSpeed;		//	å·¦å³æ–¹å‘ã¸ã®ç§»å‹•ã®åŠ ç®—é‡
+	float			addSpeed;		//	å·¦å³æ–¹å‘ã¸ã®ç§»å‹•ã®åŠ ç®—é‡
+	float			decSpeed;		//	å·¦å³æ–¹å‘ã¸ã®ç§»å‹•ã®æ¸›è¡°é‡
+	float     dashSpeed;      //  ãƒ€ãƒƒã‚·ãƒ¥æ™‚ã«åŠ ç®—ã•ã‚Œã‚‹ç§»å‹•é‡
+	int       unHitTime;      //  ç„¡æ•µæ™‚é–“
+	int				jumpMax;		//	ã‚¸ãƒ£ãƒ³ãƒ—ä¸Šé™å›æ•°
+	int       dashCnt;        //  ãƒ€ãƒƒã‚·ãƒ¥å›æ•°
+	int				dashMax;		//ã€€ãƒ€ãƒƒã‚·ãƒ¥ä¸Šé™å›æ•°
+	float			angle;			//	ãªã‚“ã ã‚ã†
+	float			rotPow;			//	æ—‹å›èƒ½åŠ›
+	float			searchDist;		//	æœ‰åŠ¹è·é›¢
+	int				attackCnt;		//
+	int				attackMax;		//
+	int				WeaponLevel;	//	æ­¦å™¨	Lv
 
-	//ƒƒ“ƒo•Ï”‚ÉÅ’áŒÀ‚Ì‰Šú‰»‚ğs‚¤
-	//ššƒƒ“ƒo•Ï”‚ğ’Ç‰Á‚µ‚½‚ç•K‚¸‰Šú‰»‚à’Ç‰Á‚·‚é–šš
+	//ãƒ¡ãƒ³ãƒå¤‰æ•°ã«æœ€ä½é™ã®åˆæœŸåŒ–ã‚’è¡Œã†
+	//â˜…â˜…ãƒ¡ãƒ³ãƒå¤‰æ•°ã‚’è¿½åŠ ã—ãŸã‚‰å¿…ãšåˆæœŸåŒ–ã‚‚è¿½åŠ ã™ã‚‹äº‹â˜…â˜…
 	BChara()
 		: pos(0, 0)
 		, hitBase(0, 0, 0, 0)
@@ -84,37 +93,42 @@ public:
 		, jumpMax(1)
 		, dashMax(1)
 		, attackCnt(0)
+		, rotPow(0)
+		, searchDist(0)
 		, WeaponLevel(0)
 	{
 	}
 	virtual  ~BChara() {}
 
-	//ƒLƒƒƒ‰ƒNƒ^‹¤’Êƒƒ\ƒbƒh
-	//‚ß‚è‚Ü‚È‚¢ˆÚ“®ˆ—
+	//ã‚­ãƒ£ãƒ©ã‚¯ã‚¿å…±é€šãƒ¡ã‚½ãƒƒãƒ‰
+	//ã‚ã‚Šè¾¼ã¾ãªã„ç§»å‹•å‡¦ç†
 	virtual  void  CheckMove(ML::Vec2&  est_);
-	//³–ÊÚG”»’è(ƒTƒCƒhƒrƒ…[ƒQ[ƒ€ê—p)
+	//æ­£é¢æ¥è§¦åˆ¤å®š(ã‚µã‚¤ãƒ‰ãƒ“ãƒ¥ãƒ¼ã‚²ãƒ¼ãƒ å°‚ç”¨)
 	virtual bool CheckFront_LR();
-	//‘«Œ³ÚG”»’è
+	//è¶³å…ƒæ¥è§¦åˆ¤å®š
 	bool  CheckFoot();
-	//“ªãÚG”»’è
+	//é ­ä¸Šæ¥è§¦åˆ¤å®š
 	virtual  bool  CheckHead();
-	//ƒ‚[ƒVƒ‡ƒ“‚ğXVi•ÏX‚È‚µ‚Ìê‡	false)
+	//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã‚’æ›´æ–°ï¼ˆå¤‰æ›´ãªã—ã®å ´åˆ	false)
 	bool  UpdateMotion(Motion  nm_);
 
-	//	ƒAƒjƒ[ƒVƒ‡ƒ“î•ñ\‘¢‘Ì
+	//	ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±æ§‹é€ ä½“
 	struct DrawInfo {
 		ML::Box2D		draw, src;
 		ML::Color		color;
 	};
-	//UŒ‚î•ñ
+	//æ”»æ’ƒæƒ…å ±
 	struct AttackInfo {
-		int power;//UŒ‚‚ÌˆĞ—Í
-		int hit;//–½’†¸“x
-		int element;//UŒ‚‚Ì‘®«
-		//‚»‚Ì‘¼•K—v‚É‰‚¶‚Ä
+		int power;//æ”»æ’ƒã®å¨åŠ›
+		int hit;//å‘½ä¸­ç²¾åº¦
+		int element;//æ”»æ’ƒã®å±æ€§
+		//ãã®ä»–å¿…è¦ã«å¿œã˜ã¦
 	};
-	//ÚG‚Ì‰“šˆ—(‚±‚ê©‘Ì‚Íƒ_ƒ~[‚Ì‚æ‚¤‚È‚à‚Ì)
+	//æ¥è§¦æ™‚ã®å¿œç­”å‡¦ç†(ã“ã‚Œè‡ªä½“ã¯ãƒ€ãƒŸãƒ¼ã®ã‚ˆã†ãªã‚‚ã®)
 	virtual void Received(BChara* from_, AttackInfo at_);
-	//ÚG”»’è
+	//æ¥è§¦åˆ¤å®š
 	virtual bool CheckHit(const ML::Box2D& hit_);
+	//æ­£é¢è¶³å…ƒãƒã‚§ãƒƒã‚¯
+	virtual bool CheckFrontFoot_LR();
+	bool CheckNear(const ML::Vec2& tg_);
 };

@@ -64,7 +64,8 @@ namespace  Ending
 		}
 
 		if (this->logoPosY == 0) {
-			if (inp.ST.down) {
+			if (inp.ST.down || inp.S1.down)
+			{
 				//Ž©g‚ÉÁ–Å—v¿
 				this->Kill();
 			}

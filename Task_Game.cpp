@@ -9,7 +9,12 @@
 #include  "Task_Player.h"
 #include  "Task_Title.h"
 #include  "Task_Ending.h"
-#include "Task_GoalMap2D.h"
+#include "Task_Enemy02.h"
+#include "Task_Enemy03.h"
+#include "Task_Enemy04.h"
+#include "Task_Enemy05.h"
+#include  "Task_GoalMap2D.h"
+#include  "Task_UI.h"
 
 namespace  Game
 {
@@ -39,14 +44,31 @@ namespace  Game
 		ge->camera2D = ML::Box2D(0, 0, 480, 270);
 
 		//★タスクの生成
-		//背景タスク
-		//auto  bg = GameBG::Object::Create(true);
-
-		//ゴールタスク
-		//auto  goal = Goal::Object::Create(true);
 
 		//マップ(ステージ)の生成
 		auto  map = Map2D::Object::Create(true);
+		map->Load("./data/Map/map01.txt");
+	
+		//敵の生成
+		/*auto en01 = Enemy01::Object::Create(true);
+		en01->pos.x = 500;
+		en01->pos.y = 260;*/
+
+		/*auto en02 = Enemy02::Object::Create(true);
+		en02->pos.x = 500;
+		en02->pos.y = 260;*/
+
+		/*auto en03 = Enemy03::Object::Create(true);
+		en03->pos.x = 500;
+		en03->pos.y = 260;*/
+		
+		auto en04 = Enemy04::Object::Create(true);
+		en04->pos.x = 500;
+		en04->pos.y = 260;
+
+		/*auto en05 = Enemy05::Object::Create(true);
+		en05->pos.x = 500;
+		en05->pos.y = 260;*/
 		map->Load("./data/Map/01MapStage.txt");
 
 		//マップ(ゴール)の生成
@@ -57,7 +79,11 @@ namespace  Game
 		//プレイヤの生成
 		auto  pl = Player::Object::Create(true);
 		pl->pos.x = 480 / 2;
-		pl->pos.y = 270 / 3 * 2;
+		//pl->pos.y = 270 / 3 * 2;
+		pl->pos.y = 270 / 2;
+
+		//UIの生成
+		auto ui = UI::Object::Create(true);
 
 		return  true;
 	}
@@ -81,6 +107,7 @@ namespace  Game
 		ge->KillAll_G("Shot(Enemy)");
 		ge->KillAll_G("Sword");
 		ge->KillAll_G("Axe");
+		ge->KillAll_G("UI");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate)
 		{
@@ -101,7 +128,8 @@ namespace  Game
 	void  Object::UpDate()
 	{
 		auto inp = ge->in1->GetState( );
-		if (inp.ST.down) {
+		if (inp.ST.down)
+		{
 			//自身に消滅要請
 			this->Kill();
 		}

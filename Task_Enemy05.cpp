@@ -2,168 +2,134 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Enemy04.h"
-#include "Task_Player.h"
+#include  "Task_Enemy05.h"
 #include "Task_EnemyShot01.h"
+#include "Task_Player.h"
 
-namespace  Enemy04
+namespace  Enemy05
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
-	//ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–
+	//ƒŠƒ\[ƒX‚Ì‰Šú‰»
 	bool  Resource::Initialize()
 	{
 		this->img = DG::Image::Create("./data/image/Chara00.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
-	//ãƒªã‚½ãƒ¼ã‚¹ã®è§£æ”¾
+	//ƒŠƒ\[ƒX‚Ì‰ğ•ú
 	bool  Resource::Finalize()
 	{
 		this->img.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
-	//ã€ŒåˆæœŸåŒ–ã€ã‚¿ã‚¹ã‚¯ç”Ÿæˆæ™‚ã«ï¼‘å›ã ã‘è¡Œã†å‡¦ç†
+	//u‰Šú‰»vƒ^ƒXƒN¶¬‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
 	bool  Object::Initialize()
 	{
-		//ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹åˆæœŸåŒ–
+		//ƒX[ƒp[ƒNƒ‰ƒX‰Šú‰»
 		__super::Initialize(defGroupName, defName, true);
-		//ãƒªã‚½ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ç”Ÿæˆorãƒªã‚½ãƒ¼ã‚¹å…±æœ‰
+		//ƒŠƒ\[ƒXƒNƒ‰ƒX¶¬orƒŠƒ\[ƒX‹¤—L
 		this->res = Resource::Create();
 
-		//â˜…ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ–
+		//šƒf[ƒ^‰Šú‰»
 		this->render2D_Priority[1] = 0.6f;
 		this->hitBase = ML::Box2D(-15, -15, 30, 30);
 		this->angle_LR = Angle_LR::Left;
 		this->motion = Motion::Stand;
-		this->maxSpeed = 1.5f;
+		this->maxSpeed = 2.0f;
 		this->addSpeed = 0.7f;
 		this->decSpeed = 0.5f;
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 20;
-		this->attackCnt = 0;
-		this->attackSpeed = 5;
-		//â˜…ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ
+		this->hp = 100;
+		this->attackSpeed = 20;
+		//šƒ^ƒXƒN‚Ì¶¬
 
 		return  true;
 	}
 	//-------------------------------------------------------------------
-	//ã€Œçµ‚äº†ã€ã‚¿ã‚¹ã‚¯æ¶ˆæ»…æ™‚ã«ï¼‘å›ã ã‘è¡Œã†å‡¦ç†
+	//uI—¹vƒ^ƒXƒNÁ–Å‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
 	bool  Object::Finalize()
 	{
-		//â˜…ãƒ‡ãƒ¼ã‚¿ï¼†ã‚¿ã‚¹ã‚¯è§£æ”¾
+		//šƒf[ƒ^•ƒ^ƒXƒN‰ğ•ú
 
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
-			//â˜…å¼•ãç¶™ãã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ
+			//šˆø‚«Œp‚¬ƒ^ƒXƒN‚Ì¶¬
 		}
 
 		return  true;
 	}
 	//-------------------------------------------------------------------
-	//ã€Œæ›´æ–°ã€ï¼‘ãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã«è¡Œã†å‡¦ç†
+	//uXVv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::UpDate()
 	{
 		this->moveCnt++;
 		this->attackCnt++;
 		this->Move();
-		//æ€è€ƒãƒ»çŠ¶æ³åˆ¤æ–­
+		//vlEó‹µ”»’f
 		this->Think();
-
 		ML::Vec2 est = this->moveVec;
 		this->CheckMove(est);
-
-		if (attackCnt % 10 == 0) {
-			//å¼¾ã‚’ç”Ÿæˆ
-			auto shot = EnemyShot01::Object::Create(true);
-			shot->pos = this->pos;
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				shot->moveVec = ML::Vec2(10, 0);
-			}
-			else
-			{
-				shot->moveVec = ML::Vec2(-10, 0);
-			}
-		}
-		if (attackCnt % 10 == 0) {
-			//å¼¾ã‚’ç”Ÿæˆ
-			auto shot = EnemyShot01::Object::Create(true);
-			shot->pos = this->pos;
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				shot->moveVec = ML::Vec2(10, 10);
-			}
-			else
-			{
-				shot->moveVec = ML::Vec2(-10, 10);
-			}
-		}
-		if (attackCnt % 10 == 0) {
-			//å¼¾ã‚’ç”Ÿæˆ
-			auto shot = EnemyShot01::Object::Create(true);
-			shot->pos = this->pos;
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				shot->moveVec = ML::Vec2(10, -10);
-			}
-			else
-			{
-				shot->moveVec = ML::Vec2(-10, -10);
-			}
-		}
-
-		//å½“ãŸã‚Šåˆ¤å®š
+		//“–‚½‚è”»’è
 		{
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
 			auto targets = ge->GetTasks<BChara>("Player");
 			for (auto it = targets->begin(); it != targets->end(); ++it) {
-				//ç›¸æ‰‹ã«æ¥è§¦ã®æœ‰ç„¡ã‚’ç¢ºèªã•ã›ã‚‹
+
+				//‘Šè‚ÉÚG‚Ì—L–³‚ğŠm”F‚³‚¹‚é
 				if ((*it)->CheckHit(me)) {
-					//ç›¸æ‰‹ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã®å‡¦ç†ã‚’è¡Œã‚ã›ã‚‹
+					//‘Šè‚Éƒ_ƒ[ƒW‚Ìˆ—‚ğs‚í‚¹‚é
 					BChara::AttackInfo  at = { 4,0,0 };
 					(*it)->Received(this, at);
 					break;
 				}
 			}
 		}
+		//	’e‚ğŒ‚‚Âˆ—
+		if (this->attackCnt % this->attackSpeed == 0)
+		{
+			auto shot = EnemyShot01::Object::Create(true);
+			shot->pos = this->pos;
+			if (this->angle_LR == Angle_LR::Right)
+			{
+				shot->moveVec = ML::Vec2(8, 0);
+			}
+			else {
+				shot->moveVec = ML::Vec2(-8, 0);
+			}
+		}
 	}
 	//-------------------------------------------------------------------
-	//ã€Œï¼’ï¼¤æç”»ã€ï¼‘ãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã«è¡Œã†å‡¦ç†
+	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D draw(this->hitBase);
 		draw.Offset(this->pos);
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		ML::Box2D src(24, 7, 32, 23);
-
-		this->res->img->Draw(draw, src, ML::Color(1, 1, 1, 1));
-
 		this->res->img->Draw(draw, src);
-
 	}
 	//-----------------------------------------------------------------------------
-	//æ€è€ƒï¼†çŠ¶æ³åˆ¤æ–­ã€€ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³æ±ºå®š
+	//vl•ó‹µ”»’f@ƒ‚[ƒVƒ‡ƒ“Œˆ’è
 	void  Object::Think()
 	{
-		BChara::Motion  nm = this->motion;	//ã¨ã‚Šã‚ãˆãšä»Šã®çŠ¶æ…‹ã‚’æŒ‡å®š
+		BChara::Motion  nm = this->motion;	//‚Æ‚è‚ ‚¦‚¸¡‚Ìó‘Ô‚ğw’è
 
-		//æ€è€ƒï¼ˆå…¥åŠ›ï¼‰ã‚„çŠ¶æ³ã«å¿œã˜ã¦ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å¤‰æ›´ã™ã‚‹äº‹ã‚’ç›®çš„ã¨ã—ã¦ã„ã‚‹ã€‚
-		//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã®å¤‰æ›´ä»¥å¤–ã®å‡¦ç†ã¯è¡Œã‚ãªã„
+		//vli“ü—Íj‚âó‹µ‚É‰‚¶‚Äƒ‚[ƒVƒ‡ƒ“‚ğ•ÏX‚·‚é–‚ğ–Ú“I‚Æ‚µ‚Ä‚¢‚éB
+		//ƒ‚[ƒVƒ‡ƒ“‚Ì•ÏXˆÈŠO‚Ìˆ—‚Ís‚í‚È‚¢
 		switch (nm) {
-		case  Motion::Stand:	//ç«‹ã£ã¦ã„ã‚‹
+		case  Motion::Stand:	//—§‚Á‚Ä‚¢‚é
 			nm = Motion::Walk;
-
-			//if (this->CheckFoot() == false) { nm = Motion::Fall; }//è¶³å…ƒ éšœå®³ã€€ç„¡ã—
+			if (this->CheckFoot() == false) { nm = Motion::Fall; }//‘«Œ³ áŠQ@–³‚µ
 			break;
-		case  Motion::Walk:		//æ­©ã„ã¦ã„ã‚‹
+		case  Motion::Walk:		//•à‚¢‚Ä‚¢‚é
 			if (this->CheckFront_LR() == true) { nm = Motion::Turn; }
-			if (this->moveCnt >= 180) { nm = Motion::Turn; }
-			//if (this->CheckFoot() == false) { nm = Motion::Fall; }
-			// ãƒ—ãƒ¬ã‚¤ãƒ¤ã¨ã®æ¥è¿‘ãƒã‚§ãƒƒã‚¯
+			if (this->CheckFoot() == false) { nm = Motion::Fall; }
+			if (this->CheckFrontFoot_LR() == false) { nm = Motion::Turn; }
+			// ƒvƒŒƒCƒ„‚Æ‚ÌÚ‹ßƒ`ƒFƒbƒN
 			{
 				auto pl = ge->GetTask<Player::Object>("Player");
 				if (pl != NULL)
@@ -174,76 +140,70 @@ namespace  Enemy04
 					}
 				}
 			}
-
 			break;
-		case  Motion::Jump:		//ä¸Šæ˜‡ä¸­
+		case  Motion::Jump:		//ã¸’†
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
 			break;
-		case  Motion::Fall:		//è½ä¸‹ä¸­
+		case  Motion::Fall:		//—‰º’†
 			if (this->CheckFoot() == true) { nm = Motion::Stand; }
 			break;
-		case  Motion::Attack:	//æ”»æ’ƒä¸­
+		case  Motion::Attack:	//UŒ‚’†
 			break;
 			if (this->moveCnt == 8) { nm = Motion::Stand; }
 			break;
-		case  Motion::TakeOff:	//é£›ã³ç«‹ã¡
+		case  Motion::TakeOff:	//”ò‚Ñ—§‚¿
 			break;
-		case  Motion::Landing:	//ç€åœ°
-
-			//if (this->CheckFoot() == false) { nm = Motion::Fall; }
+		case  Motion::Landing:	//’…’n
+			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
-		case Motion::Bound:     //ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã¦å¹ãé£›ã‚“ã§ã„ã‚‹
-			if (this->moveCnt >= 12 /*&& this->CheckFoot() == true*/)
-
+		case Motion::Bound:     //ƒ_ƒ[ƒW‚ğó‚¯‚Ä‚«”ò‚ñ‚Å‚¢‚é
+			if (this->moveCnt >= 12 && this->CheckFoot() == true)
+			{
+				nm = Motion::Stand;
+			}
 			break;
 		case Motion::Turn:
 			if (this->moveCnt >= 5) { nm = Motion::Stand; }
 			break;
 		case Motion::Follow:
-			// ãƒ—ãƒ¬ã‚¤ãƒ¤ã¨ã®æ¥è¿‘ãƒã‚§ãƒƒã‚¯
+			// ƒvƒŒƒCƒ„‚Æ‚ÌÚ‹ßƒ`ƒFƒbƒN
 			auto pl = ge->GetTask<Player::Object>("Player");
 			if (pl != NULL)
 			{
 				if (this->CheckNear(pl->pos) == false)
 				{
-					nm = Motion::Walk;
+					nm = Motion::Stand;
 				}
 			}
 			break;
 		}
-		//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³æ›´æ–°
+		//ƒ‚[ƒVƒ‡ƒ“XV
 		this->UpdateMotion(nm);
 	}
 	//-----------------------------------------------------------------------------
-	//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã«å¯¾å¿œã—ãŸå‡¦ç†
-	//(ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã¯å¤‰æ›´ã—ãªã„ï¼‰
+	//ƒ‚[ƒVƒ‡ƒ“‚É‘Î‰‚µ‚½ˆ—
+	//(ƒ‚[ƒVƒ‡ƒ“‚Í•ÏX‚µ‚È‚¢j
 	void  Object::Move()
 	{
-		//é‡åŠ›åŠ é€Ÿ
+		//d—Í‰Á‘¬
 		switch (this->motion) {
 		default:
-			//ä¸Šæ˜‡ä¸­ã‚‚ã—ãã¯è¶³å…ƒã«åœ°é¢ãŒç„¡ã„
+			//ã¸’†‚à‚µ‚­‚Í‘«Œ³‚É’n–Ê‚ª–³‚¢
 			if (this->moveVec.y < 0 ||
 				this->CheckFoot() == false) {
-				//this->moveVec.y = 1.0f;//ä»®å‡¦ç†
+				//this->moveVec.y = 1.0f;//‰¼ˆ—
 				this->moveVec.y = min(this->moveVec.y + this->gravity, this->maxFallSpeed);
 			}
-			//åœ°é¢ã«æ¥è§¦ã—ã¦ã„ã‚‹
+			//’n–Ê‚ÉÚG‚µ‚Ä‚¢‚é
 			else {
 				this->moveVec.y = 0.0f;
 			}
 			break;
-			//é‡åŠ›åŠ é€Ÿã‚’ç„¡åŠ¹åŒ–ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã¯ä¸‹ã«caseã‚’æ›¸ãï¼ˆç¾åœ¨å¯¾è±¡ç„¡ã—ï¼‰
+			//d—Í‰Á‘¬‚ğ–³Œø‰»‚·‚é•K—v‚ª‚ ‚éƒ‚[ƒVƒ‡ƒ“‚Í‰º‚Écase‚ğ‘‚­iŒ»İ‘ÎÛ–³‚µj
 		case Motion::Unnon:	break;
-		case Motion::Stand: break;
-		case Motion::Walk: break;
-		case Motion::Fall: break;
-		case Motion::Turn: break;
-		case Motion::Bound: break;
-		case Motion::Follow: break;
 		}
 
-		//ç§»å‹•é€Ÿåº¦æ¸›è¡°
+		//ˆÚ“®‘¬“xŒ¸Š
 		switch (this->motion) {
 		default:
 			if (this->moveVec.x < 0)
@@ -255,16 +215,16 @@ namespace  Enemy04
 				this->moveVec.x = max(this->moveVec.x - this->decSpeed, 0);
 			}
 			break;
-			//ç§»å‹•é€Ÿåº¦æ¸›è¡°ã‚’ç„¡åŠ¹åŒ–ã™ã‚‹å¿…è¦ãŒã‚ã‚‹ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã¯ä¸‹ã«caseã‚’æ›¸ã
+			//ˆÚ“®‘¬“xŒ¸Š‚ğ–³Œø‰»‚·‚é•K—v‚ª‚ ‚éƒ‚[ƒVƒ‡ƒ“‚Í‰º‚Écase‚ğ‘‚­
 		case Motion::Bound:
 		case Motion::Unnon:	break;
 		}
 		//-----------------------------------------------------------------
-		//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³æ¯ã«å›ºæœ‰ã®å‡¦ç†
+		//ƒ‚[ƒVƒ‡ƒ“–ˆ‚ÉŒÅ—L‚Ìˆ—
 		switch (this->motion) {
-		case  Motion::Stand:	//ç«‹ã£ã¦ã„ã‚‹
+		case  Motion::Stand:	//—§‚Á‚Ä‚¢‚é
 			break;
-		case  Motion::Walk:		//æ­©ã„ã¦ã„ã‚‹
+		case  Motion::Walk:		//•à‚¢‚Ä‚¢‚é
 			if (this->angle_LR == Angle_LR::Left) {
 				this->moveVec.x =
 					max(-this->maxSpeed, this->moveVec.x - this->addSpeed);
@@ -274,11 +234,11 @@ namespace  Enemy04
 					min(+this->maxSpeed, this->moveVec.x + this->addSpeed);
 			}
 			break;
-		case  Motion::Fall:		//è½ä¸‹ä¸­
+		case  Motion::Fall:		//—‰º’†
 			break;
-		case  Motion::Jump:		//ä¸Šæ˜‡ä¸­
+		case  Motion::Jump:		//ã¸’†
 			break;
-		case  Motion::Attack:	//æ”»æ’ƒä¸­
+		case  Motion::Attack:	//UŒ‚’†
 			break;
 		case  Motion::Turn:
 			if (this->moveCnt == 3) {
@@ -306,28 +266,15 @@ namespace  Enemy04
 				this->moveVec.x =
 					min(+this->maxSpeed, this->moveVec.x + this->addSpeed);
 			}
-			//	å¼¾ã‚’æ’ƒã¤å‡¦ç†
-			if (this->attackCnt % this->attackSpeed == 0)
-			{
-				auto shot = EnemyShot01::Object::Create(true);
-				shot->pos = this->pos;
-				if (this->angle_LR == Angle_LR::Right)
-				{
-					shot->moveVec = ML::Vec2(8, 0);
-				}
-				else {
-					shot->moveVec = ML::Vec2(-8, 0);
-				}
-			}
 			break;
 		}
 	}
 	//-----------------------------------------------------------------------------
-	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³åˆ¶å¾¡
+	//ƒAƒjƒ[ƒVƒ‡ƒ“§Œä
 	BChara::DrawInfo  Object::Anim()
 	{
 		BChara::DrawInfo  rtv;
-		//	å‘ãã«å¿œã˜ã¦ç”»åƒã‚’å·¦å³åè»¢ã™ã‚‹
+		//	Œü‚«‚É‰‚¶‚Ä‰æ‘œ‚ğ¶‰E”½“]‚·‚é
 		if (Angle_LR::Left == this->angle_LR) {
 			rtv.draw.x = -rtv.draw.x;
 			rtv.draw.w = -rtv.draw.w;
@@ -341,37 +288,33 @@ namespace  Enemy04
 		if (this->hp <= 0) {
 			this->Kill();
 		}
-		//å¹ãé£›ã°ã•ã‚Œã‚‹
+		//‚«”ò‚Î‚³‚ê‚é
 		if (this->pos.x > from_->pos.x)
 		{
-			this->moveVec = ML::Vec2(+5, 0);
+			this->moveVec = ML::Vec2(+3, -3);
 		}
 		else
 		{
-			this->moveVec = ML::Vec2(-5, 0);
-			this->moveVec = ML::Vec2(+3, -3);
-		}
-		/*else
-		{
 			this->moveVec = ML::Vec2(-3, -3);
-		}*/
+		}
 		this->UpdateMotion(Motion::Bound);
 	}
-	//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
-	//ä»¥ä¸‹ã¯åŸºæœ¬çš„ã«å¤‰æ›´ä¸è¦ãªãƒ¡ã‚½ãƒƒãƒ‰
-	//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
+	//šššššššššššššššššššššššššššššššššššššššššš
+	//ˆÈ‰º‚ÍŠî–{“I‚É•ÏX•s—v‚Èƒƒ\ƒbƒh
+	//šššššššššššššššššššššššššššššššššššššššššš
 	//-------------------------------------------------------------------
-	//ã‚¿ã‚¹ã‚¯ç”Ÿæˆçª“å£
+	//ƒ^ƒXƒN¶¬‘‹Œû
 	Object::SP  Object::Create(bool  flagGameEnginePushBack_)
 	{
 		Object::SP  ob = Object::SP(new  Object());
 		if (ob) {
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
-				ge->PushBack(ob);//ã‚²ãƒ¼ãƒ ã‚¨ãƒ³ã‚¸ãƒ³ã«ç™»éŒ²
+				ge->PushBack(ob);//ƒQ[ƒ€ƒGƒ“ƒWƒ“‚É“o˜^
+
 			}
 			if (!ob->B_Initialize()) {
-				ob->Kill();//ã‚¤ãƒ‹ã‚·ãƒ£ãƒ©ã‚¤ã‚ºã«å¤±æ•—ã—ãŸã‚‰Kill
+				ob->Kill();//ƒCƒjƒVƒƒƒ‰ƒCƒY‚É¸”s‚µ‚½‚çKill
 			}
 			return  ob;
 		}
@@ -392,7 +335,7 @@ namespace  Enemy04
 	//-------------------------------------------------------------------
 	Object::Object() {	}
 	//-------------------------------------------------------------------
-	//ãƒªã‚½ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ
+	//ƒŠƒ\[ƒXƒNƒ‰ƒX‚Ì¶¬
 	Resource::SP  Resource::Create()
 	{
 		if (auto sp = instance.lock()) {
