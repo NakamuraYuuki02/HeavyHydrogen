@@ -71,23 +71,9 @@ namespace  Enemy03
 		this->Move();
 		//思考・状況判断
 		this->Think();
+
 		ML::Vec2 est = this->moveVec;
 		this->CheckMove(est);
-		
-		if (attackCnt % 60 == 0) {
-			//弾を生成
-			auto shot = EnemyShot01::Object::Create(true);
-			shot->pos = this->pos;
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				shot->moveVec = ML::Vec2(10, 0);
-			}
-			else
-			{
-				shot->moveVec = ML::Vec2(-10, 0);
-			}
-		}
-
 		//当たり判定
 		{
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
@@ -102,6 +88,7 @@ namespace  Enemy03
 				}
 			}
 		}
+		
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
@@ -124,11 +111,12 @@ namespace  Enemy03
 		switch (nm) {
 		case  Motion::Stand:	//立っている
 			nm = Motion::Walk;
-			if (this->CheckFoot() == false) { nm = Motion::Fall; }//足元 障害　無し
+			//if (this->CheckFoot() == false) { nm = Motion::Fall; }//足元 障害　無し
 			break;
 		case  Motion::Walk:		//歩いている
 			if (this->CheckFront_LR() == true) { nm = Motion::Turn; }
-			if (this->CheckFoot() == false) { nm = Motion::Fall; }
+			if (this->moveCnt >= 180) { nm = Motion::Turn; }
+			//if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case  Motion::Jump:		//上昇中
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
@@ -143,10 +131,10 @@ namespace  Enemy03
 		case  Motion::TakeOff:	//飛び立ち
 			break;
 		case  Motion::Landing:	//着地
-			if (this->CheckFoot() == false) { nm = Motion::Fall; }
+			//if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case Motion::Bound:     //ダメージを受けて吹き飛んでいる
-			if (this->moveCnt >= 12 && this->CheckFoot() == true)
+			if (this->moveCnt >= 12 /*&& this->CheckFoot() == true*/)
 			{
 				nm = Motion::Stand;
 			}
@@ -179,6 +167,11 @@ namespace  Enemy03
 			break;
 			//重力加速を無効化する必要があるモーションは下にcaseを書く（現在対象無し）
 		case Motion::Unnon:	break;
+		case Motion::Stand: break;
+		case Motion::Walk: break;
+		case Motion::Fall: break;
+		case Motion::Turn: break;
+		case Motion::Bound: break;
 		}
 
 		//移動速度減衰
@@ -250,11 +243,11 @@ namespace  Enemy03
 		//吹き飛ばされる
 		if (this->pos.x > from_->pos.x)
 		{
-			this->moveVec = ML::Vec2(+3, -3);
+			this->moveVec = ML::Vec2(+5, 0);
 		}
 		else
 		{
-			this->moveVec = ML::Vec2(-3, -3);
+			this->moveVec = ML::Vec2(-5, 0);
 		}
 		this->UpdateMotion(Motion::Bound);
 	}

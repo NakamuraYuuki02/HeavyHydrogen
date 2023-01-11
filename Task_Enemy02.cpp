@@ -33,7 +33,7 @@ namespace  Enemy02
 
 		//★データ初期化
 		this->render2D_Priority[1] = 0.6f;
-		this->hitBase = ML::Box2D(-25, -25, 80, 80);
+		this->hitBase = ML::Box2D(-15, -15, 30, 30);
 		this->angle_LR = Angle_LR::Left;
 		this->motion = Motion::Stand;
 		this->maxSpeed = 2.0f;
@@ -112,6 +112,18 @@ namespace  Enemy02
 		case  Motion::Walk:		//歩いている
 			if (this->CheckFront_LR() == true) { nm = Motion::Turn; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
+			if (this->CheckFrontFoot_LR() == false) { nm = Motion::Turn; }
+			// プレイヤとの接近チェック
+			{
+				auto pl = ge->GetTask<Player::Object>("Player");
+				if (pl != NULL)
+				{
+					if (this->CheckNear(pl->pos))
+					{
+						nm = Motion::Follow;
+					}
+				}
+			}
 			break;
 		case  Motion::Jump:		//上昇中
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
@@ -136,6 +148,17 @@ namespace  Enemy02
 			break;
 		case Motion::Turn:
 			if (this->moveCnt >= 5) { nm = Motion::Stand; }
+			break;
+		case Motion::Follow:
+			// プレイヤとの接近チェック
+			auto pl = ge->GetTask<Player::Object>("Player");
+			if (pl != NULL)
+			{
+				if (this->CheckNear(pl->pos) == false)
+				{
+					nm = Motion::Stand;
+				}
+			}
 			break;
 		}
 		//モーション更新
@@ -207,6 +230,25 @@ namespace  Enemy02
 					this->angle_LR = Angle_LR::Right;
 				}
 				else { this->angle_LR = Angle_LR::Left; }
+			}
+			break;
+		case Motion::Follow:
+			auto pl = ge->GetTask<Player::Object>("Player");
+			if (this->pos.x >= pl->pos.x)
+			{
+				this->angle_LR = Angle_LR::Left;
+			}
+			else
+			{
+				this->angle_LR = Angle_LR::Right;
+			}
+			if (this->angle_LR == Angle_LR::Left) {
+				this->moveVec.x =
+					max(-this->maxSpeed, this->moveVec.x - this->addSpeed);
+			}
+			if (this->angle_LR == Angle_LR::Right) {
+				this->moveVec.x =
+					min(+this->maxSpeed, this->moveVec.x + this->addSpeed);
 			}
 			break;
 		}
