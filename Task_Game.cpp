@@ -128,7 +128,8 @@ namespace  Game
 	void  Object::UpDate()
 	{
 		auto inp = ge->in1->GetState( );
-		if (inp.ST.down) {
+		if (inp.ST.down)
+		{
 			//自身に消滅要請
 			this->Kill();
 		}
