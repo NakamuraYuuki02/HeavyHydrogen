@@ -34,17 +34,22 @@ namespace  Select
 		this->res = Resource::Create();
 
 		//★データ初期化
-		this->nos = 2;					//2回選択可能
 		this->selectedNumber = 0;
 		this->moveVec = ML::Vec2(75, 0);												//移動力
 		int x = ge->screen2DWidth / 2;
 		int y = ge->screen2DHeight / 2;
 		this->posMin = ML::Vec2(x - moveVec.x * 2, y);									//画面中央から x - moveVec.x * 2
 		this->pos = this->posMin;														//初期値はMin
-		this->posMax = this->posMin + moveVec * 4;								        //Minから x + moveVec * 4
+		this->posMax = this->posMin + moveVec * 4;										//Minから x + moveVec * 4
 		this->drawBase = ML::Box2D(-25, -25, 50, 50);
+		this->state = SelectionState::Before;
+		for (int i = 0; i < 3; ++i)
+		{
+			//クリアしたステージの次ステージを三つ取得
+			this->stage[i] = ge->stageNum + i + 1;
+		}
 		
-
+		
 		//★タスクの生成
 
 		return  true;
@@ -68,6 +73,8 @@ namespace  Select
 	{
 		auto inp = ge->in1->GetState();
 		
+		Select();
+
 		if (inp.ST.down)
 		{
 			//自身に消滅要請
@@ -95,11 +102,9 @@ namespace  Select
 			break;
 		case SelectionState::Skill:
 			//スキル選択
-			SelectedSkill();
 			break;
 		case SelectionState::Stage:
 			//ステージ選択
-			SelectedStage();
 			break;
 		case SelectionState::After:
 			//選択後
@@ -107,9 +112,57 @@ namespace  Select
 		}
 	}
 	//-------------------------------------------------------------------
+	//State更新メソッド
+	bool Object::UpDateSelectionState(SelectionState state_)
+	{
+		//更新されていない場合は処理をしない
+		if (state_ == this->state)
+		{
+			return false;
+		}
+		else
+		{
+			//ステートを更新
+			this->state = state_;
+			//選択値をリセット
+			this->selectedNumber = 0;
+			//UI表示位置をずらすため各値を設定
+			switch (this->state)
+			{
+			case SelectionState::Before:
+				//選択前
+				break;
+			case SelectionState::Weapon:
+				//武器選択
+				this->posMin = ML::Vec2(ge->screen2DWidth / 2 - moveVec.x * 1, ge->screen2DHeight / 2);
+				this->pos = this->posMin;
+				this->posMax = this->posMin + moveVec * 2;
+				break;
+			case SelectionState::Skill:
+				//スキル選択
+				this->posMin = ML::Vec2(ge->screen2DWidth / 2 - moveVec.x * 2, ge->screen2DHeight / 2);
+				this->pos = this->posMin;
+				this->posMax = this->posMin + moveVec * 4;
+				this->s = MyPG::MyGameEngine::SelectedSkill::Non;
+				//GetRandom(0, 1);
+				break;
+			case SelectionState::Stage:
+				//ステージ選択
+				this->posMin = ML::Vec2(ge->screen2DWidth / 2 - moveVec.x * 1, ge->screen2DHeight / 2);
+				this->pos = this->posMin;
+				this->posMax = this->posMin + moveVec * 2;
+				break;
+			case SelectionState::After:
+				//選択後
+				break;
+			}
+		}
+	}
+	//-------------------------------------------------------------------
 	//セレクトメソッド 各セレクトメソッドを呼ぶ
 	void  Object::Select()
 	{
+		Object::SelectionState sstate = this->state;
 		//初回以降
 		if (ge->stageNum > 0)
 		{
@@ -118,7 +171,7 @@ namespace  Select
 			// 	Skill		//スキル選択
 			//	Stage		//ステージ選択
 			//	After		//選択後
-			switch (this->state)
+			switch (sstate)
 			{
 			case SelectionState::Before:
 				//選択前
@@ -129,11 +182,11 @@ namespace  Select
 				break;
 			case SelectionState::Skill:
 				//スキル選択
-				SelectedSkill();
+				SelectSkill();
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
-				SelectedStage();
+				SelectStage();
 				break;
 			case SelectionState::After:
 				//選択後
@@ -143,43 +196,45 @@ namespace  Select
 		//初回
 		else
 		{
-			switch (this->state)
+			switch (sstate)
 			{
 			case SelectionState::Before:
 				//選択前
+				sstate = SelectionState::Weapon;
 				break;
 			case SelectionState::Weapon:
 				//武器選択
-				SelectedWeapon();
+				if (SelectWeapon())
+				{
+					sstate = SelectionState::Skill;
+				}
 				break;
 			case SelectionState::Skill:
 				//スキル選択
-				SelectedSkill();
+				if (SelectSkill())
+				{
+					sstate = SelectionState::Stage;
+				}
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
-				SelectedStage();
+				
 				break;
 			case SelectionState::After:
 				//選択後
+				//自身に消滅要請
+				this->Kill();
 				break;
 			}
 		}
+		UpDateSelectionState(sstate);
 	}
 	//-------------------------------------------------------------------
 	//武器選択メソッド
-	void Object::SelectWeapon()
+	bool Object::SelectWeapon()
 	{
 		auto inp = ge->in1->GetState();
-
-	}
-	//-------------------------------------------------------------------
-	//スキル選択メソッド
-	void Object::SelectSkill()
-	{
-		auto inp = ge->in1->GetState();
-		this->pos = this->posMin;
-		this->selectedNumber = 0;
+		bool r = false;
 		
 		//A左移動
 		if (inp.SE.down && this->pos.x > this->posMin.x)
@@ -194,7 +249,46 @@ namespace  Select
 			this->pos += moveVec;
 			--this->selectedNumber;
 		}
+		//スペース決定
+		if (inp.S1.down)
+		{
+			//武器を設定
+			switch (this->selectedNumber)
+			{
+			case 0:
+				ge->sw = MyPG::MyGameEngine::SelectedWeapon::Sword;
+				break;
+			case 1:
+				ge->sw = MyPG::MyGameEngine::SelectedWeapon::Axe;
+				break;
+			case 2:
+				ge->sw = MyPG::MyGameEngine::SelectedWeapon::Gun;
+				break;
+			}
+			r = true;
+		}
+		return r;
+	}
+	//-------------------------------------------------------------------
+	//スキル選択メソッド
+	bool Object::SelectSkill()
+	{
+		auto inp = ge->in1->GetState();
+		bool r = false;
 
+		//A左移動
+		if (inp.SE.down && this->pos.x > this->posMin.x)
+		{
+			//140/135>140/135
+			this->pos -= moveVec;
+			++this->selectedNumber;
+		}
+		//D右移動
+		if (inp.L3.down && this->pos.x < this->posMax.x)
+		{
+			this->pos += moveVec;
+			--this->selectedNumber;
+		}
 		//スペース決定
 		if (inp.S1.down)
 		{
@@ -202,33 +296,55 @@ namespace  Select
 			switch (this->selectedNumber)
 			{
 			case 0:
-				this->s = SelectedSkill::JumpUp;
+				this->s = MyPG::MyGameEngine::SelectedSkill::JumpUp;
 				break;
 			case 1:
-				this->s = SelectedSkill::DashUp;
+				this->s = MyPG::MyGameEngine::SelectedSkill::DashUp;
 				break;
 			case 2:
-				this->s = SelectedSkill::HpUp;
+				this->s = MyPG::MyGameEngine::SelectedSkill::HpUp;
 				break;
 			case 3:
-				this->s = SelectedSkill::AtkUp;
+				this->s = MyPG::MyGameEngine::SelectedSkill::AtkUp;
 				break;
 			case 4:
 				//sp1 or sp2
 				/*if ()
 				{
-
 				}*/
 				break;
 			}
-
+			ge->ss[0] = this->s;
+			r = true;
 		}
+		return r;
 	}
 	//-------------------------------------------------------------------
 	//ステージ選択メソッド
-	void Object::SelectStage()
+	bool Object::SelectStage()
 	{
 		auto inp = ge->in1->GetState();
+		bool r = false;
+
+		//A左移動
+		if (inp.SE.down && this->pos.x > this->posMin.x)
+		{
+			//140/135>140/135
+			this->pos -= moveVec;
+			++this->selectedNumber;
+		}
+		//D右移動
+		if (inp.L3.down && this->pos.x < this->posMax.x)
+		{
+			this->pos += moveVec;
+			--this->selectedNumber;
+		}
+		//スペース決定
+		if (inp.S1.down)
+		{
+			r = true;
+		}
+		return r;
 	}
 
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

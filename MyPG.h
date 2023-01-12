@@ -99,7 +99,8 @@ namespace  MyPG
 			HpUp,
 			AtkUp,
 			Special1,
-			Special2
+			Special2,
+			Non
 		};
 		vector<SelectedSkill> ss;
 		//ステージ 毎回一つ選択

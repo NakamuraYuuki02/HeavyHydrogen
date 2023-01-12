@@ -100,6 +100,14 @@ namespace MyPG
 		//ステージ 毎回一つ選択
 		this->selectedStage = 1;
 
+		//スキル選択数 selected skill number
+		this->ssn = 2;
+
+		for (int i = 0; i < ssn; ++i)
+		{
+			ge->ss.push_back(SelectedSkill::Non);
+		}
+
 		//ステージ通過数、ゲーム進行度
 		this->stageNum = 0;
 

@@ -49,39 +49,10 @@ namespace  Select
 	public:
 		//追加したい変数・メソッドはここに追加する
 
-		//選択された武器
-		enum class SelectedWeapon
-		{
-			Sword,
-			Axe,
-			Gun
-		};
-		SelectedWeapon sw;
 		//選ばれたスキル、二つの選んだスキルの番号を格納する。
-		enum class SelectedSkill
-		{
-			JumpUp,
-			DashUp,
-			HpUp,
-			AtkUp,
-			Special1,
-			Special2
-		};
-		vector<SelectedSkill> ss;
-		//選ばれたステージ
-		int selectedStage;
 
 		//選択用
-		SelectedSkill s;
-
-		//プレイヤーステータス
-		int hp;				//体力
-		int hpMax;			//最大体力
-		int atk;			//攻撃力
-		int jumpCnt;		//ジャンプ回数
-		int jumpMax;		//ジャンプ上限回数
-		int dashCnt;		//ダッシュ回数
-		int dashMax;		//ダッシュ上限回数
+		MyPG::MyGameEngine::SelectedSkill s;
 
 		//選択状態
 		enum class SelectionState
@@ -94,16 +65,20 @@ namespace  Select
 		};
 		SelectionState state;
 
+		//State更新メソッド
+		bool UpDateSelectionState(SelectionState state_);
+
 		//選択メソッド スキル、ステージを選択、初回は武器も選択
 		void Select();
-		void SelectWeapon();
-		void SelectSkill();
-		void SelectStage();
+		bool SelectWeapon();
+		bool SelectSkill();
+		bool SelectStage();
 
-		//選択回数 number of selections
-		int nos;
 		//選択された番号
 		int selectedNumber;
+
+		//ステージ選択、表示用変数
+		int stage[3];
 
 		//選択UI
 		//表示最小値
