@@ -1,15 +1,15 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//プレイヤ
+//プレイヤの出す弾
 //-------------------------------------------------------------------
 #include "BChara.h"
 
-namespace  Player
+namespace  Gun
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("Player");	//グループ名
-	const  string  defName("NoName");	//タスク名
+	const  string  defGroupName("Shot(Player)");	//グループ名
+	const  string  defName("NoName");				//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource
 	{
@@ -23,7 +23,7 @@ namespace  Player
 		static   WP  instance;
 		static  Resource::SP  Create();
 		//共有する変数はここに追加する
-		DG::Image::SP  img;
+		DG::Image::SP	img;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BChara
@@ -48,43 +48,5 @@ namespace  Player
 	public:
 		//追加したい変数・メソッドはここに追加する
 		//BCharaに持たせていない変数・メソッドのみここに書く
-		int				hpMax;			//	体力上限
-		int				jumpCnt;        //  ジャンプ回数
-		int             dashCnt;        //  ダッシュ回数
-		int				CreateNum;		//  攻撃の生成数 特殊強化で追加される要素のfor文の元
-		
-		XI::GamePad::SP  controller;
-
-		//思考＆状況判断(ステータス決定）
-		void  Think();
-		//モーションに対応した処理
-		void  Move();
-		//アニメーション制御
-		BChara::DrawInfo  Anim();
-		//接触時の応答処理（必ず受け身の処理として実装する）
-		void Received(BChara* from_, AttackInfo at_) override;
-
-		enum class SelectedSkill
-		{
-			JumpUp,
-			DashUp,
-			HpUp,
-			AtkUp,
-			Special1,
-			Special2
-		};
-		vector<SelectedSkill> ss;
-
-		enum class Weapon
-		{
-			Sword,
-			Axe,
-			Gun
-		};
-		Weapon weapon;
-
-		void	Skill();
-		//void	WeaponSpecial1(Weapon weapon_);
-		void	SkillImage();
 	};
 }

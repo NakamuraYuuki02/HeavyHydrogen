@@ -36,11 +36,11 @@ namespace  Sword
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
-		this->hitBase = ML::Box2D(-16, -16, 32, 32);
+		/*this->hitBase = ML::Box2D(-16, -16, 32, 32);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		this->hp = 5;
-		this->atk = 2;
+		this->atk = 2;*/
 		
 		//★タスクの生成
 
@@ -71,42 +71,42 @@ namespace  Sword
 			return;
 		}
 		//移動
-		this->pos += this->moveVec;
+		//this->pos += this->moveVec;
 
-		//当たり判定
-		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("Enemy");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
-			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { this->atk,0,0 };
-					(*it)->Received(this, at);
-					this->Kill();
-					break;
-				}
-			}
-		}
+		////当たり判定
+		//{
+		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
+		//	auto targets = ge->GetTasks<BChara>("Enemy");
+		//	for (auto it = targets->begin(); it != targets->end(); ++it)
+		//	{
+		//		//相手に接触の有無を確認させる
+		//		if ((*it)->CheckHit(me))
+		//		{
+		//			//相手にダメージの処理を行わせる
+		//			BChara::AttackInfo at = { this->atk,0,0 };
+		//			(*it)->Received(this, at);
+		//			this->Kill();
+		//			break;
+		//		}
+		//	}
+		//}
 
-		//移動先で障害物に接触したら消滅
-		//マップが存在するか調べてからアクセス
-		if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
-			ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
-			if (true == map->CheckHit(hit)) {
-				//消滅申請
-				this->Kill();
+		////移動先で障害物に接触したら消滅
+		////マップが存在するか調べてからアクセス
+		//if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
+		//	ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
+		//	if (true == map->CheckHit(hit)) {
+		//		//消滅申請
+		//		this->Kill();
 
-				////とりあえず星はばら撒くよ
-				//for (int c = 0; c < 4; ++c) {
-				//	auto  eff = Effect00::Object::Create(true);
-				//	eff->pos = this->pos;
-				//}
-				//return;
-			}
-		}
+		//		////とりあえず星はばら撒くよ
+		//		//for (int c = 0; c < 4; ++c) {
+		//		//	auto  eff = Effect00::Object::Create(true);
+		//		//	eff->pos = this->pos;
+		//		//}
+		//		//return;
+		//	}
+		//}
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理

@@ -2,18 +2,19 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Axe.h"
+#include  "Task_Shot00.h"
+#include  "Task_Gun.h"
 #include  "Task_Map2D.h"
 
 
-namespace  Axe
+namespace  Gun
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Axe.png");
+		this->img = DG::Image::Create("./data/image/Gun.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -36,12 +37,11 @@ namespace  Axe
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
-		this->hitBase = ML::Box2D(-8, -8, 16, 16);
-		this->moveVec = ML::Vec2(0, 0);
-		this->moveCnt = 0;
-		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 5;
-		this->atk = 3;
+		//this->hitBase = ML::Box2D(-8, -8, 16, 16);
+		//this->moveVec = ML::Vec2(0, 0);
+		//this->moveCnt = 0;
+		//this->hp = 5;
+		//this->atk = 1;
 		
 		//★タスクの生成
 
@@ -66,51 +66,49 @@ namespace  Axe
 	{
 		this->moveCnt++;
 		//限界の時間を迎えたら消滅
-		if (this->moveCnt >= 30) {
+		if (this->moveCnt >= 40) {
 			//消滅申請
 			this->Kill();
 			return;
 		}
 
-		//移動
-		this->pos += this->moveVec;
-		//重力
-		this->moveVec.y += this->gravity;
+		////移動
+		//this->pos += this->moveVec;
 
-		//当たり判定
-		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("Enemy");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
-			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { this->hp,0,0 };
-					(*it)->Received(this, at);
-					this->Kill();
-					break;
-				}
-			}
-		}
+		////当たり判定
+		//{
+		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
+		//	auto targets = ge->GetTasks<BChara>("Enemy");
+		//	for (auto it = targets->begin(); it != targets->end(); ++it)
+		//	{
+		//		//相手に接触の有無を確認させる
+		//		if ((*it)->CheckHit(me))
+		//		{
+		//			//相手にダメージの処理を行わせる
+		//			BChara::AttackInfo at = { this->atk,0,0 };
+		//			(*it)->Received(this, at);
+		//			this->Kill();
+		//			break;
+		//		}
+		//	}
+		//}
 
-		//移動先で障害物に接触したら消滅
-		//マップが存在するか調べてからアクセス
-		if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
-			ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
-			if (true == map->CheckHit(hit)) {
-				//消滅申請
-				this->Kill();
+		////移動先で障害物に接触したら消滅
+		////マップが存在するか調べてからアクセス
+		//if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
+		//	ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
+		//	if (true == map->CheckHit(hit)) {
+		//		//消滅申請
+		//		this->Kill();
 
-				////とりあえず星はばら撒くよ
-				//for (int c = 0; c < 4; ++c) {
-				//	auto  eff = Effect00::Object::Create(true);
-				//	eff->pos = this->pos;
-				//}
-				//return;
-			}
-		}
+		//		////とりあえず星はばら撒くよ
+		//		//for (int c = 0; c < 4; ++c) {
+		//		//	auto  eff = Effect00::Object::Create(true);
+		//		//	eff->pos = this->pos;
+		//		//}
+		//		//return;
+		//	}
+		//}
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
@@ -118,11 +116,17 @@ namespace  Axe
 	{
 		ML::Box2D  draw(-8, -8, 16, 16);
 		draw.Offset(this->pos);
-		ML::Box2D  src(0, 0, 14, 14);
+		ML::Box2D  src(0, 0, 15, 10);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		this->res->img->Draw(draw, src);
+		//BChara::DrawInfo  di = this->Anim();
+		//di.draw.Offset(this->pos);
+		////スクロール対応
+		//di.draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
+
+		//this->res->img->Draw(di.draw, di.src);
 	}
 	//-------------------------------------------------------------------
 	

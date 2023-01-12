@@ -133,8 +133,12 @@
     <ClCompile Include="Task_Enemy04.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Task_Enemy05.cpp">
-      <Filter>MyPG\Task\Game</Filter>
+    <ClCompile Include="Task_Enemy05.cpp" />
+    <ClCompile Include="Task_Gun.cpp">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Slash.cpp">
+      <Filter>MyPG\Game\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -261,8 +265,12 @@
     <ClInclude Include="Task_Enemy04.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Task_Enemy05.h">
-      <Filter>MyPG\Task\Game</Filter>
+    <ClInclude Include="Task_Enemy05.h" />
+    <ClInclude Include="Task_Gun.h">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Slash.h">
+      <Filter>MyPG\Game\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

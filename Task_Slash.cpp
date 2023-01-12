@@ -2,18 +2,19 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Axe.h"
+#include  "Task_Sword.h"
 #include  "Task_Map2D.h"
+#include  "Task_Player.h"
+#include  "Task_Slash.h"
 
-
-namespace  Axe
+namespace  Slash
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Axe.png");
+		this->img = DG::Image::Create("./data/image/Slash.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -36,12 +37,11 @@ namespace  Axe
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
-		this->hitBase = ML::Box2D(-8, -8, 16, 16);
+		this->hitBase = ML::Box2D(-16, -16, 32, 32);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
-		this->gravity = ML::Gravity(32) * 5;
 		this->hp = 5;
-		this->atk = 3;
+		this->atk = 2;
 		
 		//★タスクの生成
 
@@ -71,11 +71,8 @@ namespace  Axe
 			this->Kill();
 			return;
 		}
-
 		//移動
 		this->pos += this->moveVec;
-		//重力
-		this->moveVec.y += this->gravity;
 
 		//当たり判定
 		{
@@ -87,7 +84,7 @@ namespace  Axe
 				if ((*it)->CheckHit(me))
 				{
 					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { this->hp,0,0 };
+					BChara::AttackInfo at = { this->atk,0,0 };
 					(*it)->Received(this, at);
 					this->Kill();
 					break;
@@ -116,9 +113,9 @@ namespace  Axe
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-8, -8, 16, 16);
+		ML::Box2D  draw(-16*2, -16*2, 32*2, 32*2);
 		draw.Offset(this->pos);
-		ML::Box2D  src(0, 0, 14, 14);
+		ML::Box2D  src(0, 0, 126, 150);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
@@ -138,7 +135,7 @@ namespace  Axe
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
 				ge->PushBack(ob);//ゲームエンジンに登録
-				//（メソッド名が変なのは旧バージョンのコピーによるバグを回避するため
+				
 			}
 			if (!ob->B_Initialize()) {
 				ob->Kill();//イニシャライズに失敗したらKill
