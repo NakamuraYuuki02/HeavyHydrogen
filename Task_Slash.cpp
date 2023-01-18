@@ -3,17 +3,18 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Sword.h"
+#include  "Task_Slash.h"
 #include  "Task_Map2D.h"
 #include  "Task_Player.h"
 
-namespace  Sword
+namespace  Slash
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Sword.png");
+		this->img = DG::Image::Create("./data/image/Alternative_2_22.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -36,11 +37,11 @@ namespace  Sword
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
-		/*this->hitBase = ML::Box2D(-16, -16, 32, 32);
+		this->hitBase = ML::Box2D(-16, -16, 32, 32);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		this->hp = 5;
-		this->atk = 2;*/
+		this->atk = 2;
 		
 		//★タスクの生成
 
@@ -71,25 +72,25 @@ namespace  Sword
 			return;
 		}
 		//移動
-		//this->pos += this->moveVec;
+		this->pos += this->moveVec;
 
-		////当たり判定
-		//{
-		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-		//	auto targets = ge->GetTasks<BChara>("Enemy");
-		//	for (auto it = targets->begin(); it != targets->end(); ++it)
-		//	{
-		//		//相手に接触の有無を確認させる
-		//		if ((*it)->CheckHit(me))
-		//		{
-		//			//相手にダメージの処理を行わせる
-		//			BChara::AttackInfo at = { this->atk,0,0 };
-		//			(*it)->Received(this, at);
-		//			this->Kill();
-		//			break;
-		//		}
-		//	}
-		//}
+		//当たり判定
+		{
+			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
+			auto targets = ge->GetTasks<BChara>("Enemy");
+			for (auto it = targets->begin(); it != targets->end(); ++it)
+			{
+				//相手に接触の有無を確認させる
+				if ((*it)->CheckHit(me))
+				{
+					//相手にダメージの処理を行わせる
+					BChara::AttackInfo at = { this->atk,0,0 };
+					(*it)->Received(this, at);
+					this->Kill();
+					break;
+				}
+			}
+		}
 
 		//移動先で障害物に接触したら消滅
 		//マップが存在するか調べてからアクセス
@@ -114,7 +115,7 @@ namespace  Sword
 	{
 		ML::Box2D  draw(-16, -16, 32, 32);
 		draw.Offset(this->pos);
-		ML::Box2D  src(0, 0, 16, 16);
+		ML::Box2D  src(0, 0, 126, 150);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);

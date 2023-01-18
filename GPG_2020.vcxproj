@@ -157,11 +157,13 @@
     <ClCompile Include="Task_Goal8.cpp" />
     <ClCompile Include="Task_Goal9.cpp" />
     <ClCompile Include="Task_GoalMap2D.cpp" />
+    <ClCompile Include="Task_Gun.cpp" />
     <ClCompile Include="Task_Map2D.cpp" />
     <ClCompile Include="Task_Player.cpp" />
     <ClCompile Include="Task_Select.cpp" />
     <ClCompile Include="Task_Shot00.cpp" />
     <ClCompile Include="Task_Skill.cpp" />
+    <ClCompile Include="Task_Slash.cpp" />
     <ClCompile Include="Task_Sword.cpp" />
     <ClCompile Include="Task_Title.cpp" />
     <ClCompile Include="Task_UI.cpp" />
@@ -204,11 +206,13 @@
     <ClInclude Include="Task_Goal8.h" />
     <ClInclude Include="Task_Goal9.h" />
     <ClInclude Include="Task_GoalMap2D.h" />
+    <ClInclude Include="Task_Gun.h" />
     <ClInclude Include="Task_Map2D.h" />
     <ClInclude Include="Task_Player.h" />
     <ClInclude Include="Task_Select.h" />
     <ClInclude Include="Task_Shot00.h" />
     <ClInclude Include="Task_Skill.h" />
+    <ClInclude Include="Task_Slash.h" />
     <ClInclude Include="Task_Sword.h" />
     <ClInclude Include="Task_Title.h" />
     <ClInclude Include="Task_UI.h" />
