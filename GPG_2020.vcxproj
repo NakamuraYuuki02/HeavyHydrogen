@@ -138,6 +138,7 @@
     <ClCompile Include="GameEngine_Ver3_83.cpp" />
     <ClCompile Include="myLib.cpp" />
     <ClCompile Include="MyPG.cpp" />
+    <ClCompile Include="randomLib.cpp" />
     <ClCompile Include="Task_Axe.cpp" />
     <ClCompile Include="Task_CharaMap2D.cpp" />
     <ClCompile Include="Task_Ending.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="GameEngine_Ver3_83.h" />
     <ClInclude Include="myLib.h" />
     <ClInclude Include="MyPG.h" />
+    <ClInclude Include="randomLib.h" />
     <ClInclude Include="Task_Axe.h" />
     <ClInclude Include="Task_CharaMap2D.h" />
     <ClInclude Include="Task_Ending.h" />
