@@ -69,6 +69,7 @@ namespace  Player
 		this->WeaponLevel = 1;					//武器レベル
 		this->CreateNum = 1;
 		
+		this->weapon = ge->sw;
 		//this->weapon = Weapon::Gun;
 		
 		//★タスクの生成
@@ -472,7 +473,7 @@ namespace  Player
 			{
 				switch (this->weapon)
 				{
-				case Weapon::Sword:
+				case MyPG::MyGameEngine::SelectedWeapon::Sword:
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{
@@ -520,7 +521,7 @@ namespace  Player
 					}
 				}
 				break;
-				case Weapon::Axe:
+				case MyPG::MyGameEngine::SelectedWeapon::Axe:
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{
@@ -566,7 +567,7 @@ namespace  Player
 					}
 				}
 				break;
-				case Weapon::Gun:
+				case MyPG::MyGameEngine::SelectedWeapon::Gun:
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{
@@ -761,23 +762,23 @@ namespace  Player
 		{
 			switch (this->ss[i]) //後でgeかわるでー
 			{
-			case SelectedSkill::JumpUp:
+			case MyPG::MyGameEngine::SelectedSkill::JumpUp:
 				//ジャンプ回数増加（最大3回）
 				++ge->jumpMax;
 				break;
-			case SelectedSkill::DashUp:
+			case MyPG::MyGameEngine::SelectedSkill::DashUp:
 				//ダッシュ回数増加
 				ge->dashMax++;
 				break;
-			case SelectedSkill::HpUp:
+			case MyPG::MyGameEngine::SelectedSkill::HpUp:
 				//体力増加
 				ge->hp++;
 				break;
-			case SelectedSkill::AtkUp:
+			case MyPG::MyGameEngine::SelectedSkill::AtkUp:
 				//攻撃力増加
 				ge->atk++;
 				break;
-			case SelectedSkill::Special1:
+			case MyPG::MyGameEngine::SelectedSkill::Special1:
 				//武器の特殊強化1
 				//this->WeaponSpecial1(weapon);
 				this->CreateNum = 3;
