@@ -2,25 +2,25 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Sword.h"
-#include  "Task_Map2D.h"
-#include  "Task_Player.h"
+#include  "Task_EnemyMap2D.h"
+#include  "Task_Enemy01.h"
+#include  "Task_Enemy02.h"
+#include  "Task_Enemy03.h"
+#include  "Task_Enemy04.h"
 
-namespace  Sword
+namespace  EnemyMap2D
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Sword.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
-		this->img.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -33,15 +33,24 @@ namespace  Sword
 		this->res = Resource::Create();
 
 		//★データ初期化
-		this->render2D_Priority[1] = 0.4f;
-		this->pos.x = 0;
-		this->pos.y = 0;
-		this->hitBase = ML::Box2D(-16, -16, 32, 32);
-		this->moveVec = ML::Vec2(0, 0);
-		this->moveCnt = 0;
-		this->hp = 5;
-		this->atk = 2;
-		
+		this->render2D_Priority[1] = 0.9f;
+		//マップのゼロクリア
+		for (int y = 0; y < 100; ++y) {
+			for (int x = 0; x < 100; ++x) {
+				this->arr[y][x] = 0;
+			}
+		}
+		this->sizeX = 0;
+		this->sizeY = 0;
+		this->hitBase = ML::Box2D(block, block, block, block);
+
+		//マップチップ情報の初期化
+		for (int c = 0; c < 100; ++c) {
+			int  x = (c % 10);
+			int  y = (c / 10);
+			this->chip[c] = ML::Box2D(x * 32, y * 32, 32, 32);
+		}
+
 		//★タスクの生成
 
 		return  true;
@@ -51,7 +60,7 @@ namespace  Sword
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
-
+		this->img.reset();
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
@@ -63,65 +72,76 @@ namespace  Sword
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
-		this->moveCnt++;
-		//限界の時間を迎えたら消滅
-		if (this->moveCnt >= 30) {
-			//消滅申請
-			this->Kill();
-			return;
-		}
-		//移動
-		this->pos += this->moveVec;
 
-		//当たり判定
-		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("Enemy");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
-			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { this->atk,0,0 };
-					(*it)->Received(this, at);
-					this->Kill();
-					break;
-				}
-			}
-		}
-
-		//移動先で障害物に接触したら消滅
-		//マップが存在するか調べてからアクセス
-		if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
-			ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
-			if (true == map->CheckHit(hit)) {
-				//消滅申請
-				this->Kill();
-
-				////とりあえず星はばら撒くよ
-				//for (int c = 0; c < 4; ++c) {
-				//	auto  eff = Effect00::Object::Create(true);
-				//	eff->pos = this->pos;
-				//}
-				//return;
-			}
-		}
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-16, -16, 32, 32);
-		draw.Offset(this->pos);
-		ML::Box2D  src(0, 0, 16, 16);
-
-		//スクロール対応
-		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		this->res->img->Draw(draw, src);
+	
 	}
 	//-------------------------------------------------------------------
-	
+	//マップ読み込み
+	bool  Object::Load(const  string&  fpath_)
+	{
+		//ファイルを開く（読み込み）
+		ifstream   fin(fpath_);
+		if (!fin) { return  false; }//読み込み失敗
+
+		//マップ配列サイズの読み込み
+		fin >> this->sizeX >> this->sizeY;
+		this->hitBase = ML::Box2D(0, 0, this->sizeX * block, this->sizeY * block);
+
+		//マップ配列データの読み込み
+		for (int y = 0; y < this->sizeY; ++y) {
+			for (int x = 0; x < this->sizeX; ++x) {
+				fin >> this->arr[y][x];
+			}
+		}
+		fin.close();
+
+		return true;
+	}
+	//-------------------------------------------------------------------
+	void Object::SetEnemy()
+	{
+		for (int y = 0; y < this->sizeY; ++y) {
+			for (int x = 0; x < this->sizeX; ++x) {
+				// チップの番号によって変える
+				switch (this->arr[y][x])
+				{
+				case 0:
+				{
+					auto g = Enemy04::Object::Create(true);
+					g->pos.x = x * 16;
+					g->pos.y = y * 16;
+					break;
+				}
+				case 1:
+				{
+					auto g = Enemy03::Object::Create(true);
+					g->pos.x = x * 16;
+					g->pos.y = y * 16;
+					break;
+				}
+				case 2:
+				{
+					auto g = Enemy02::Object::Create(true);
+					g->pos.x = x * 16;
+					g->pos.y = y * 16;
+					break;
+				}
+				   case 4:
+				   {
+					  auto g = Enemy01::Object::Create(true);
+					  g->pos.x = x * 16;
+					  g->pos.y = y * 16;
+					  break;
+				   }
+				}
+			}
+		}
+	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
@@ -134,7 +154,7 @@ namespace  Sword
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
 				ge->PushBack(ob);//ゲームエンジンに登録
-				
+				//（メソッド名が変なのは旧バージョンのコピーによるバグを回避するため
 			}
 			if (!ob->B_Initialize()) {
 				ob->Kill();//イニシャライズに失敗したらKill

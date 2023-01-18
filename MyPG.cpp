@@ -119,7 +119,7 @@ namespace MyPG
 		this->hpMax = 10;			//最大体力
 		this->atk = 5;				//攻撃力
 		this->jumpCnt = 0;			//ジャンプ回数
-		this->jumpMax = 3;			//ジャンプ上限回数
+		this->jumpMax = 1;			//ジャンプ上限回数
 		this->dashCnt = 0;			//ダッシュ回数
 		this->dashMax = 0;			//ダッシュ上限回数
 
