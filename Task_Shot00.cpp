@@ -40,7 +40,7 @@ namespace  Shot00
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		this->hp = 5;
-		this->atk = 5;
+		this->atk = 1;
 		
 		//šƒ^ƒXƒN‚Ì¶¬
 
