@@ -54,12 +54,12 @@ namespace  UI
 		ML::Vec2 HPpos;
 		ML::Vec2 mapNumpos;
 
-		enum class UI
+		enum class WeaponUI
 		{
 			Sword,
 			Axe,
 			Gun
 		};
-		UI ui;
+		WeaponUI weapon;
 	};
 }

@@ -109,9 +109,9 @@ namespace  CharaMap2D
 				{
 				   case 36:
 				   {
-					  auto g = Player::Object::Create(true);
-					  g->pos.x = x * 16;
-					  g->pos.y = y * 16;
+					  auto p = Player::Object::Create(true);
+					  p->pos.x = x * 16;
+					  p->pos.y = y * 16;
 					  break;
 				   }
 				}
