@@ -107,7 +107,7 @@ namespace MyPG
 
 		//ステージ 毎回一つ選択
 		this->selectedStage = 0;
-
+    
 		//ステージ通過数、ゲーム進行度
 		this->stageNum = 0;
 
