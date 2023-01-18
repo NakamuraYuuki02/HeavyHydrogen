@@ -115,6 +115,9 @@
     <ClCompile Include="Task_Sword.cpp">
       <Filter>MyPG\Game\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Task_Select.cpp">
+      <Filter>MyPG\Select</Filter>
+    </ClCompile>
     <ClCompile Include="Task_Title.cpp">
       <Filter>MyPG\Title</Filter>
     </ClCompile>
@@ -130,26 +133,8 @@
     <ClCompile Include="Task_Enemy04.cpp">
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Task_CharaMap2D.cpp">
-      <Filter>MyPG\Game\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_EnemyMap2D.cpp">
-      <Filter>MyPG\Game\Map</Filter>
-    </ClCompile>
     <ClCompile Include="Task_Enemy05.cpp">
-      <Filter>MyPG\Game\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Gun.cpp">
-      <Filter>MyPG\Game\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Task_Slash.cpp">
-      <Filter>MyPG\Game\Player</Filter>
-      </ClCompile>
-    <ClCompile Include="Task_Select.cpp">
-      <Filter>MyPG\Select</Filter>
-    </ClCompile>
-    <ClCompile Include="randomLib.cpp">
-      <Filter>MyPG</Filter>
+      <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -261,6 +246,9 @@
     <ClInclude Include="Task_Sword.h">
       <Filter>MyPG\Game\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Task_Select.h">
+      <Filter>MyPG\Select</Filter>
+    </ClInclude>
     <ClInclude Include="Task_Title.h">
       <Filter>MyPG\Title</Filter>
     </ClInclude>
@@ -273,25 +261,8 @@
     <ClInclude Include="Task_Enemy04.h">
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Task_CharaMap2D.h">
-      <Filter>MyPG\Game\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_EnemyMap2D.h">
-      <Filter>MyPG\Game\Map</Filter>
-    </ClInclude>
     <ClInclude Include="Task_Enemy05.h">
-      <Filter>MyPG\Game\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Gun.h">
-      <Filter>MyPG\Game\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Task_Slash.h">
-      <Filter>MyPG\Game\Player</Filter>
-    <ClInclude Include="Task_Select.h">
-      <Filter>MyPG\Select</Filter>
-    </ClInclude>
-    <ClInclude Include="randomLib.h">
-      <Filter>MyPG</Filter>
+      <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
