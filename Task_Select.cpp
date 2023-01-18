@@ -264,7 +264,7 @@ namespace  Select
 		{
 			//140/135>140/135
 			this->pos -= moveVec;
-			+--this->selectedNumber;
+			--this->selectedNumber;
 		}
 		//D‰EˆÚ“®
 		if (inp.L3.down && this->pos.x < this->posMax.x)
@@ -304,7 +304,7 @@ namespace  Select
 		{
 			//140/135>140/135
 			this->pos -= moveVec;
-			+--this->selectedNumber;
+			--this->selectedNumber;
 		}
 		//D‰EˆÚ“®
 		if (inp.L3.down && this->pos.x < this->posMax.x)
@@ -354,7 +354,7 @@ namespace  Select
 		{
 			//140/135>140/135
 			this->pos -= moveVec;
-			+--this->selectedNumber;
+			--this->selectedNumber;
 		}
 		//D‰EˆÚ“®
 		if (inp.L3.down && this->pos.x < this->posMax.x)
