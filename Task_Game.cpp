@@ -9,6 +9,7 @@
 #include  "Task_Player.h"
 #include  "Task_Title.h"
 #include  "Task_Ending.h"
+#include  "Task_Enemy01.h"
 #include  "Task_Enemy02.h"
 #include  "Task_Enemy03.h"
 #include  "Task_Enemy04.h"
