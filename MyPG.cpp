@@ -19,7 +19,7 @@ namespace MyPG
 			1,//UpDate呼び出し頻度　↓のRender呼び出し頻度との比率で決まる１以上を指定すること
 			1 //Render呼び出し頻度　↑のUpDate呼び出し頻度との比率で決まる１以上を指定すること
 			//例えば、120Hz固定のPCで、60Hzと同等の状態で動かす場合、1U/2Rで設定すれば、UpDateの呼び出しが1/2になる
-			) {
+		) {
 	}
 
 	//ゲームエンジンに追加したものの初期化と開放
@@ -96,10 +96,24 @@ namespace MyPG
 		this->mouse = XI::Mouse::Create(ge->viewScaleW, ge->viewScaleH);
 
 		//共通変数
-		//ステージ番号
-		this->selectedStage = 1;
+
+		//スキル選択数 selected skill number
+		this->ssn = 2;
+
+		for (int i = 0; i < ssn; ++i)
+		{
+			ge->ss.push_back(SelectedSkill::Non);
+		}
+
+		//ステージ 毎回一つ選択
+		this->selectedStage = 0;
+
 		//ステージ通過数、ゲーム進行度
 		this->stageNum = 0;
+
+		//経過したステージ 一つ前のステージの番号
+		this->eapsedStage = 0;
+
 		//プレイヤーステータス
 		this->hp = 3;				//体力	
 		this->hpMax = 10;			//最大体力
@@ -118,7 +132,7 @@ namespace MyPG
 
 		//初期実行タスク生成＆ゲームエンジンに登録
 		auto firstTask = Title::Object::Create(true);
-		
+
 		//------------------------------------------------------------------------------------
 		//レイヤー毎の描画のON/OFF
 		//------------------------------------------------------------------------------------
@@ -169,9 +183,9 @@ namespace MyPG
 		}
 	}
 	//------------------------------------------------------------
-	Camera::Camera(const ML::Vec3&  tg_,	//	被写体の位置
-		const ML::Vec3&  pos_,	//	カメラの位置
-		const ML::Vec3&  up_,	//	カメラの上方向を示すベクトル（大体Ｙ＋固定）
+	Camera::Camera(const ML::Vec3& tg_,	//	被写体の位置
+		const ML::Vec3& pos_,	//	カメラの位置
+		const ML::Vec3& up_,	//	カメラの上方向を示すベクトル（大体Ｙ＋固定）
 		float            fov_,	//	視野角
 		float            np_,	//	前クリップ平面（これより前は映らない）
 		float            fp_,	//	後クリップ平面（これより後ろは映らない）
@@ -184,9 +198,9 @@ namespace MyPG
 	{
 	}
 	//	カメラを生成する
-	Camera::SP Camera::Create(const ML::Vec3&  tg_,	//	被写体の位置
-		const ML::Vec3&  pos_,	//	カメラの位置
-		const ML::Vec3&  up_,	//	カメラの上方向を示すベクトル（大体Ｙ＋固定）
+	Camera::SP Camera::Create(const ML::Vec3& tg_,	//	被写体の位置
+		const ML::Vec3& pos_,	//	カメラの位置
+		const ML::Vec3& up_,	//	カメラの上方向を示すベクトル（大体Ｙ＋固定）
 		float            fov_,	//	視野角
 		float            np_,	//	前クリップ平面（これより前は映らない）
 		float            fp_,	//	後クリップ平面（これより後ろは映らない）

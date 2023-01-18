@@ -142,6 +142,9 @@
     <ClCompile Include="Task_Enemy05.cpp">
       <Filter>MyPG\Game\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\game\Desktop\randomLib.cpp">
+      <Filter>MyPG</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine_Ver3_83.h">
@@ -275,6 +278,9 @@
     </ClInclude>
     <ClInclude Include="Task_Enemy05.h">
       <Filter>MyPG\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\game\Desktop\randomLib.h">
+      <Filter>MyPG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
