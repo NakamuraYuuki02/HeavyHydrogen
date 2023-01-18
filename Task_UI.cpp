@@ -37,6 +37,7 @@ namespace  UI
 		this->res = Resource::Create();
 
 		//★データ初期化
+		this->weapon = ge->sw;
 		
 		//★タスクの生成
 
@@ -86,21 +87,21 @@ namespace  UI
 		//武器アイコン
 		switch (this->weapon)
 		{
-		case WeaponUI::Sword:
+		case MyPG::MyGameEngine::SelectedWeapon::Sword:
 		    {
 			  ML::Box2D SwordDraw(20, 30, 28, 28);
 			  ML::Box2D SwordSrc(0, 0, 16, 16);
 			  this->res->sword->Draw(SwordDraw, SwordSrc);
 			  break;
 		    }
-		case WeaponUI::Axe:
+		case MyPG::MyGameEngine::SelectedWeapon::Axe:
 		    { 
 			  ML::Box2D AxeDraw(20, 30, 26, 26);
 			  ML::Box2D AxeSrc(0, 0, 14, 14);
 			  this->res->axe->Draw(AxeDraw, AxeSrc);
 			  break;
 			}
-		case WeaponUI::Gun:
+		case MyPG::MyGameEngine::SelectedWeapon::Gun:
 		    { 
 			  ML::Box2D GunDraw(20, 30, 45, 30);
 			  ML::Box2D GunSrc(0, 0, 15, 10);
