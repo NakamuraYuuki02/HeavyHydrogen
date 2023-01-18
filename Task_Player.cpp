@@ -758,9 +758,9 @@ namespace  Player
 	//スキル
 	void Object::Skill()
 	{
-		for (int i = 0; i < this->ss.size(); ++i)
+ 		for (int i = 0; i < ge->ss.size(); ++i)
 		{
-			switch (this->ss[i]) //後でgeかわるでー
+			switch (ge->ss[i]) //後でgeかわるでー
 			{
 			case MyPG::MyGameEngine::SelectedSkill::JumpUp:
 				//ジャンプ回数増加（最大3回）
