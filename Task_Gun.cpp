@@ -2,18 +2,18 @@
 //
 //-------------------------------------------------------------------
 #include  "MyPG.h"
-#include  "Task_Sword.h"
+#include  "Task_Shot00.h"
+#include  "Task_Gun.h"
 #include  "Task_Map2D.h"
-#include  "Task_Player.h"
 
-namespace  Sword
+namespace  Gun
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Sword.png");
+		this->img = DG::Image::Create("./data/image/Gun.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -36,11 +36,13 @@ namespace  Sword
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
-		/*this->hitBase = ML::Box2D(-16, -16, 32, 32);
+		this->angle_LR = Angle_LR::Right;
+		
+		/*this->hitBase = ML::Box2D(-8, -8, 16, 16);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		this->hp = 5;
-		this->atk = 2;*/
+		this->atk = 1;*/
 		
 		//★タスクの生成
 
@@ -72,8 +74,8 @@ namespace  Sword
 		}
 		//移動
 		//this->pos += this->moveVec;
-
-		////当たり判定
+		
+		//当たり判定
 		//{
 		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
 		//	auto targets = ge->GetTasks<BChara>("Enemy");
@@ -112,15 +114,27 @@ namespace  Sword
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-16, -16, 32, 32);
+		ML::Box2D  draw(-8, -8, 16, 16);
 		draw.Offset(this->pos);
-		ML::Box2D  src(0, 0, 16, 16);
+		ML::Box2D  src(0, 0, 15, 10);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
+		if (Angle_LR::Left == this->angle_LR)
+		{
+			draw.x = -draw.x;
+			draw.w = -draw.w;
+		}
 		this->res->img->Draw(draw, src);
+
+		//BChara::DrawInfo  di = this->Anim();
+		//di.draw.Offset(this->pos);
+		////スクロール対応
+		//di.draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
+
+		//this->res->img->Draw(di.draw, di.src);
 	}
-	//-------------------------------------------------------------------
+	//-----------------------------------------------------------------------------
 	
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
@@ -134,7 +148,7 @@ namespace  Sword
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
 				ge->PushBack(ob);//ゲームエンジンに登録
-				
+				//（メソッド名が変なのは旧バージョンのコピーによるバグを回避するため
 			}
 			if (!ob->B_Initialize()) {
 				ob->Kill();//イニシャライズに失敗したらKill

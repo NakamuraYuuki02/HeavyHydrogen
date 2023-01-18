@@ -142,6 +142,12 @@
     <ClCompile Include="Task_Enemy05.cpp">
       <Filter>MyPG\Game\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Task_Gun.cpp">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Task_Slash.cpp">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine_Ver3_83.h">
@@ -275,6 +281,12 @@
     </ClInclude>
     <ClInclude Include="Task_Enemy05.h">
       <Filter>MyPG\Game\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Gun.h">
+      <Filter>MyPG\Game\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Task_Slash.h">
+      <Filter>MyPG\Game\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

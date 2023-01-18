@@ -7,6 +7,8 @@
 #include  "Task_Shot00.h"
 #include  "Task_Sword.h"
 #include  "Task_Axe.h"
+#include  "Task_Gun.h"
+#include  "Task_Slash.h"
 
 #include  "Task_Skill.h"
 
@@ -51,8 +53,8 @@ namespace  Player
 		this->jumpPow = -8.0f;		//ジャンプ力（初速）縦5マスくらい
 		this->gravity = ML::Gravity(32) * 5; //重力加速度＆時間速度による加算量
 
-		this->ss.push_back(SelectedSkill::JumpUp);
-		this->ss.push_back(SelectedSkill::DashUp);
+		/*this->ss.push_back(SelectedSkill::JumpUp);
+		this->ss.push_back(SelectedSkill::DashUp);*/
 		Skill();
 
 		this->hp = ge->hp;
@@ -65,11 +67,10 @@ namespace  Player
 		this->attackCnt = 0;					//攻撃回数
 		this->attackMax = 0;					//攻撃上限回数
 		this->WeaponLevel = 1;					//武器レベル
-		this->CreateNum = 3;
+		this->CreateNum = 1;
 		
-		this->weapon = Weapon::Axe;
+		//this->weapon = Weapon::Gun;
 		
-
 		//★タスクの生成
 		
 		return  true;
@@ -296,6 +297,7 @@ namespace  Player
 	void  Object::Move()
 	{
 		auto  inp = this->controller->GetState();
+
 		//重力加速
 		switch (this->motion) {
 		default:
@@ -474,9 +476,11 @@ namespace  Player
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{
+						auto sword = Sword::Object::Create(true);
+						sword->pos = this->pos + ML::Vec2(15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
-							auto sword = Sword::Object::Create(true);
+							auto slash = Slash::Object::Create(true);
 
 							//pw
 							/*auto axe2 = Axe::Object::Create(true);
@@ -489,14 +493,16 @@ namespace  Player
 							axe3->pos = this->pos + ML::Vec2(30, 0);*/
 							//pw
 
-							sword->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
+							slash->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
 						}
 					}
 					else
 					{
+						auto sword = Sword::Object::Create(true);
+						sword->pos = this->pos + ML::Vec2(-15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
-							auto sword = Sword::Object::Create(true);
+							auto slash = Slash::Object::Create(true);
 
 							//pw
 							/*auto axe2 = Axe::Object::Create(true);
@@ -509,7 +515,7 @@ namespace  Player
 							axe3->pos = this->pos + ML::Vec2(30, 0);*/
 							//pw
 
-							sword->pos = this->pos + ML::Vec2(-30 + (-15 * i), 0);
+							slash->pos = this->pos + ML::Vec2(-30 + (-15 * i), 0);
 						}
 					}
 				}
@@ -564,10 +570,12 @@ namespace  Player
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{
+						auto gun = Gun::Object::Create(true);
+						gun->pos = this->pos + ML::Vec2(15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
-							auto gun = Shot00::Object::Create(true);
-							gun->moveVec = ML::Vec2(7, 0);
+							auto shot = Shot00::Object::Create(true);
+							shot->moveVec = ML::Vec2(7, 0);
 
 							//pw
 							/*auto gun2 = Shot00::Object::Create(true);
@@ -580,11 +588,13 @@ namespace  Player
 							gun3->pos = this->pos + ML::Vec2(30, 0);*/
 							//pw
 
-							gun->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
+							shot->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
 						}
 					}
 					else
 					{
+						auto gun = Gun::Object::Create(true);
+						gun->pos = this->pos + ML::Vec2(-15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
 							auto gun = Shot00::Object::Create(true);
@@ -645,15 +655,15 @@ namespace  Player
 		BChara::DrawInfo imageTable[] = {
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(0, 32, 24, 32), defColor },	//停止						 0
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },	//歩行1					 1
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 3, 32, 24, 32), defColor },	//歩行２					 2
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 3, 31, 24, 32), defColor },	//歩行２					 2
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },	//歩行３					 3
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 5, 32, 24, 32), defColor },	//歩行４					 4
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 16, 32 * 3, 24, 32), defColor },	//ジャンプ			 5
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 10, 32, 24, 32), defColor },	//落下 飛び立つ直前		 6
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 11, 32, 24, 32), defColor },	//着地					 7
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 6, 32, 24, 32), defColor },   //ダメージ				 8
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 9, 32, 24, 32), defColor },  //攻撃					 9
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 8, 32 * 4, 24, 32), defColor }, //ダッシュ				10
+			//{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 9, 32, 24, 32), defColor },  //攻撃					 
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 8, 32 * 4, 24, 32), defColor }, //ダッシュ				 9
 			//draw							src
 			//{ ML::Box2D(-8, -20, 16, 40), ML::Box2D(0, 0, 32, 80), defColor },	//停止
 			//{ ML::Box2D(-2, -20, 16, 40), ML::Box2D(32, 0, 32, 80), defColor },	//歩行１
@@ -697,11 +707,11 @@ namespace  Player
 			//  ダメージ------------------------------------------------------------------------
 		case  Motion::Bound:    rtv = imageTable[8];    break;
 			//　攻撃----------------------------------------------------------------------------
-		case  Motion::Attack:   rtv = imageTable[9]; break;
+		case  Motion::Attack:   rtv = imageTable[2]; break;
 			//　ダッシュ------------------------------------------------------------------------
-		case  Motion::Dash:      rtv = imageTable[10]; break;
+		case  Motion::Dash:      rtv = imageTable[9]; break;
 			//  ダッシュクール------------------------------------------------------------------
-		case  Motion::DashCt:    rtv = imageTable[10]; break;
+		case  Motion::DashCt:    rtv = imageTable[9]; break;
 			//  攻撃2--------------------------------------------------------------------------
 		//case  Motion::Attack2:  rtv = imageTable[9]; break;
 		}
@@ -726,6 +736,7 @@ namespace  Player
 		}
 		this->unHitTime = 90;
 		this->hp -= at_.power; //仮処理
+		ge->hp = this->hp;
 		if (this->hp <= 0)
 		{
 			this->Kill();
