@@ -9,12 +9,13 @@
 #include  "Task_Player.h"
 #include  "Task_Title.h"
 #include  "Task_Ending.h"
-#include "Task_Enemy01.h"
-#include "Task_Enemy02.h"
-#include "Task_Enemy03.h"
-#include "Task_Enemy04.h"
-#include "Task_Enemy05.h"
+#include  "Task_Enemy02.h"
+#include  "Task_Enemy03.h"
+#include  "Task_Enemy04.h"
+#include  "Task_Enemy05.h"
 #include  "Task_GoalMap2D.h"
+#include  "Task_CharaMap2D.h"
+#include  "Task_EnemyMap2D.h"
 #include  "Task_UI.h"
 
 namespace  Game
@@ -48,12 +49,45 @@ namespace  Game
 
 		//マップ(ステージ)の生成
 		auto  map = Map2D::Object::Create(true);
-		map->Load("./data/Map/map01.txt");
-	
+		string mapName, mapPath;
+		mapName = to_string(ge->selectedStage) + "MapStage.txt";
+		mapPath = "./data/Map/" + mapName;
+		map->Load(mapPath);
+
+		//マップ(ゴール)の生成
+		auto  g = GoalMap2D::Object::Create(true);
+		string goalName, goalPath;
+		goalName = to_string(ge->selectedStage) + "MapGoal.txt";
+		goalPath = "./data/Map/" + goalName;
+		g->Load(goalPath);
+		g->SetGoal();
+
+		//プレイヤの生成
+		auto  p = CharaMap2D::Object::Create(true);
+		string playerName, playerPath;
+		playerName = to_string(ge->selectedStage) + "MapChara.txt";
+		playerPath = "./data/Map/" + playerName;
+		p->Load(playerPath);
+		p->SetChara();
+
+		//敵の生成
+		auto  e = EnemyMap2D::Object::Create(true);
+		string enemyName, enemyPath;
+		enemyName = to_string(ge->selectedStage) + "MapChara.txt";
+		enemyPath = "./data/Map/" + enemyName;
+		e->Load(enemyPath);
+		e->SetEnemy();
+
+		//プレイヤの生成
+		//auto  pl = Player::Object::Create(true);
+		//pl->pos.x = 480 / 2;
+		////pl->pos.y = 270 / 3 * 2;
+		//pl->pos.y = 270 / 2;
+
 		//敵の生成
 		/*auto en01 = Enemy01::Object::Create(true);
-		en01->pos.x = 530;
-		en01->pos.y = 430;*/
+		en01->pos.x = 500;
+		en01->pos.y = 260;*/
 
 		/*auto en02 = Enemy02::Object::Create(true);
 		en02->pos.x = 500;
@@ -62,26 +96,14 @@ namespace  Game
 		/*auto en03 = Enemy03::Object::Create(true);
 		en03->pos.x = 500;
 		en03->pos.y = 260;*/
-		
-		/*auto en04 = Enemy04::Object::Create(true);
-		en04->pos.x = 500;
-		en04->pos.y = 260;*/
+
+		//auto en04 = Enemy04::Object::Create(true);
+		//en04->pos.x = 500;
+		//en04->pos.y = 260;
 
 		/*auto en05 = Enemy05::Object::Create(true);
 		en05->pos.x = 500;
-		en05->pos.y = 430;
-		map->Load("./data/Map/01MapStage.txt");*/
-
-		//マップ(ゴール)の生成
-		auto  g = GoalMap2D::Object::Create(true);
-		g->Load("./data/Map/01MapGoal.txt");
-		g->SetGoal();
-
-		//プレイヤの生成
-		auto  pl = Player::Object::Create(true);
-		pl->pos.x = 480 / 2;
-		//pl->pos.y = 270 / 3 * 2;
-		pl->pos.y = 270 / 2;
+		en05->pos.y = 260;*/
 
 		//UIの生成
 		auto ui = UI::Object::Create(true);
@@ -109,6 +131,8 @@ namespace  Game
 		ge->KillAll_G("Sword");
 		ge->KillAll_G("Axe");
 		ge->KillAll_G("UI");
+		ge->KillAll_G("CM");
+		ge->KillAll_G("EM");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate)
 		{
