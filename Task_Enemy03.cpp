@@ -13,7 +13,7 @@ namespace  Enemy03
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Chara00.png");
+		this->img = DG::Image::Create("./data/image/skull02_blue01_spriteSheet.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -44,6 +44,7 @@ namespace  Enemy03
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
 		this->hp = 20;
+		this->atk = 1;
 		this->attackCnt = 0;
 		//★タスクの生成
 
@@ -67,6 +68,7 @@ namespace  Enemy03
 	void  Object::UpDate()
 	{
 		this->moveCnt++;
+		this->animCnt++;
 		this->attackCnt++;
 		this->Move();
 		//思考・状況判断
@@ -82,7 +84,7 @@ namespace  Enemy03
 				//相手に接触の有無を確認させる
 				if ((*it)->CheckHit(me)) {
 					//相手にダメージの処理を行わせる
-					BChara::AttackInfo  at = { 4,0,0 };
+					BChara::AttackInfo  at = { atk,0,0 };
 					(*it)->Received(this, at);
 					break;
 				}
@@ -94,11 +96,12 @@ namespace  Enemy03
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D draw(this->hitBase);
-		draw.Offset(this->pos);
-		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		ML::Box2D src(24, 7, 32, 23);
-		this->res->img->Draw(draw, src, ML::Color(1,1,1,1));
+		BChara::DrawInfo  di = this->Anim();
+		di.draw.Offset(this->pos);
+		//スクロール対応
+		di.draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
+
+		this->res->img->Draw(di.draw, di.src);
 	}
 	//-----------------------------------------------------------------------------
 	//思考＆状況判断　モーション決定
@@ -225,9 +228,57 @@ namespace  Enemy03
 	//アニメーション制御
 	BChara::DrawInfo  Object::Anim()
 	{
+		ML::Color  defColor(1, 1, 1, 1);
+		BChara::DrawInfo imageTable[] = {
+			{ ML::Box2D(-15, -15, 30, 30), ML::Box2D(0, 0, 31, 31), defColor },			//	立ち			0
+			{ ML::Box2D(-15, -15, 30, 30), ML::Box2D(192, 0, 31, 31), defColor },		//	歩行１		1
+			{ ML::Box2D(-15, -15, 30, 30), ML::Box2D(224, 0, 31, 31), defColor },		//	歩行２		2
+			{ ML::Box2D(-15, -15, 30, 30), ML::Box2D(256, 0, 31, 31), defColor },		//	歩行３		3
+			{ ML::Box2D(-15, -15, 30, 30), ML::Box2D(288, 0, 31, 31), defColor },		//	歩行４		4
+			{ ML::Box2D(-15, -15, 30, 30), ML::Box2D(513, 0, 31, 31), defColor },		//	ダメージ		5
+
+		};
 		BChara::DrawInfo  rtv;
+		int  work;
+		switch (this->motion) {
+		default:		rtv = imageTable[0];	break;
+			//	ジャンプ------------------------------------------------------------------------
+		case  Motion::Jump:		rtv = imageTable[0];	break;
+			//	ジャンプ2------------------------------------------------------------------------
+		case  Motion::Jump2:		rtv = imageTable[0];	break;
+			//	ジャンプ3------------------------------------------------------------------------
+		case  Motion::Jump3:		rtv = imageTable[0];	break;
+			//	停止----------------------------------------------------------------------------
+		case  Motion::Stand:	rtv = imageTable[0];	break;
+			//	歩行----------------------------------------------------------------------------
+		case  Motion::Walk:
+			work = this->animCnt / 8;
+			work %= 4;
+			rtv = imageTable[work + 1];
+			break;
+			//	落下----------------------------------------------------------------------------
+		case  Motion::Fall:		rtv = imageTable[0];	break;
+			//	落下2----------------------------------------------------------------------------
+		case  Motion::Fall2:		rtv = imageTable[0];	break;
+			//	落下3----------------------------------------------------------------------------
+		case  Motion::Fall3:		rtv = imageTable[0];	break;
+			//飛び立つ直前-----------------------------------------------------------------------
+		case  Motion::TakeOff:  rtv = imageTable[0];    break;
+			//  着地----------------------------------------------------------------------------
+		case  Motion::Landing:  rtv = imageTable[0];    break;
+			//  ダメージ------------------------------------------------------------------------
+		case  Motion::Bound:    rtv = imageTable[5];    break;
+			//　攻撃----------------------------------------------------------------------------
+		case  Motion::Attack:   rtv = imageTable[0]; break;
+			//　ダッシュ------------------------------------------------------------------------
+		case  Motion::Dash:      rtv = imageTable[0]; break;
+			//  ダッシュクール------------------------------------------------------------------
+		case  Motion::DashCt:    rtv = imageTable[0]; break;
+			//  攻撃2--------------------------------------------------------------------------
+		//case  Motion::Attack2:  rtv = imageTable[9]; break;
+		}
 		//	向きに応じて画像を左右反転する
-		if (Angle_LR::Left == this->angle_LR) {
+		if (Angle_LR::Right == this->angle_LR) {
 			rtv.draw.x = -rtv.draw.x;
 			rtv.draw.w = -rtv.draw.w;
 		}

@@ -134,7 +134,7 @@
       <Filter>MyPG\Task\Game</Filter>
     </ClCompile>
     <ClCompile Include="Task_Enemy05.cpp">
-      <Filter>MyPG\Task\Game</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -262,7 +262,7 @@
       <Filter>MyPG\Task\Game</Filter>
     </ClInclude>
     <ClInclude Include="Task_Enemy05.h">
-      <Filter>MyPG\Task\Game</Filter>
+      <Filter>MyPG\Game\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

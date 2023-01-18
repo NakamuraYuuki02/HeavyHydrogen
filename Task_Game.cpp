@@ -9,6 +9,7 @@
 #include  "Task_Player.h"
 #include  "Task_Title.h"
 #include  "Task_Ending.h"
+#include "Task_Enemy01.h"
 #include "Task_Enemy02.h"
 #include "Task_Enemy03.h"
 #include "Task_Enemy04.h"
@@ -51,8 +52,8 @@ namespace  Game
 	
 		//敵の生成
 		/*auto en01 = Enemy01::Object::Create(true);
-		en01->pos.x = 500;
-		en01->pos.y = 260;*/
+		en01->pos.x = 530;
+		en01->pos.y = 430;*/
 
 		/*auto en02 = Enemy02::Object::Create(true);
 		en02->pos.x = 500;
@@ -62,14 +63,14 @@ namespace  Game
 		en03->pos.x = 500;
 		en03->pos.y = 260;*/
 		
-		auto en04 = Enemy04::Object::Create(true);
+		/*auto en04 = Enemy04::Object::Create(true);
 		en04->pos.x = 500;
-		en04->pos.y = 260;
+		en04->pos.y = 260;*/
 
 		/*auto en05 = Enemy05::Object::Create(true);
 		en05->pos.x = 500;
-		en05->pos.y = 260;*/
-		map->Load("./data/Map/01MapStage.txt");
+		en05->pos.y = 430;
+		map->Load("./data/Map/01MapStage.txt");*/
 
 		//マップ(ゴール)の生成
 		auto  g = GoalMap2D::Object::Create(true);
