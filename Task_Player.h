@@ -74,7 +74,7 @@ namespace  Player
 			Special1,
 			Special2
 		};
-		vector<SelectedSkill> ss;
+		SelectedSkill ss;
 
 		enum class Weapon
 		{
@@ -84,7 +84,7 @@ namespace  Player
 		};
 		Weapon weapon;
 
-		void	Skill();
+		void	Skill(BChara* from_);
 		//void	WeaponSpecial1(Weapon weapon_);
 		void	SkillImage();
 	};

@@ -1,7 +1,7 @@
 #pragma warning(disable:4996)
 #pragma once
 //-------------------------------------------------------------------
-//遠隔歩行
+//遠距離攻撃
 //-------------------------------------------------------------------
 #include "BChara.h"
 
@@ -48,7 +48,7 @@ namespace  Enemy05
 	public:
 		//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 			//追加したい変数・メソッドはここに追加する
-		int attackSpeed;
+		int   attackSpeed;	//	攻撃速度
 		void Think();
 		void Move();
 		void Received(BChara* from_, AttackInfo at_) override;
