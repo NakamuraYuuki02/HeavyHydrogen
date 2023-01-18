@@ -264,13 +264,13 @@ namespace  Select
 		{
 			//140/135>140/135
 			this->pos -= moveVec;
-			++this->selectedNumber;
+			+--this->selectedNumber;
 		}
 		//D右移動
 		if (inp.L3.down && this->pos.x < this->posMax.x)
 		{
 			this->pos += moveVec;
-			--this->selectedNumber;
+			++this->selectedNumber;
 		}
 		//スペース決定
 		if (inp.S1.down)
@@ -304,13 +304,13 @@ namespace  Select
 		{
 			//140/135>140/135
 			this->pos -= moveVec;
-			++this->selectedNumber;
+			+--this->selectedNumber;
 		}
 		//D右移動
 		if (inp.L3.down && this->pos.x < this->posMax.x)
 		{
 			this->pos += moveVec;
-			--this->selectedNumber;
+			++this->selectedNumber;
 		}
 		//スペース決定
 		if (inp.S1.down)
@@ -354,13 +354,13 @@ namespace  Select
 		{
 			//140/135>140/135
 			this->pos -= moveVec;
-			++this->selectedNumber;
+			+--this->selectedNumber;
 		}
 		//D右移動
 		if (inp.L3.down && this->pos.x < this->posMax.x)
 		{
 			this->pos += moveVec;
-			--this->selectedNumber;
+			++this->selectedNumber;
 		}
 		//スペース決定
 		if (inp.S1.down)
