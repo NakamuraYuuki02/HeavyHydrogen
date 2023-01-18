@@ -103,14 +103,18 @@ namespace  MyPG
 			Non
 		};
 		vector<SelectedSkill> ss;
-		//ステージ 毎回一つ選択
-		int selectedStage;
 
 		//スキル選択数 selected skill number
 		int ssn;
 
+		//ステージ 毎回一つ選択
+		int selectedStage;
+
 		//ステージ数、ステージ通過数(ゲーム進行度)
 		int stageNum;
+
+		//経過したステージ 一つ前のステージの番号
+		int eapsedStage;
 
 		//プレイヤーステータス
 		int hp;				//体力

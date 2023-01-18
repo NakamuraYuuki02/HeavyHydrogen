@@ -97,9 +97,6 @@ namespace MyPG
 
 		//共通変数
 
-		//ステージ 毎回一つ選択
-		this->selectedStage = 1;
-
 		//スキル選択数 selected skill number
 		this->ssn = 2;
 
@@ -108,8 +105,14 @@ namespace MyPG
 			ge->ss.push_back(SelectedSkill::Non);
 		}
 
+		//ステージ 毎回一つ選択
+		this->selectedStage = 0;
+
 		//ステージ通過数、ゲーム進行度
 		this->stageNum = 0;
+
+		//経過したステージ 一つ前のステージの番号
+		this->eapsedStage = 0;
 
 		//プレイヤーステータス
 		this->hp = 3;				//体力	

@@ -46,9 +46,8 @@ namespace  Select
 		for (int i = 0; i < 3; ++i)
 		{
 			//クリアしたステージの次ステージを三つ取得
-			this->stage[i] = ge->stageNum + i + 1;
+			this->stage[i] = ge->eapsedStage + i + 1;
 		}
-		
 		
 		//★タスクの生成
 
@@ -148,9 +147,20 @@ namespace  Select
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
-				this->posMin = ML::Vec2(ge->screen2DWidth / 2 - moveVec.x * 1, ge->screen2DHeight / 2);
-				this->pos = this->posMin;
-				this->posMax = this->posMin + moveVec * 2;
+				//初回以降
+				if (ge->stageNum>0)
+				{
+					this->posMin = ML::Vec2(ge->screen2DWidth / 2 - moveVec.x * 1, ge->screen2DHeight / 2);
+					this->pos = this->posMin;
+					this->posMax = this->posMin + moveVec * 2;
+				}
+				//初回
+				else
+				{
+					this->posMin = ML::Vec2(ge->screen2DWidth / 2, ge->screen2DHeight / 2);
+					this->pos = this->posMin;
+					this->posMax = this->posMin;
+				}
 				break;
 			case SelectionState::After:
 				//選択後
@@ -175,21 +185,31 @@ namespace  Select
 			{
 			case SelectionState::Before:
 				//選択前
+				sstate = SelectionState::Weapon;
 				break;
 			case SelectionState::Weapon:
 				//武器選択
 				//初回以降処理なし
+				sstate = SelectionState::Skill;
 				break;
 			case SelectionState::Skill:
 				//スキル選択
-				SelectSkill();
+				if (SelectSkill())
+				{
+					sstate = SelectionState::Stage;
+				}
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
-				SelectStage();
+				if (SelectStage())
+				{
+					sstate = SelectionState::After;
+				}
 				break;
 			case SelectionState::After:
 				//選択後
+				//自身に消滅要請
+				this->Kill();
 				break;
 			}
 		}
@@ -218,7 +238,10 @@ namespace  Select
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
-				
+				if (SelectStageFirst())
+				{
+					sstate = SelectionState::After;
+				}
 				break;
 			case SelectionState::After:
 				//選択後
@@ -342,6 +365,22 @@ namespace  Select
 		//スペース決定
 		if (inp.S1.down)
 		{
+			ge->selectedStage = this->stage[this->selectedNumber]; 
+			r = true;
+		}
+		return r;
+	}
+	//-------------------------------------------------------------------
+	//初回ステージ選択メソッド
+	bool Object::SelectStageFirst()
+	{
+		auto inp = ge->in1->GetState();
+		bool r = false;
+
+		//スペース決定
+		if (inp.S1.down)
+		{
+			ge->selectedStage = 0;
 			r = true;
 		}
 		return r;

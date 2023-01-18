@@ -73,6 +73,7 @@ namespace  Select
 		bool SelectWeapon();
 		bool SelectSkill();
 		bool SelectStage();
+		bool SelectStageFirst();
 
 		//‘I‘ğ‚³‚ê‚½”Ô†
 		int selectedNumber;
