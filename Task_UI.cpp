@@ -37,7 +37,7 @@ namespace  UI
 		this->res = Resource::Create();
 
 		//★データ初期化
-		this->weapon = ge->selectedWeapon;
+		this->weapon = ge->sw;
 		
 		//★タスクの生成
 
