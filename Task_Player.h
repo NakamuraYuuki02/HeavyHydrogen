@@ -65,24 +65,9 @@ namespace  Player
 		//接触時の応答処理（必ず受け身の処理として実装する）
 		void Received(BChara* from_, AttackInfo at_) override;
 
-		enum class SelectedSkill
-		{
-			JumpUp,
-			DashUp,
-			HpUp,
-			AtkUp,
-			Special1,
-			Special2
-		};
-		vector<SelectedSkill> ss;
+		vector<MyPG::MyGameEngine::SelectedSkill> ss;
 
-		enum class Weapon
-		{
-			Sword,
-			Axe,
-			Gun
-		};
-		Weapon weapon;
+		MyPG::MyGameEngine::SelectedWeapon weapon;
 
 		void	Skill();
 		//void	WeaponSpecial1(Weapon weapon_);
