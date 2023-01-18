@@ -97,7 +97,7 @@ namespace MyPG
 
 		//共通変数
 		//ステージ番号
-		this->selectedStage = 1;
+		this->selectedStage = 0;
 		//ステージ通過数、ゲーム進行度
 		this->stageNum = 0;
 		//プレイヤーステータス

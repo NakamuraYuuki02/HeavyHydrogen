@@ -14,8 +14,8 @@ namespace  UI
 		this->UIhp = DG::Image::Create("./data/image/HPheart.png");
 		this->UInum = DG::Image::Create("./data/image/UItext.png");
 		this->gun = DG::Image::Create("./data/image/Gun.png");
-		this->sword = DG::Image::Create("./data/image/Gun.png");
-		this->axe = DG::Image::Create("./data/image/Gun.png");
+		this->sword = DG::Image::Create("./data/image/Sword.png");
+		this->axe = DG::Image::Create("./data/image/Axe.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -77,32 +77,32 @@ namespace  UI
 		sprintf(mapNum, "%02d", ge->stageNum);
 		for (int i = 0; i < 2; ++i) {
 			int num = mapNum[i] - '0';//'0'== 48
-			ML::Box2D numDraw(0, 25, 32, 32);
+			ML::Box2D numDraw(420, 230, 32, 32);
 			ML::Box2D numSrc(num * 30, 0, 30, 52);
 			numDraw.Offset(i * 22, 0);//•¶ŽšŠÔŠu
 			this->res->UInum->Draw(numDraw, numSrc);
 		}
 
 		//•ŠíƒAƒCƒRƒ“
-		switch (this->ui)
+		switch (this->weapon)
 		{
-		case UI::Sword:
+		case WeaponUI::Sword:
 		    {
-			  ML::Box2D SwordDraw(50, 30, 45, 30);
-			  ML::Box2D SwordSrc(0, 0, 15, 10);
+			  ML::Box2D SwordDraw(20, 30, 28, 28);
+			  ML::Box2D SwordSrc(0, 0, 16, 16);
 			  this->res->sword->Draw(SwordDraw, SwordSrc);
 			  break;
 		    }
-		case UI::Axe:
+		case WeaponUI::Axe:
 		    { 
-			  ML::Box2D AxeDraw(50, 30, 45, 30);
-			  ML::Box2D AxeSrc(0, 0, 15, 10);
+			  ML::Box2D AxeDraw(20, 30, 26, 26);
+			  ML::Box2D AxeSrc(0, 0, 14, 14);
 			  this->res->axe->Draw(AxeDraw, AxeSrc);
 			  break;
 			}
-		case UI::Gun:
+		case WeaponUI::Gun:
 		    { 
-			  ML::Box2D GunDraw(50, 30, 45, 30);
+			  ML::Box2D GunDraw(20, 30, 45, 30);
 			  ML::Box2D GunSrc(0, 0, 15, 10);
 			  this->res->gun->Draw(GunDraw, GunSrc);
 			  break;
