@@ -13,7 +13,7 @@ namespace  Sword
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Sword.png");
+		this->img = DG::Image::Create("./data/image/debug.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -40,7 +40,7 @@ namespace  Sword
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		this->hp = 5;
-		this->atk = 2;
+		this->atk = 5;
 		
 		//★タスクの生成
 
@@ -113,12 +113,22 @@ namespace  Sword
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D  draw(-16, -16, 32, 32);
+		ML::Box2D  draw2(-24, -24, 48, 48);
 		draw.Offset(this->pos);
-		ML::Box2D  src(0, 0, 16, 16);
+		draw2.Offset(this->pos);
+		ML::Box2D  src(0, 0, 32, 32);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		this->res->img->Draw(draw, src);
+		draw2.Offset(-ge->camera2D.x, -ge->camera2D.y);
+		if (WeaponLevel == 0)
+		{
+			this->res->img->Draw(draw, src);
+		}
+		else
+		{
+			this->res->img->Draw(draw2, src);
+		}
 	}
 	//-------------------------------------------------------------------
 	

@@ -83,14 +83,14 @@ namespace  MyPG
 		bool returnFlag = false;//タイトルに戻るフラグ
 
 		//選択された情報を入れる変数
-		//武器 初回に一つ選択
+		//武器 初回に選択
 		enum class SelectedWeapon
 		{
 			Sword,
 			Axe,
 			Gun
 		};
-		SelectedWeapon sw;
+		SelectedWeapon selectedWeapon;
 		//スキル 毎回二つ選択
 		enum class SelectedSkill
 		{
@@ -99,22 +99,14 @@ namespace  MyPG
 			HpUp,
 			AtkUp,
 			Special1,
-			Special2,
-			Non
+			Special2
 		};
-		vector<SelectedSkill> ss;
-
-		//スキル選択数 selected skill number
-		int ssn;
-
+		vector<SelectedSkill> selectedSkill;
 		//ステージ 毎回一つ選択
 		int selectedStage;
 
-		//ステージ数、ステージ通過数(ゲーム進行度)
+		//ステージ通過数、ゲーム進行度
 		int stageNum;
-
-		//経過したステージ 一つ前のステージの番号
-		int eapsedStage;
 
 		//プレイヤーステータス
 		int hp;				//体力

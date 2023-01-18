@@ -97,29 +97,14 @@ namespace MyPG
 
 		//共通変数
 
-		//スキル選択数 selected skill number
-		this->ssn = 2;
-
-		for (int i = 0; i < ssn; ++i)
-		{
-			ge->ss.push_back(SelectedSkill::Non);
-		}
-
-		//ステージ 毎回一つ選択
-		this->selectedStage = 0;
-
 		//ステージ通過数、ゲーム進行度
-		this->stageNum = 0;
-
-		//経過したステージ 一つ前のステージの番号
-		this->eapsedStage = 0;
-
+		int stageNum = 0;
 		//プレイヤーステータス
 		this->hp = 3;				//体力	
 		this->hpMax = 10;			//最大体力
 		this->atk = 5;				//攻撃力
 		this->jumpCnt = 0;			//ジャンプ回数
-		this->jumpMax = 1;			//ジャンプ上限回数
+		this->jumpMax = 3;			//ジャンプ上限回数
 		this->dashCnt = 0;			//ダッシュ回数
 		this->dashMax = 0;			//ダッシュ上限回数
 

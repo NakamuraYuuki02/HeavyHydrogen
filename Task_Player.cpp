@@ -50,25 +50,19 @@ namespace  Player
 		this->maxFallSpeed = 10.0f;	//最大落下速度
 		this->jumpPow = -8.0f;		//ジャンプ力（初速）縦5マスくらい
 		this->gravity = ML::Gravity(32) * 5; //重力加速度＆時間速度による加算量
-
-		this->ss.push_back(SelectedSkill::JumpUp);
-		this->ss.push_back(SelectedSkill::DashUp);
-		Skill();
-
-		this->hp = ge->hp;
-		this->hpMax = ge->hpMax;
-		this->atk = ge->atk;
-		this->jumpCnt = ge->jumpCnt;			//ジャンプ回数
-		this->jumpMax = ge->jumpMax;			//ジャンプ上限回数
-		this->dashCnt = ge->dashCnt;			//ダッシュ回数
-		this->dashMax = ge->dashMax;			//ダッシュ上限回数
-		this->attackCnt = 0;					//攻撃回数
-		this->attackMax = 0;					//攻撃上限回数
-		this->WeaponLevel = 1;					//武器レベル
+		this->hp = 3;
+		this->hpMax = 10;
+		this->atk = 5;
+		this->jumpCnt = 0;			//ジャンプ回数
+		this->jumpMax = 3;			//ジャンプ上限回数
+		this->dashCnt = 0;			//ダッシュ回数
+		this->dashMax = 1;			//ダッシュ上限回数
+		this->attackCnt = 0;		//攻撃回数
+		this->attackMax = 0;		//攻撃上限回数
+		this->WeaponLevel = 1;		//武器レベル
 		this->CreateNum = 3;
-		
+
 		this->weapon = Weapon::Axe;
-		
 
 		//★タスクの生成
 		
@@ -744,37 +738,34 @@ namespace  Player
 	}
 	//-------------------------------------------------------------------
 	//スキル
-	void Object::Skill()
+	void Object::Skill(BChara* from_)
 	{
-		for (int i = 0; i < this->ss.size(); ++i)
+		switch (this->ss)
 		{
-			switch (this->ss[i]) //後でgeかわるでー
-			{
-			case SelectedSkill::JumpUp:
-				//ジャンプ回数増加（最大3回）
-				++ge->jumpMax;
-				break;
-			case SelectedSkill::DashUp:
-				//ダッシュ回数増加
-				ge->dashMax++;
-				break;
-			case SelectedSkill::HpUp:
-				//体力増加
-				ge->hp++;
-				break;
-			case SelectedSkill::AtkUp:
-				//攻撃力増加
-				ge->atk++;
-				break;
-			case SelectedSkill::Special1:
-				//武器の特殊強化1
-				//this->WeaponSpecial1(weapon);
-				this->CreateNum = 3;
-				break;
-				//case SelectedSkill::Special2:
-				//	//武器の特殊強化2
-				//	break;
-			}
+		case SelectedSkill::JumpUp:
+			//ジャンプ回数増加（最大3回）
+			this->jumpMax++;
+			break;
+		case SelectedSkill::DashUp:
+			//ダッシュ回数増加
+			this->dashMax++;
+			break;
+		case SelectedSkill::HpUp:
+			//体力増加
+			this->hp++;
+			break;
+		case SelectedSkill::AtkUp:
+			//攻撃力増加
+			this->atk++;
+			break;
+		case SelectedSkill::Special1:
+			//武器の特殊強化1
+			//this->WeaponSpecial1(weapon);
+			this->CreateNum = 3;
+			break;
+		//case SelectedSkill::Special2:
+		//	//武器の特殊強化2
+		//	break;
 		}
 	}
 	//-------------------------------------------------------------------
