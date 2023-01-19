@@ -97,6 +97,9 @@ namespace MyPG
 
 		//共通変数
 
+		//次に遷移するシーン
+		this->ns = NextScene::Title;
+
 		//スキル選択数 selected skill number
 		this->ssn = 2;
 

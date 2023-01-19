@@ -78,9 +78,15 @@ namespace  MyPG
 		//カメラ
 		ML::Box2D camera2D;
 
-		bool goalFlag = false;//ゴールフラグ
-		bool PlayerFlag = false;//キャラクターフラグ
-		bool returnFlag = false;//タイトルに戻るフラグ
+		//次に遷移するシーン
+		enum class NextScene
+		{
+			Title,
+			Select,
+			Game,
+			Endnig
+		};
+		NextScene ns;
 
 		//選択された情報を入れる変数
 		//武器 初回に一つ選択

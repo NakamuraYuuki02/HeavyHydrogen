@@ -3,6 +3,7 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Game.h"
+#include  "Task_Select.h"
 #include  "Task_GameBG.h"
 #include  "Task_Goal.h"
 #include  "Task_Map2D.h"
@@ -110,17 +111,21 @@ namespace  Game
 
 		if (!ge->QuitFlag() && this->nextTaskCreate)
 		{
-				//★引き継ぎタスクの生成
-			if (ge->returnFlag)
+			//★引き継ぎタスクの生成
+			if (ge->ns == MyPG::MyGameEngine::NextScene::Select)
 			{
-				auto next = Title::Object::Create(true);
+				auto next = Select::Object::Create(true);
 			}
-			else
+			else if(ge->ns == MyPG::MyGameEngine::NextScene::Endnig)
 			{
 				auto next = Ending::Object::Create(true);
 			}
+			else
+			{
+				auto next = Title::Object::Create(true);
+			}
 		}
-		return  true;
+			return  true;
 	}
 	//-------------------------------------------------------------------
 	//「更新」１フレーム毎に行う処理
@@ -129,6 +134,7 @@ namespace  Game
 		auto inp = ge->in1->GetState( );
 		if (inp.ST.down)
 		{
+			ge->ns = MyPG::MyGameEngine::NextScene::Title;
 			//自身に消滅要請
 			this->Kill();
 		}
@@ -137,15 +143,6 @@ namespace  Game
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-	}
-	//-------------------------------------------------------------------
-	void Object::Transition()
-	{
-		if (ge->goalFlag||ge->PlayerFlag)
-		{
-			this->Kill();
-		}
-		//タイトルに戻る処理
 	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
