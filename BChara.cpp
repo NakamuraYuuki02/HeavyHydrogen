@@ -152,8 +152,13 @@ bool BChara::CheckHit(const ML::Box2D& hit_)
 }
 //-----------------------------------------------------------------------
 //索敵範囲判定
-bool BChara::CheckNear(const ML::Vec2& tg_)
+bool BChara::CheckNearX(const ML::Vec2& tg_)
 {
 	ML::Vec2 newVec = this->pos - tg_;
-	return (newVec.Length() <= this->searchRadius);
+	return (newVec.x <= this->searchX && newVec.x >= -this->searchX);
+}
+bool BChara::CheckNearY(const ML::Vec2& tg_)
+{
+	ML::Vec2 newVec = this->pos - tg_;
+	return (newVec.y <= this->searchY && newVec.y >= -this->searchY);
 }

@@ -48,12 +48,11 @@ namespace  Enemy05
 	public:
 		//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 			//追加したい変数・メソッドはここに追加する
-		int attackSpeed;
 		void Think();
 		void Move();
 		void Received(BChara* from_, AttackInfo at_) override;
 		BChara::DrawInfo	Anim();
 		//BCharaに含まれないモノのみここに追加する
-		/*int		hp;*/
+
 	};
 }

@@ -36,13 +36,13 @@ namespace  Enemy02
 		this->hitBase = ML::Box2D(-15, -8, 30, 16);
 		this->angle_LR = Angle_LR::Left;
 		this->motion = Motion::Stand;
-		this->maxSpeed = 2.0f;
+		this->maxSpeed = 1.0f;
 		this->addSpeed = 0.7f;
 		this->decSpeed = 0.5f;
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 100;
+		this->hp = 5;
 		this->atk = 1;
 		//šƒ^ƒXƒN‚Ì¶¬
 
@@ -121,7 +121,7 @@ namespace  Enemy02
 				auto pl = ge->GetTask<Player::Object>("Player");
 				if (pl != NULL)
 				{
-					if (this->CheckNear(pl->pos))
+					if (this->CheckNearX(pl->pos) == true && this->CheckNearY(pl->pos) == true)
 					{
 						nm = Motion::Follow;
 					}
@@ -157,7 +157,7 @@ namespace  Enemy02
 			auto pl = ge->GetTask<Player::Object>("Player");
 			if (pl != NULL)
 			{
-				if (this->CheckNear(pl->pos) == false)
+				if (this->CheckNearX(pl->pos) == false || this->CheckNearY(pl->pos) == false)
 				{
 					nm = Motion::Stand;
 				}

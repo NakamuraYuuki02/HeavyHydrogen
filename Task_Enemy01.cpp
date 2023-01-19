@@ -36,13 +36,13 @@ namespace  Enemy01
 		this->hitBase = ML::Box2D(-15, -8, 30, 16);
 		this->angle_LR = Angle_LR::Left;
 		this->motion = Motion::Stand;
-		this->maxSpeed = 1.5f;
+		this->maxSpeed = 1.0f;
 		this->addSpeed = 0.7f;
 		this->decSpeed = 0.5f;
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 20;
+		this->hp = 5;
 		this->atk = 1;
 		//★タスクの生成
 
