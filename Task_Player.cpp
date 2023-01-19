@@ -67,8 +67,8 @@ namespace  Player
 		this->attackCnt = 0;					//UŒ‚‰ñ”
 		this->attackMax = 0;					//UŒ‚ãŒÀ‰ñ”
 		this->WeaponLevel = 1;					//•ŠíƒŒƒxƒ‹
-		this->CreateNum = 1;
-		
+		this->CreateNum = 3;
+		this->slashCnt = 0;
 		this->weapon = ge->sw;
 		//this->weapon = Weapon::Gun;
 		

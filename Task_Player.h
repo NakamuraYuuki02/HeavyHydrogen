@@ -51,6 +51,7 @@ namespace  Player
 		int				hpMax;			//	体力上限
 		int				jumpCnt;        //  ジャンプ回数
 		int             dashCnt;        //  ダッシュ回数
+		int				slashCnt;
 
 		int				CreateNum;		//  攻撃の生成数 特殊強化で追加される要素のfor文の元
 		

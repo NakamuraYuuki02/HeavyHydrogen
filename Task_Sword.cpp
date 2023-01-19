@@ -36,6 +36,7 @@ namespace  Sword
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
+		this->angle = 0;
 		this->angle_LR = Angle_LR::Right;
 
 		/*this->hitBase = ML::Box2D(-16, -16, 32, 32);
@@ -84,6 +85,16 @@ namespace  Sword
 			{
 				this->angle_LR = Angle_LR::Left;
 			}
+		}
+
+		//‰ñ“]
+		if (this->angle_LR == Angle_LR::Right)
+		{
+			this->angle += ML::ToRadian(5);
+		}
+		else
+		{
+			this->angle -= ML::ToRadian(5);
 		}
 
 		//ˆÚ“®
@@ -141,6 +152,7 @@ namespace  Sword
 
 		//ƒXƒNƒ[ƒ‹‘Î‰ž
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
+		this->res->img->Rotation(this->angle, ML::Vec2(0, 0));
 		this->res->img->Draw(draw, src);
 	}
 	//-------------------------------------------------------------------
