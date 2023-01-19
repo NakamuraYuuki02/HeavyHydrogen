@@ -3,6 +3,7 @@
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Select.h"
+#include  "Task_Title.h"
 #include  "Task_Game.h"
 
 #include  "randomLib.h"
@@ -58,12 +59,29 @@ namespace  Select
 	bool  Object::Finalize()
 	{
 		//★データ＆タスク解放
+		ge->KillAll_G("Select");
 
-		if (!ge->QuitFlag() && this->nextTaskCreate) {
+		if (!ge->QuitFlag() && this->nextTaskCreate)
+		{
 			//★引き継ぎタスクの生成
-			auto next = Game::Object::Create(true);
+			/*switch (ge->ns)
+			{
+			case MyPG::MyGameEngine::NextScene::Title:
+				auto title = Title::Object::Create(true);
+				break;
+			case MyPG::MyGameEngine::NextScene::Game:
+				auto game = Game::Object::Create(true);
+				break;
+			}*/
+			if (ge->ns == MyPG::MyGameEngine::NextScene::Game)
+			{
+				auto next = Game::Object::Create(true);
+			}
+			else
+			{
+				auto next = Title::Object::Create(true);
+			}
 		}
-
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -76,6 +94,8 @@ namespace  Select
 
 		if (inp.ST.down)
 		{
+			//タイトルにもどる。
+			ge->ns = MyPG::MyGameEngine::NextScene::Title;
 			//自身に消滅要請
 			this->Kill();
 		}
@@ -208,6 +228,7 @@ namespace  Select
 				break;
 			case SelectionState::After:
 				//選択後
+				ge->ns = MyPG::MyGameEngine::NextScene::Game;
 				//自身に消滅要請
 				this->Kill();
 				break;
@@ -245,6 +266,7 @@ namespace  Select
 				break;
 			case SelectionState::After:
 				//選択後
+				ge->ns = MyPG::MyGameEngine::NextScene::Game;
 				//自身に消滅要請
 				this->Kill();
 				break;
