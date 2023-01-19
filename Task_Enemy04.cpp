@@ -37,7 +37,7 @@ namespace  Enemy04
 		this->hitBase = ML::Box2D(-15, -15, 30, 30);
 		this->angle_LR = Angle_LR::Left;
 		this->motion = Motion::Stand;
-		this->maxSpeed = 1.5f;
+		this->maxSpeed = 2.0f;
 		this->addSpeed = 0.7f;
 		this->decSpeed = 0.5f;
 		this->maxFallSpeed = 10.0f;
@@ -87,7 +87,7 @@ namespace  Enemy04
 				//相手に接触の有無を確認させる
 				if ((*it)->CheckHit(me)) {
 					//相手にダメージの処理を行わせる
-					BChara::AttackInfo  at = { 4,0,0 };
+					BChara::AttackInfo  at = { atk,0,0 };
 					(*it)->Received(this, at);
 					break;
 				}
@@ -128,7 +128,7 @@ namespace  Enemy04
 				auto pl = ge->GetTask<Player::Object>("Player");
 				if (pl != NULL)
 				{
-					if (this->CheckNear(pl->pos))
+					if (this->CheckNearX(pl->pos) == true && this->CheckNearY(pl->pos) == true)
 					{
 						nm = Motion::Follow;
 					}
@@ -164,7 +164,7 @@ namespace  Enemy04
 			auto pl = ge->GetTask<Player::Object>("Player");
 			if (pl != NULL)
 			{
-				if (this->CheckNear(pl->pos) == false)
+				if (this->CheckNearX(pl->pos) == false || this->CheckNearY(pl->pos) == false)
 				{
 					nm = Motion::Walk;
 				}
@@ -266,19 +266,6 @@ namespace  Enemy04
 				this->moveVec.x =
 					min(+this->maxSpeed, this->moveVec.x + this->addSpeed);
 			}
-			//	弾を撃つ処理
-			if (this->attackCnt % this->attackSpeed == 0)
-			{
-				auto shot = EnemyShot01::Object::Create(true);
-				shot->pos = this->pos;
-				if (this->angle_LR == Angle_LR::Right)
-				{
-					shot->moveVec = ML::Vec2(8, 0);
-				}
-				else {
-					shot->moveVec = ML::Vec2(-8, 0);
-				}
-			}
 			break;
 		}
 	}
@@ -333,6 +320,11 @@ namespace  Enemy04
 			//  ダッシュクール------------------------------------------------------------------
 		case  Motion::DashCt:    rtv = imageTable[0]; break;
 			//  攻撃2--------------------------------------------------------------------------
+		case Motion::Follow:
+			work = this->animCnt / 8;
+			work %= 4;
+			rtv = imageTable[work + 1];
+			break;
 		//case  Motion::Attack2:  rtv = imageTable[9]; break;
 		}
 		//	向きに応じて画像を左右反転する
