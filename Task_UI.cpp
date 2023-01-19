@@ -11,7 +11,7 @@ namespace  UI
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->UIhp = DG::Image::Create("./data/image/HPheart.png");
+		this->UIhp = DG::Image::Create("./data/image/heart.png");
 		this->UInum = DG::Image::Create("./data/image/UItext.png");
 		this->gun = DG::Image::Create("./data/image/Gun.png");
 		this->sword = DG::Image::Create("./data/image/Sword.png");
@@ -25,6 +25,8 @@ namespace  UI
 		this->UIhp.reset();
 		this->UInum.reset();
 		this->gun.reset();
+		this->sword.reset();
+		this->axe.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -71,17 +73,6 @@ namespace  UI
 			ML::Box2D hpDraw(i * 22, 0, 22, 22);
 			ML::Box2D hpSrc(0, 0, 465, 396);
 			this->res->UIhp->Draw(hpDraw, hpSrc);
-		}
-
-		//マップ数表示
-		char mapNum[10];
-		sprintf(mapNum, "%02d", ge->stageNum);
-		for (int i = 0; i < 2; ++i) {
-			int num = mapNum[i] - '0';//'0'== 48
-			ML::Box2D numDraw(420, 230, 32, 32);
-			ML::Box2D numSrc(num * 30, 0, 30, 52);
-			numDraw.Offset(i * 22, 0);//文字間隔
-			this->res->UInum->Draw(numDraw, numSrc);
 		}
 
 		//武器アイコン
