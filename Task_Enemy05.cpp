@@ -13,7 +13,7 @@ namespace  Enemy05
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/slime01_green01_spriteSheet.png");
+		this->img = DG::Image::Create("./data/image/slime04_silver01_spriteSheet.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -34,16 +34,16 @@ namespace  Enemy05
 
 		//★データ初期化
 		this->render2D_Priority[1] = 0.6f;
-		this->hitBase = ML::Box2D(-15, -8, 30, 16);
+		this->hitBase = ML::Box2D(-40, -50, 80, 50);
 		this->angle_LR = Angle_LR::Left;
 		this->motion = Motion::Stand;
-		this->maxSpeed = 2.0f;
+		this->maxSpeed = 1.0f;
 		this->addSpeed = 0.7f;
 		this->decSpeed = 0.5f;
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 100;
+		this->hp = 50;
 		this->atk = 1;
 		//★タスクの生成
 
@@ -68,52 +68,11 @@ namespace  Enemy05
 	{
 		this->moveCnt++;
 		this->animCnt++;
-		this->attackCnt++;
 		this->Move();
 		//思考・状況判断
 		this->Think();
 		ML::Vec2 est = this->moveVec;
 		this->CheckMove(est);
-		if (attackCnt % 10 == 0) {
-			//弾を生成
-			auto shot = EnemyShot01::Object::Create(true);
-			shot->pos = this->pos;
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				shot->moveVec = ML::Vec2(10, 0);
-			}
-			else
-			{
-				shot->moveVec = ML::Vec2(-10, 0);
-			}
-		}
-		if (attackCnt % 10 == 0) {
-			//弾を生成
-			auto shot = EnemyShot01::Object::Create(true);
-			shot->pos = this->pos;
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				shot->moveVec = ML::Vec2(10, 10);
-			}
-			else
-			{
-				shot->moveVec = ML::Vec2(-10, 10);
-			}
-		}
-		if (attackCnt % 10 == 0) {
-			//弾を生成
-			auto shot = EnemyShot01::Object::Create(true);
-			shot->pos = this->pos;
-			if (this->angle_LR == Angle_LR::Right)
-			{
-				shot->moveVec = ML::Vec2(10, -10);
-			}
-			else
-			{
-				shot->moveVec = ML::Vec2(-10, -10);
-			}
-		}
-
 		//当たり判定
 		{
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
@@ -163,7 +122,7 @@ namespace  Enemy05
 				auto pl = ge->GetTask<Player::Object>("Player");
 				if (pl != NULL)
 				{
-					if (this->CheckNear(pl->pos))
+					if (this->CheckNearX(pl->pos) == true && this->CheckNearY(pl->pos) == true)
 					{
 						nm = Motion::Follow;
 					}
@@ -199,7 +158,7 @@ namespace  Enemy05
 			auto pl = ge->GetTask<Player::Object>("Player");
 			if (pl != NULL)
 			{
-				if (this->CheckNear(pl->pos) == false)
+				if (this->CheckNearX(pl->pos) == false || this->CheckNearY(pl->pos) == false)
 				{
 					nm = Motion::Stand;
 				}
@@ -304,12 +263,12 @@ namespace  Enemy05
 	{
 		ML::Color  defColor(1, 1, 1, 1);
 		BChara::DrawInfo imageTable[] = {
-			{ ML::Box2D(-15, -21, 30, 30), ML::Box2D(0, 0, 31, 31), defColor },			//	立ち			0
-			{ ML::Box2D(-15, -21, 30, 30), ML::Box2D(190, 0, 31, 31), defColor },		//	歩行１		1
-			{ ML::Box2D(-15, -21, 30, 30), ML::Box2D(222, 0, 31, 31), defColor },		//	歩行２		2
-			{ ML::Box2D(-15, -21, 30, 30), ML::Box2D(254, 0, 31, 31), defColor },		//	歩行３		3
-			{ ML::Box2D(-15, -21, 30, 30), ML::Box2D(286, 0, 31, 31), defColor },		//	歩行４		4
-			{ ML::Box2D(-15, -21, 30, 30), ML::Box2D(513, 0, 31, 31), defColor },		//	ダメージ		5
+			{ ML::Box2D(-50, -100, 100, 100), ML::Box2D(0, 0, 31, 31), defColor },			//	立ち			0
+			{ ML::Box2D(-50, -100, 100, 100), ML::Box2D(190, 0, 31, 31), defColor },		//	歩行１		1
+			{ ML::Box2D(-50, -100, 100, 100), ML::Box2D(222, 0, 31, 31), defColor },		//	歩行２		2
+			{ ML::Box2D(-50, -100, 100, 100), ML::Box2D(254, 0, 31, 31), defColor },		//	歩行３		3
+			{ ML::Box2D(-50, -100, 100, 100), ML::Box2D(286, 0, 31, 31), defColor },		//	歩行４		4
+			{ ML::Box2D(-50, -100, 100, 100), ML::Box2D(513, 0, 31, 31), defColor },		//	ダメージ		5
 
 		};
 		BChara::DrawInfo  rtv;
