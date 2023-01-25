@@ -11,7 +11,7 @@ namespace  UI
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->UIhp = DG::Image::Create("./data/image/heart.png");
+		this->UIhp = DG::Image::Create("./data/image/heart2.png");
 		this->UInum = DG::Image::Create("./data/image/UItext.png");
 		this->gun = DG::Image::Create("./data/image/Gun.png");
 		this->sword = DG::Image::Create("./data/image/Sword.png");
@@ -70,8 +70,8 @@ namespace  UI
 		//hp分(初期値3)ハートを表示
 		for (int i = 0; i < ge->hp; ++i)
 		{
-			ML::Box2D hpDraw(i * 22, 0, 22, 22);
-			ML::Box2D hpSrc(0, 0, 465, 396);
+			ML::Box2D hpDraw(i * 22, 0, 20, 20);
+			ML::Box2D hpSrc(0, 0, 12, 12);
 			this->res->UIhp->Draw(hpDraw, hpSrc);
 		}
 
