@@ -7,6 +7,7 @@
 #include  "Task_Enemy02.h"
 #include  "Task_Enemy03.h"
 #include  "Task_Enemy04.h"
+#include  "Task_Enemy05.h"
 
 namespace  EnemyMap2D
 {
@@ -110,33 +111,40 @@ namespace  EnemyMap2D
 				// ƒ`ƒbƒv‚Ì”Ô†‚É‚æ‚Á‚Ä•Ï‚¦‚é
 				switch (this->arr[y][x])
 				{
-				case 0:
-				{
-					auto g = Enemy04::Object::Create(true);
-					g->pos.x = x * 16;
-					g->pos.y = y * 16;
-					break;
-				}
-				case 1:
-				{
-					auto g = Enemy03::Object::Create(true);
-					g->pos.x = x * 16;
-					g->pos.y = y * 16;
-					break;
-				}
-				case 2:
-				{
-					auto g = Enemy02::Object::Create(true);
-					g->pos.x = x * 16;
-					g->pos.y = y * 16;
-					break;
-				}
-				   case 4:
+				   case 0:
 				   {
+					  auto g = Enemy04::Object::Create(true);
+					  g->pos.x = x * 16;
+					  g->pos.y = y * 16;
+					  break;
+				   }
+				   case 1:
+				   {
+					  auto g = Enemy03::Object::Create(true);
+					  g->pos.x = x * 16;
+					  g->pos.y = y * 16;
+					  break;
+				   }
+				   case 2:
+				   {
+					  auto g = Enemy02::Object::Create(true);
+					  g->pos.x = x * 16;
+					  g->pos.y = y * 16;
+					  break;
+				   }
+				   case 4:
+				   { 
 					  auto g = Enemy01::Object::Create(true);
 					  g->pos.x = x * 16;
 					  g->pos.y = y * 16;
 					  break;
+				   }
+				   case 5:
+				   {
+					   auto g = Enemy05::Object::Create(true);
+					   g->pos.x = x * 16;
+					   g->pos.y = y * 16;
+					   break;
 				   }
 				}
 			}
