@@ -70,8 +70,7 @@ public:
 	float			searchDist;		//	有効距離
 	int				attackCnt;		//
 	int				attackMax;		//
-	int				WeaponLevel;	//	武器	Lv
-
+	
 	//メンバ変数に最低限の初期化を行う
 	//★★メンバ変数を追加したら必ず初期化も追加する事★★
 	BChara()
@@ -96,7 +95,6 @@ public:
 		, attackCnt(0)
 		, rotPow(0)
 		, searchDist(0)
-		, WeaponLevel(0)
 	{
 	}
 	virtual  ~BChara() {}

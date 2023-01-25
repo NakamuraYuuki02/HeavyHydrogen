@@ -13,7 +13,7 @@ namespace  Sword
 	//ƒŠƒ\[ƒX‚Ì‰Šú‰»
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Sword.png");
+		this->img = DG::Image::Create("./data/image/Sword2.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -98,7 +98,7 @@ namespace  Sword
 		}
 
 		//ˆÚ“®
-		//this->pos += this->moveVec;
+		this->pos += this->moveVec;
 
 		////“–‚½‚è”»’è
 		//{
@@ -146,7 +146,7 @@ namespace  Sword
 			draw.x = -draw.x;
 			draw.w = -draw.w;
 		}
-
+		
 		draw.Offset(this->pos);
 		ML::Box2D  src(0, 0, 16, 16);
 

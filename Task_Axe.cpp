@@ -42,7 +42,7 @@ namespace  Axe
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 5;
+		//this->hp = 5;
 		this->atk = 3;
 		
 		//★タスクの生成
@@ -88,14 +88,14 @@ namespace  Axe
 		}
 
 		//回転
-		if (this->angle_LR == Angle_LR::Right)
+		/*if (this->angle_LR == Angle_LR::Right)
 		{
 			this->angle += ML::ToRadian(5);
 		}
 		else
 		{
 			this->angle -= ML::ToRadian(5);
-		}
+		}*/
 		//移動
 		this->pos += this->moveVec;
 		//重力
@@ -111,7 +111,7 @@ namespace  Axe
 				if ((*it)->CheckHit(me))
 				{
 					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { this->hp,0,0 };
+					BChara::AttackInfo at = { this->atk,0,0 };
 					(*it)->Received(this, at);
 					this->Kill();
 					break;

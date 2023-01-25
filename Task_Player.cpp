@@ -57,6 +57,10 @@ namespace  Player
 		this->ss.push_back(SelectedSkill::DashUp);*/
 		Skill();
 
+		this->pushCnt = 0;
+		this->gauge_value = 0;
+		this->power_range = 0;
+		this->plusPower = 0;
 		this->hp = ge->hp;
 		this->hpMax = ge->hpMax;
 		this->atk = ge->atk;
@@ -66,7 +70,6 @@ namespace  Player
 		this->dashMax = ge->dashMax;			//ƒ_ƒbƒVƒ…ãŒÀ‰ñ”
 		this->attackCnt = 0;					//UŒ‚‰ñ”
 		this->attackMax = 0;					//UŒ‚ãŒÀ‰ñ”
-		this->WeaponLevel = 1;					//•ŠíƒŒƒxƒ‹
 		this->CreateNum = 3;
 		this->slashCnt = 0;
 		this->weapon = ge->sw;
@@ -200,7 +203,7 @@ namespace  Player
 			if (inp.LStick.BR.on) { nm = Motion::Walk; }
 			if (inp.S1.down || inp.LStick.BU.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
-			if (inp.S2.down) { nm = Motion::Attack; }
+			if (inp.S2.down) { nm = Motion::Attack; } //&& this->weapon == MyPG::MyGameEngine::SelectedWeapon::Sword
 			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }//‘«Œ³ áŠQ@–³‚µ
 			break;
@@ -248,22 +251,14 @@ namespace  Player
 			break;
 			//‹ó’†‚Åo—ˆ‚éUŒ‚‚Íˆê‰ñ
 		case  Motion::Attack:	//UŒ‚’†
-			if (this->WeaponLevel < 2)
-			{
-				if (this->moveCnt == 45 && this->CheckFoot() == true) { nm = Motion::Stand; }
-				if (this->moveCnt == 45 && this->CheckFoot() == false) { nm = Motion::Fall3; }
-			}
-			else
-			{
-				if (this->moveCnt == 15 && this->CheckFoot() == true) { nm = Motion::Stand; }
-				if (this->moveCnt == 15 && this->CheckFoot() == false) { nm = Motion::Fall3; }
-			}
+			if (this->moveCnt == 45 && this->CheckFoot() == true) { nm = Motion::Stand; }
+			if (this->moveCnt == 45 && this->CheckFoot() == false) { nm = Motion::Fall3; }
 			break;
 		//case  Motion::Attack2:	//UŒ‚’†
 		//	if (this->moveCnt == 8) { nm = Motion::Stand; }
 		//	break;
 		case  Motion::TakeOff:	//”ò‚Ñ—§‚¿
-			if (this->moveCnt >= 3) { nm = Motion::Jump; }
+			if (this->moveCnt >= 1) { nm = Motion::Jump; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case  Motion::Landing:	//’…’n
@@ -469,7 +464,7 @@ namespace  Player
 		case Motion::DashCt:
 			break;
 		case Motion::Attack:	//UŒ‚’†
-			if (this->moveCnt == 6)
+			if (this->moveCnt == 1)
 			{
 				switch (this->weapon)
 				{
@@ -479,23 +474,30 @@ namespace  Player
 					{
 						auto sword = Sword::Object::Create(true);
 						sword->pos = this->pos + ML::Vec2(15, 0);
+						
 						for (int i = 0; i < CreateNum; ++i)
 						{
-							auto slash = Slash::Object::Create(true);
+							
+							if (i == this->slashCnt)
+							{
+								auto slash = Slash::Object::Create(true);
 
-							//pw
-							/*auto axe2 = Axe::Object::Create(true);
-							axe2->moveVec = ML::Vec2(7, -8);
-							auto axe3 = Axe::Object::Create(true);
-							axe3->moveVec = ML::Vec2(7, -4);
+								//pw
+								/*auto axe2 = Axe::Object::Create(true);
+								axe2->moveVec = ML::Vec2(7, -8);
+								auto axe3 = Axe::Object::Create(true);
+								axe3->moveVec = ML::Vec2(7, -4);
 
-							axe2->pos = this->pos + ML::Vec2(30, 0);
+								axe2->pos = this->pos + ML::Vec2(30, 0);
 
-							axe3->pos = this->pos + ML::Vec2(30, 0);*/
-							//pw
+								axe3->pos = this->pos + ML::Vec2(30, 0);*/
+								//pw
 
-							slash->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
+								slash->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
+								this->slashCnt++;
+							}
 						}
+						this->slashCnt = 0;
 					}
 					else
 					{
@@ -523,11 +525,16 @@ namespace  Player
 				break;
 				case MyPG::MyGameEngine::SelectedWeapon::Axe:
 				{
+					//this->pushCnt = 0;
 					if (this->angle_LR == Angle_LR::Right)
 					{
 						for (int i = 0; i < CreateNum; ++i)
 						{
 							auto axe = Axe::Object::Create(true);
+							/*this->gauge_value = (float)this->pushCnt / (float)Frame_Hold;
+							this->power_range = Power_Max - Power_Min;
+							this->plusPower = Power_Min + (float)power_range * gauge_value;
+							axe->atk = atk + plusPower;*/
 							axe->moveVec = ML::Vec2(7, -4 + (-4 * i));
 
 							//pw
@@ -542,6 +549,7 @@ namespace  Player
 							//pw
 
 							axe->pos = this->pos + ML::Vec2(30, 0);
+							//this->pushCnt = 0;
 						}
 					}
 					else
