@@ -17,6 +17,8 @@ namespace  Select
 	{
 		this->selectBack = DG::Image::Create("./data/image/SelectSceneBack.png");
 		this->selectUI = DG::Image::Create("./data/image/debug.png");
+		this->stageNumberUI = DG::Image::Create("./data/image/StageNumberUI.png");
+		this->stageNumber = DG::Image::Create("./data/image/UItext.png");
 		this->sword = DG::Image::Create("./data/image/Sword.png");
 		this->axe = DG::Image::Create("./data/image/Axe.png");
 		this->gun = DG::Image::Create("./data/image/Gun.png");
@@ -28,6 +30,8 @@ namespace  Select
 	{
 		this->selectBack.reset();
 		this->selectUI.reset();
+		this->stageNumberUI.reset();
+		this->stageNumber.reset();
 		this->sword.reset();
 		this->axe.reset();
 		this->gun.reset();
@@ -57,7 +61,7 @@ namespace  Select
 			//クリアしたステージの次ステージを三つ取得
 			this->stage[i] = ge->eapsedStage + i + 1;
 		}
-		
+
 		//★タスクの生成
 
 		return  true;
@@ -124,6 +128,21 @@ namespace  Select
 			ML::Box2D src(0, 0, 32, 32);
 			draw.Offset(this->pos);
 			this->res->selectUI->Draw(draw, src);
+		}
+		//「ステージ数」表示
+		ML::Box2D stageNumDraw(320, 240, 120, 20);
+		ML::Box2D stageNumSrc(0, 0, 120, 20);
+		this->res->stageNumberUI->Draw(stageNumDraw, stageNumSrc);
+
+		//マップ数表示
+		char mapNum[10];
+		sprintf(mapNum, "%02d", ge->stageNum);
+		for (int i = 0; i < 2; ++i) {
+			int num = mapNum[i] - '0';//'0'== 48
+			ML::Box2D numDraw(420, 230, 18, 32);
+			ML::Box2D numSrc(num * 30, 0, 30, 52);
+			numDraw.Offset(i * 18, 0);//文字間隔
+			this->res->stageNumber->Draw(numDraw, numSrc);
 		}
 		//アイコン
 		{

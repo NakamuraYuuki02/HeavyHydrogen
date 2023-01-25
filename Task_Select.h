@@ -25,6 +25,8 @@ namespace  Select
 		//‹¤—L‚·‚é•Ï”‚Í‚±‚±‚É’Ç‰Á‚·‚é
 		DG::Image::SP selectBack;
 		DG::Image::SP selectUI;
+		DG::Image::SP stageNumberUI;
+		DG::Image::SP stageNumber;
 		DG::Image::SP sword;
 		DG::Image::SP axe;
 		DG::Image::SP gun;
