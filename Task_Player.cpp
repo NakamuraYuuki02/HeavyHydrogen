@@ -67,8 +67,8 @@ namespace  Player
 		this->attackCnt = 0;					//攻撃回数
 		this->attackMax = 0;					//攻撃上限回数
 		this->WeaponLevel = 1;					//武器レベル
-		this->CreateNum = 1;
-		
+		this->CreateNum = 3;
+		this->slashCnt = 0;
 		this->weapon = ge->sw;
 		//this->weapon = Weapon::Gun;
 		
@@ -127,21 +127,21 @@ namespace  Player
 		//}
 
 		//当たり判定
-		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("アイテム");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
-			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { 1,0,0 };
-					(*it)->Received(this, at);
-					break;
-				}
-			}
-		}
+		//{
+		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
+		//	auto targets = ge->GetTasks<BChara>("アイテム");
+		//	for (auto it = targets->begin(); it != targets->end(); ++it)
+		//	{
+		//		//相手に接触の有無を確認させる
+		//		if ((*it)->CheckHit(me))
+		//		{
+		//			//相手にダメージの処理を行わせる
+		//			BChara::AttackInfo at = { 1,0,0 };
+		//			(*it)->Received(this, at);
+		//			break;
+		//		}
+		//	}
+		//}
 
 		//カメラの位置を再調整
 		{
@@ -469,7 +469,7 @@ namespace  Player
 		case Motion::DashCt:
 			break;
 		case Motion::Attack:	//攻撃中
-			if (this->moveCnt == 8)
+			if (this->moveCnt == 6)
 			{
 				switch (this->weapon)
 				{

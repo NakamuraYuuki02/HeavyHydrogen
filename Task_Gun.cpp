@@ -5,6 +5,7 @@
 #include  "Task_Shot00.h"
 #include  "Task_Gun.h"
 #include  "Task_Map2D.h"
+#include  "Task_Player.h"
 
 namespace  Gun
 {
@@ -54,7 +55,6 @@ namespace  Gun
 	{
 		//★データ＆タスク解放
 
-
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//★引き継ぎタスクの生成
 		}
@@ -67,14 +67,28 @@ namespace  Gun
 	{
 		this->moveCnt++;
 		//限界の時間を迎えたら消滅
-		if (this->moveCnt >= 30) {
+		if (this->moveCnt >= 36) {
 			//消滅申請
 			this->Kill();
 			return;
 		}
+
+		auto targets = ge->GetTasks<BChara>("Player");
+		for (auto it = targets->begin(); it != targets->end(); ++it)
+		{
+			if ((*it)->angle_LR == Angle_LR::Right)
+			{
+				this->angle_LR = Angle_LR::Right;
+			}
+			else
+			{
+				this->angle_LR = Angle_LR::Left;
+			}
+		}
+
 		//移動
 		//this->pos += this->moveVec;
-		
+
 		//当たり判定
 		//{
 		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
@@ -115,24 +129,19 @@ namespace  Gun
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D  draw(-8, -8, 16, 16);
+
+		if (this->angle_LR == Angle_LR::Left) 
+		{
+			draw.x = -draw.x;
+			draw.w = -draw.w;
+		}
+
 		draw.Offset(this->pos);
 		ML::Box2D  src(0, 0, 15, 10);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		if (Angle_LR::Left == this->angle_LR)
-		{
-			draw.x = -draw.x;
-			draw.w = -draw.w;
-		}
 		this->res->img->Draw(draw, src);
-
-		//BChara::DrawInfo  di = this->Anim();
-		//di.draw.Offset(this->pos);
-		////スクロール対応
-		//di.draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-
-		//this->res->img->Draw(di.draw, di.src);
 	}
 	//-----------------------------------------------------------------------------
 	

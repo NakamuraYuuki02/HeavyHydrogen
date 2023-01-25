@@ -36,6 +36,9 @@ namespace  Sword
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
+		this->angle = 0;
+		this->angle_LR = Angle_LR::Right;
+
 		/*this->hitBase = ML::Box2D(-16, -16, 32, 32);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
@@ -70,6 +73,30 @@ namespace  Sword
 			this->Kill();
 			return;
 		}
+
+		auto targets = ge->GetTasks<BChara>("Player");
+		for (auto it = targets->begin(); it != targets->end(); ++it)
+		{
+			if ((*it)->angle_LR == Angle_LR::Right)
+			{
+				this->angle_LR = Angle_LR::Right;
+			}
+			else
+			{
+				this->angle_LR = Angle_LR::Left;
+			}
+		}
+
+		//‰ñ“]
+		if (this->angle_LR == Angle_LR::Right)
+		{
+			this->angle += ML::ToRadian(5);
+		}
+		else
+		{
+			this->angle -= ML::ToRadian(5);
+		}
+
 		//ˆÚ“®
 		//this->pos += this->moveVec;
 
@@ -112,12 +139,20 @@ namespace  Sword
 	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-16, -16, 32, 32);
+		ML::Box2D  draw(-12, -12, 24, 24);
+
+		if (this->angle_LR == Angle_LR::Right) 
+		{
+			draw.x = -draw.x;
+			draw.w = -draw.w;
+		}
+
 		draw.Offset(this->pos);
 		ML::Box2D  src(0, 0, 16, 16);
 
 		//ƒXƒNƒ[ƒ‹‘Î‰ž
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
+		this->res->img->Rotation(this->angle, ML::Vec2(0, 0));
 		this->res->img->Draw(draw, src);
 	}
 	//-------------------------------------------------------------------
