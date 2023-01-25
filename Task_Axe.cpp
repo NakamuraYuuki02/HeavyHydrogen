@@ -148,7 +148,7 @@ namespace  Axe
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		this->res->img->Rotation(this->angle, ML::Vec2(0, 0));
 		this->res->img->Draw(draw, src);
-		
+
 	}
 	//-------------------------------------------------------------------
 	
