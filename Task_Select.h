@@ -23,8 +23,11 @@ namespace  Select
 		static   WP  instance;
 		static  Resource::SP  Create();
 		//‹¤—L‚·‚é•Ï”‚Í‚±‚±‚É’Ç‰Á‚·‚é
+		DG::Image::SP selectBack;
 		DG::Image::SP selectUI;
-		//DG::Image::SP 
+		DG::Image::SP sword;
+		DG::Image::SP axe;
+		DG::Image::SP gun;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
@@ -73,7 +76,6 @@ namespace  Select
 		bool SelectWeapon();
 		bool SelectSkill();
 		bool SelectStage();
-		bool SelectStageFirst();
 
 		//‘I‘ğ‚³‚ê‚½”Ô†
 		int selectedNumber;
