@@ -27,7 +27,8 @@ public:
 	WP			target;
 
 	//索敵範囲
-	float searchRadius = 100;
+	float searchX = 100;
+	float searchY = 20;
 
 	//キャラクタの行動状態フラグ
 	enum class Motion
@@ -130,5 +131,6 @@ public:
 	virtual bool CheckHit(const ML::Box2D& hit_);
 	//正面足元チェック
 	virtual bool CheckFrontFoot_LR();
-	bool CheckNear(const ML::Vec2& tg_);
+	bool CheckNearX(const ML::Vec2& tg_);
+	bool CheckNearY(const ML::Vec2& tg_);
 };

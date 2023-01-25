@@ -13,7 +13,7 @@ namespace  Sword
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/debug.png");
+		this->img = DG::Image::Create("./data/image/Sword.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -36,11 +36,14 @@ namespace  Sword
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
-		this->hitBase = ML::Box2D(-16, -16, 32, 32);
+		this->angle = 0;
+		this->angle_LR = Angle_LR::Right;
+
+		/*this->hitBase = ML::Box2D(-16, -16, 32, 32);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		this->hp = 5;
-		this->atk = 5;
+		this->atk = 2;*/
 		
 		//★タスクの生成
 
@@ -70,26 +73,50 @@ namespace  Sword
 			this->Kill();
 			return;
 		}
-		//移動
-		this->pos += this->moveVec;
 
-		//当たり判定
+		auto targets = ge->GetTasks<BChara>("Player");
+		for (auto it = targets->begin(); it != targets->end(); ++it)
 		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("Enemy");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
+			if ((*it)->angle_LR == Angle_LR::Right)
 			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { this->atk,0,0 };
-					(*it)->Received(this, at);
-					this->Kill();
-					break;
-				}
+				this->angle_LR = Angle_LR::Right;
+			}
+			else
+			{
+				this->angle_LR = Angle_LR::Left;
 			}
 		}
+
+		//回転
+		if (this->angle_LR == Angle_LR::Right)
+		{
+			this->angle += ML::ToRadian(5);
+		}
+		else
+		{
+			this->angle -= ML::ToRadian(5);
+		}
+
+		//移動
+		//this->pos += this->moveVec;
+
+		////当たり判定
+		//{
+		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
+		//	auto targets = ge->GetTasks<BChara>("Enemy");
+		//	for (auto it = targets->begin(); it != targets->end(); ++it)
+		//	{
+		//		//相手に接触の有無を確認させる
+		//		if ((*it)->CheckHit(me))
+		//		{
+		//			//相手にダメージの処理を行わせる
+		//			BChara::AttackInfo at = { this->atk,0,0 };
+		//			(*it)->Received(this, at);
+		//			this->Kill();
+		//			break;
+		//		}
+		//	}
+		//}
 
 		//移動先で障害物に接触したら消滅
 		//マップが存在するか調べてからアクセス
@@ -112,23 +139,21 @@ namespace  Sword
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-16, -16, 32, 32);
-		ML::Box2D  draw2(-24, -24, 48, 48);
+		ML::Box2D  draw(-12, -12, 24, 24);
+
+		if (this->angle_LR == Angle_LR::Right) 
+		{
+			draw.x = -draw.x;
+			draw.w = -draw.w;
+		}
+
 		draw.Offset(this->pos);
-		draw2.Offset(this->pos);
-		ML::Box2D  src(0, 0, 32, 32);
+		ML::Box2D  src(0, 0, 16, 16);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		draw2.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		if (WeaponLevel == 0)
-		{
-			this->res->img->Draw(draw, src);
-		}
-		else
-		{
-			this->res->img->Draw(draw2, src);
-		}
+		this->res->img->Rotation(this->angle, ML::Vec2(0, 0));
+		this->res->img->Draw(draw, src);
 	}
 	//-------------------------------------------------------------------
 	

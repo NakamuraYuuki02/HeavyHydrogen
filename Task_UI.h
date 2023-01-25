@@ -53,13 +53,7 @@ namespace  UI
 		//追加したい変数・メソッドはここに追加する
 		ML::Vec2 HPpos;
 		ML::Vec2 mapNumpos;
-
-		enum class UI
-		{
-			Sword,
-			Axe,
-			Gun
-		};
-		UI ui;
+		
+		MyPG::MyGameEngine::SelectedWeapon weapon;
 	};
 }

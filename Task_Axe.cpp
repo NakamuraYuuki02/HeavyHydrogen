@@ -13,7 +13,7 @@ namespace  Axe
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/debug.png");
+		this->img = DG::Image::Create("./data/image/Axe.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -36,12 +36,14 @@ namespace  Axe
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
-		this->hitBase = ML::Box2D(-8, -8, 16, 16);
+		this->angle = 0;
+		this->angle_LR = Angle_LR::Right;
+		this->hitBase = ML::Box2D(-12, -12, 24, 24);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		this->gravity = ML::Gravity(32) * 5;
 		this->hp = 5;
-		this->atk = 5;
+		this->atk = 3;
 		
 		//★タスクの生成
 
@@ -71,11 +73,34 @@ namespace  Axe
 			this->Kill();
 			return;
 		}
+
+		auto targets = ge->GetTasks<BChara>("Player");
+		for (auto it = targets->begin(); it != targets->end(); ++it)
+		{
+			if ((*it)->angle_LR == Angle_LR::Right)
+			{
+				this->angle_LR = Angle_LR::Right;
+			}
+			else
+			{
+				this->angle_LR = Angle_LR::Left;
+			}
+		}
+
+		//回転
+		if (this->angle_LR == Angle_LR::Right)
+		{
+			this->angle += ML::ToRadian(5);
+		}
+		else
+		{
+			this->angle -= ML::ToRadian(5);
+		}
 		//移動
 		this->pos += this->moveVec;
 		//重力
 		this->moveVec.y += this->gravity;
-
+		
 		//当たり判定
 		{
 			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
@@ -115,23 +140,15 @@ namespace  Axe
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-8, -8, 16, 16);
-		ML::Box2D  draw2(-16, -16, 32, 32);
+		ML::Box2D  draw(-12, -12, 24, 24);
 		draw.Offset(this->pos);
-		draw2.Offset(this->pos);
-		ML::Box2D  src(0, 0, 32, 32);
+		ML::Box2D  src(0, 0, 14, 14);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		draw2.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		if (WeaponLevel == 0)
-		{
-			this->res->img->Draw(draw, src);
-		}
-		else
-		{
-			this->res->img->Draw(draw2, src);
-		}
+		this->res->img->Rotation(this->angle, ML::Vec2(0, 0));
+		this->res->img->Draw(draw, src);
+
 	}
 	//-------------------------------------------------------------------
 	

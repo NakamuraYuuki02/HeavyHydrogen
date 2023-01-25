@@ -11,11 +11,11 @@ namespace  UI
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->UIhp = DG::Image::Create("./data/image/HPheart.png");
+		this->UIhp = DG::Image::Create("./data/image/heart.png");
 		this->UInum = DG::Image::Create("./data/image/UItext.png");
 		this->gun = DG::Image::Create("./data/image/Gun.png");
-		this->sword = DG::Image::Create("./data/image/Gun.png");
-		this->axe = DG::Image::Create("./data/image/Gun.png");
+		this->sword = DG::Image::Create("./data/image/Sword.png");
+		this->axe = DG::Image::Create("./data/image/Axe.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -25,6 +25,8 @@ namespace  UI
 		this->UIhp.reset();
 		this->UInum.reset();
 		this->gun.reset();
+		this->sword.reset();
+		this->axe.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -37,6 +39,7 @@ namespace  UI
 		this->res = Resource::Create();
 
 		//★データ初期化
+		this->weapon = ge->sw;
 		
 		//★タスクの生成
 
@@ -72,37 +75,26 @@ namespace  UI
 			this->res->UIhp->Draw(hpDraw, hpSrc);
 		}
 
-		//マップ数表示
-		char mapNum[10];
-		sprintf(mapNum, "%02d", ge->stageNum);
-		for (int i = 0; i < 2; ++i) {
-			int num = mapNum[i] - '0';//'0'== 48
-			ML::Box2D numDraw(0, 25, 32, 32);
-			ML::Box2D numSrc(num * 30, 0, 30, 52);
-			numDraw.Offset(i * 22, 0);//文字間隔
-			this->res->UInum->Draw(numDraw, numSrc);
-		}
-
 		//武器アイコン
-		switch (this->ui)
+		switch (this->weapon)
 		{
-		case UI::Sword:
+		case MyPG::MyGameEngine::SelectedWeapon::Sword:
 		    {
-			  ML::Box2D SwordDraw(50, 30, 45, 30);
-			  ML::Box2D SwordSrc(0, 0, 15, 10);
+			  ML::Box2D SwordDraw(20, 30, 28, 28);
+			  ML::Box2D SwordSrc(0, 0, 16, 16);
 			  this->res->sword->Draw(SwordDraw, SwordSrc);
 			  break;
 		    }
-		case UI::Axe:
+		case MyPG::MyGameEngine::SelectedWeapon::Axe:
 		    { 
-			  ML::Box2D AxeDraw(50, 30, 45, 30);
-			  ML::Box2D AxeSrc(0, 0, 15, 10);
+			  ML::Box2D AxeDraw(20, 30, 26, 26);
+			  ML::Box2D AxeSrc(0, 0, 14, 14);
 			  this->res->axe->Draw(AxeDraw, AxeSrc);
 			  break;
 			}
-		case UI::Gun:
+		case MyPG::MyGameEngine::SelectedWeapon::Gun:
 		    { 
-			  ML::Box2D GunDraw(50, 30, 45, 30);
+			  ML::Box2D GunDraw(20, 30, 45, 30);
 			  ML::Box2D GunSrc(0, 0, 15, 10);
 			  this->res->gun->Draw(GunDraw, GunSrc);
 			  break;

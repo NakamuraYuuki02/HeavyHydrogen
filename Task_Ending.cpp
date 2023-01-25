@@ -66,6 +66,7 @@ namespace  Ending
 		if (this->logoPosY == 0) {
 			if (inp.ST.down || inp.S1.down)
 			{
+				ge->ns = MyPG::MyGameEngine::NextScene::Title;
 				//Ž©g‚ÉÁ–Å—v¿
 				this->Kill();
 			}

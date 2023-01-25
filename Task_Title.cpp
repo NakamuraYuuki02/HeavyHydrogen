@@ -47,8 +47,9 @@ namespace  Title
 		ge->KillAll_G("Title");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
+			//if(ge->ns == MyPG::MyGameEngine::NextScene::Select)
 			//★引き継ぎタスクの生成
-			auto  nextTask = Select::Object::Create(true);
+			auto  next = Select::Object::Create(true);
 		}
 
 		return  true;
@@ -67,6 +68,8 @@ namespace  Title
 		if (this->logoPosY == 0) {
 			if (inp.ST.down || inp.S1.down)
 			{
+				//タイトルの次のセレクトシーンを指定。
+				ge->ns = MyPG::MyGameEngine::NextScene::Select;
 				//自身に消滅要請
 				this->Kill();
 			}

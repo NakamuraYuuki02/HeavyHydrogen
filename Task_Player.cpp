@@ -7,6 +7,8 @@
 #include  "Task_Shot00.h"
 #include  "Task_Sword.h"
 #include  "Task_Axe.h"
+#include  "Task_Gun.h"
+#include  "Task_Slash.h"
 
 #include  "Task_Skill.h"
 
@@ -50,20 +52,26 @@ namespace  Player
 		this->maxFallSpeed = 10.0f;	//最大落下速度
 		this->jumpPow = -8.0f;		//ジャンプ力（初速）縦5マスくらい
 		this->gravity = ML::Gravity(32) * 5; //重力加速度＆時間速度による加算量
-		this->hp = 3;
-		this->hpMax = 10;
-		this->atk = 5;
-		this->jumpCnt = 0;			//ジャンプ回数
-		this->jumpMax = 3;			//ジャンプ上限回数
-		this->dashCnt = 0;			//ダッシュ回数
-		this->dashMax = 1;			//ダッシュ上限回数
-		this->attackCnt = 0;		//攻撃回数
-		this->attackMax = 0;		//攻撃上限回数
-		this->WeaponLevel = 1;		//武器レベル
+
+		/*this->ss.push_back(SelectedSkill::JumpUp);
+		this->ss.push_back(SelectedSkill::DashUp);*/
+		Skill();
+
+		this->hp = ge->hp;
+		this->hpMax = ge->hpMax;
+		this->atk = ge->atk;
+		this->jumpCnt = ge->jumpCnt;			//ジャンプ回数
+		this->jumpMax = ge->jumpMax;			//ジャンプ上限回数
+		this->dashCnt = ge->dashCnt;			//ダッシュ回数
+		this->dashMax = ge->dashMax;			//ダッシュ上限回数
+		this->attackCnt = 0;					//攻撃回数
+		this->attackMax = 0;					//攻撃上限回数
+		this->WeaponLevel = 1;					//武器レベル
 		this->CreateNum = 3;
-
-		this->weapon = Weapon::Axe;
-
+		this->slashCnt = 0;
+		this->weapon = ge->sw;
+		//this->weapon = Weapon::Gun;
+		
 		//★タスクの生成
 		
 		return  true;
@@ -119,21 +127,21 @@ namespace  Player
 		//}
 
 		//当たり判定
-		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("アイテム");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
-			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { 1,0,0 };
-					(*it)->Received(this, at);
-					break;
-				}
-			}
-		}
+		//{
+		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
+		//	auto targets = ge->GetTasks<BChara>("アイテム");
+		//	for (auto it = targets->begin(); it != targets->end(); ++it)
+		//	{
+		//		//相手に接触の有無を確認させる
+		//		if ((*it)->CheckHit(me))
+		//		{
+		//			//相手にダメージの処理を行わせる
+		//			BChara::AttackInfo at = { 1,0,0 };
+		//			(*it)->Received(this, at);
+		//			break;
+		//		}
+		//	}
+		//}
 
 		//カメラの位置を再調整
 		{
@@ -188,55 +196,55 @@ namespace  Player
 		//モーションの変更以外の処理は行わない
 		switch (nm) {
 		case  Motion::Stand:	//立っている
-			if (inp.SE.on) { nm = Motion::Walk; }
-			if (inp.L3.on) { nm = Motion::Walk; }
-			if (inp.S1.down) { nm = Motion::TakeOff; }
+			if (inp.LStick.BL.on) { nm = Motion::Walk; }
+			if (inp.LStick.BR.on) { nm = Motion::Walk; }
+			if (inp.S1.down || inp.LStick.BU.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
-			if (inp.B4.down) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }//足元 障害　無し
 			break;
 		case  Motion::Walk:		//歩いている
-			if (inp.SE.off && inp.L3.off) { nm = Motion::Stand; }
-			if (inp.S1.down) { nm = Motion::TakeOff; }
+			if (inp.LStick.BL.off && inp.LStick.BR.off) { nm = Motion::Stand; }
+			if (inp.S1.down || inp.LStick.BU.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
-			if (inp.B4.down) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case  Motion::Jump:		//上昇中
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S1.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.S1.down&& this->jumpMax >= 2 || inp.LStick.BU.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case Motion::Jump2:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall2; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S1.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.S1.down&& this->jumpMax >= 3 || inp.LStick.BU.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case Motion::Jump3:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall3; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case  Motion::Fall:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
-			if (inp.S1.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S1.down&& this->jumpMax >= 2 || inp.LStick.BU.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
 			break;
 		case  Motion::Fall2:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
-			if (inp.S1.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S1.down&& this->jumpMax >= 3 || inp.LStick.BU.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
 			break;
 		case  Motion::Fall3:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 			//空中で出来る攻撃は一回
 		case  Motion::Attack:	//攻撃中
@@ -290,6 +298,7 @@ namespace  Player
 	void  Object::Move()
 	{
 		auto  inp = this->controller->GetState();
+
 		//重力加速
 		switch (this->motion) {
 		default:
@@ -335,23 +344,23 @@ namespace  Player
 		case  Motion::Stand:	//立っている
 			break;
 		case  Motion::Walk:		//歩いている
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->angle_LR = Angle_LR::Left;
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->angle_LR = Angle_LR::Right;
 				this->moveVec.x = this->maxSpeed;
 			}
 			break;
 		case  Motion::Fall:		//落下中
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -361,11 +370,11 @@ namespace  Player
 			}
 			break;
 		case  Motion::Fall2:		//落下中
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -375,11 +384,11 @@ namespace  Player
 			}
 			break;
 		case  Motion::Fall3:		//落下中
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -398,11 +407,11 @@ namespace  Player
 			{
 				this->moveVec.y = 0;
 			}
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -417,11 +426,11 @@ namespace  Player
 			{
 				this->moveVec.y = 0;
 			}
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -436,11 +445,11 @@ namespace  Player
 			{
 				this->moveVec.y = 0;
 			}
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -460,17 +469,19 @@ namespace  Player
 		case Motion::DashCt:
 			break;
 		case Motion::Attack:	//攻撃中
-			if (this->moveCnt == 8)
+			if (this->moveCnt == 6)
 			{
 				switch (this->weapon)
 				{
-				case Weapon::Sword:
+				case MyPG::MyGameEngine::SelectedWeapon::Sword:
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{
+						auto sword = Sword::Object::Create(true);
+						sword->pos = this->pos + ML::Vec2(15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
-							auto sword = Sword::Object::Create(true);
+							auto slash = Slash::Object::Create(true);
 
 							//pw
 							/*auto axe2 = Axe::Object::Create(true);
@@ -483,14 +494,16 @@ namespace  Player
 							axe3->pos = this->pos + ML::Vec2(30, 0);*/
 							//pw
 
-							sword->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
+							slash->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
 						}
 					}
 					else
 					{
+						auto sword = Sword::Object::Create(true);
+						sword->pos = this->pos + ML::Vec2(-15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
-							auto sword = Sword::Object::Create(true);
+							auto slash = Slash::Object::Create(true);
 
 							//pw
 							/*auto axe2 = Axe::Object::Create(true);
@@ -503,12 +516,12 @@ namespace  Player
 							axe3->pos = this->pos + ML::Vec2(30, 0);*/
 							//pw
 
-							sword->pos = this->pos + ML::Vec2(-30 + (-15 * i), 0);
+							slash->pos = this->pos + ML::Vec2(-30 + (-15 * i), 0);
 						}
 					}
 				}
 				break;
-				case Weapon::Axe:
+				case MyPG::MyGameEngine::SelectedWeapon::Axe:
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{
@@ -554,14 +567,16 @@ namespace  Player
 					}
 				}
 				break;
-				case Weapon::Gun:
+				case MyPG::MyGameEngine::SelectedWeapon::Gun:
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{
+						auto gun = Gun::Object::Create(true);
+						gun->pos = this->pos + ML::Vec2(15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
-							auto gun = Shot00::Object::Create(true);
-							gun->moveVec = ML::Vec2(7, 0);
+							auto shot = Shot00::Object::Create(true);
+							shot->moveVec = ML::Vec2(7, 0);
 
 							//pw
 							/*auto gun2 = Shot00::Object::Create(true);
@@ -574,11 +589,13 @@ namespace  Player
 							gun3->pos = this->pos + ML::Vec2(30, 0);*/
 							//pw
 
-							gun->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
+							shot->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
 						}
 					}
 					else
 					{
+						auto gun = Gun::Object::Create(true);
+						gun->pos = this->pos + ML::Vec2(-15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
 							auto gun = Shot00::Object::Create(true);
@@ -639,15 +656,15 @@ namespace  Player
 		BChara::DrawInfo imageTable[] = {
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(0, 32, 24, 32), defColor },	//停止						 0
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },	//歩行1					 1
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 3, 32, 24, 32), defColor },	//歩行２					 2
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 3, 31, 24, 32), defColor },	//歩行２					 2
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },	//歩行３					 3
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 5, 32, 24, 32), defColor },	//歩行４					 4
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 16, 32 * 3, 24, 32), defColor },	//ジャンプ			 5
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 10, 32, 24, 32), defColor },	//落下 飛び立つ直前		 6
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 11, 32, 24, 32), defColor },	//着地					 7
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 6, 32, 24, 32), defColor },   //ダメージ				 8
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 9, 32, 24, 32), defColor },  //攻撃					 9
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 8, 32 * 4, 24, 32), defColor }, //ダッシュ				10
+			//{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 9, 32, 24, 32), defColor },  //攻撃					 
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 8, 32 * 4, 24, 32), defColor }, //ダッシュ				 9
 			//draw							src
 			//{ ML::Box2D(-8, -20, 16, 40), ML::Box2D(0, 0, 32, 80), defColor },	//停止
 			//{ ML::Box2D(-2, -20, 16, 40), ML::Box2D(32, 0, 32, 80), defColor },	//歩行１
@@ -691,11 +708,11 @@ namespace  Player
 			//  ダメージ------------------------------------------------------------------------
 		case  Motion::Bound:    rtv = imageTable[8];    break;
 			//　攻撃----------------------------------------------------------------------------
-		case  Motion::Attack:   rtv = imageTable[9]; break;
+		case  Motion::Attack:   rtv = imageTable[2]; break;
 			//　ダッシュ------------------------------------------------------------------------
-		case  Motion::Dash:      rtv = imageTable[10]; break;
+		case  Motion::Dash:      rtv = imageTable[9]; break;
 			//  ダッシュクール------------------------------------------------------------------
-		case  Motion::DashCt:    rtv = imageTable[10]; break;
+		case  Motion::DashCt:    rtv = imageTable[9]; break;
 			//  攻撃2--------------------------------------------------------------------------
 		//case  Motion::Attack2:  rtv = imageTable[9]; break;
 		}
@@ -720,8 +737,10 @@ namespace  Player
 		}
 		this->unHitTime = 90;
 		this->hp -= at_.power; //仮処理
+		ge->hp = this->hp;
 		if (this->hp <= 0)
 		{
+			ge->ns=MyPG::MyGameEngine::NextScene::Endnig;
 			this->Kill();
 		}
 		//吹き飛ばされる
@@ -738,34 +757,37 @@ namespace  Player
 	}
 	//-------------------------------------------------------------------
 	//スキル
-	void Object::Skill(BChara* from_)
+	void Object::Skill()
 	{
-		switch (this->ss)
+ 		for (int i = 0; i < ge->ss.size(); ++i)
 		{
-		case SelectedSkill::JumpUp:
-			//ジャンプ回数増加（最大3回）
-			this->jumpMax++;
-			break;
-		case SelectedSkill::DashUp:
-			//ダッシュ回数増加
-			this->dashMax++;
-			break;
-		case SelectedSkill::HpUp:
-			//体力増加
-			this->hp++;
-			break;
-		case SelectedSkill::AtkUp:
-			//攻撃力増加
-			this->atk++;
-			break;
-		case SelectedSkill::Special1:
-			//武器の特殊強化1
-			//this->WeaponSpecial1(weapon);
-			this->CreateNum = 3;
-			break;
-		//case SelectedSkill::Special2:
-		//	//武器の特殊強化2
-		//	break;
+			switch (ge->ss[i]) //後でgeかわるでー
+			{
+			case MyPG::MyGameEngine::SelectedSkill::JumpUp:
+				//ジャンプ回数増加（最大3回）
+				++ge->jumpMax;
+				break;
+			case MyPG::MyGameEngine::SelectedSkill::DashUp:
+				//ダッシュ回数増加
+				ge->dashMax++;
+				break;
+			case MyPG::MyGameEngine::SelectedSkill::HpUp:
+				//体力増加
+				ge->hp++;
+				break;
+			case MyPG::MyGameEngine::SelectedSkill::AtkUp:
+				//攻撃力増加
+				ge->atk++;
+				break;
+			case MyPG::MyGameEngine::SelectedSkill::Special1:
+				//武器の特殊強化1
+				//this->WeaponSpecial1(weapon);
+				this->CreateNum = 3;
+				break;
+				//case SelectedSkill::Special2:
+				//	//武器の特殊強化2
+				//	break;
+			}
 		}
 	}
 	//-------------------------------------------------------------------
