@@ -76,7 +76,7 @@ namespace MyPG
 			{ DIK_Z, XI::VGP::B1 },{ DIK_X, XI::VGP::B2 },{ DIK_C, XI::VGP::B3 },
 			{ DIK_V, XI::VGP::B4 },{ DIK_A, XI::VGP::SE },{ DIK_Q, XI::VGP::ST },
 			{ DIK_Q, XI::VGP::L1 },{ DIK_W, XI::VGP::R1 },{ DIK_S, XI::VGP::S9 },
-			{ DIK_D, XI::VGP::L3 },{ DIK_NUMPAD5, XI::VGP::R3 },
+			{ DIK_D, XI::VGP::L3 },{ DIK_F, XI::VGP::S2},{ DIK_NUMPAD5, XI::VGP::R3 },
 			{ DIK_SPACE, XI::VGP::S1 },{ DIK_LSHIFT, XI::VGP::S0},
 		};
 		//ゲームパッドパラメータ

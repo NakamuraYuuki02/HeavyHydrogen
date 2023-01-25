@@ -196,55 +196,55 @@ namespace  Player
 		//モーションの変更以外の処理は行わない
 		switch (nm) {
 		case  Motion::Stand:	//立っている
-			if (inp.SE.on) { nm = Motion::Walk; }
-			if (inp.L3.on) { nm = Motion::Walk; }
-			if (inp.S1.down) { nm = Motion::TakeOff; }
+			if (inp.LStick.BL.on) { nm = Motion::Walk; }
+			if (inp.LStick.BR.on) { nm = Motion::Walk; }
+			if (inp.S1.down || inp.LStick.BU.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
-			if (inp.B4.down) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }//足元 障害　無し
 			break;
 		case  Motion::Walk:		//歩いている
-			if (inp.SE.off && inp.L3.off) { nm = Motion::Stand; }
-			if (inp.S1.down) { nm = Motion::TakeOff; }
+			if (inp.LStick.BL.off && inp.LStick.BR.off) { nm = Motion::Stand; }
+			if (inp.S1.down || inp.LStick.BU.down) { nm = Motion::TakeOff; }
 			//if (inp.B3.down) { nm = Motion::Attack2; }
-			if (inp.B4.down) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case  Motion::Jump:		//上昇中
 			if (this->moveVec.y >= 0) { nm = Motion::Fall; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S1.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.S1.down&& this->jumpMax >= 2 || inp.LStick.BU.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case Motion::Jump2:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall2; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S1.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.S1.down&& this->jumpMax >= 3 || inp.LStick.BU.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case Motion::Jump3:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall3; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case  Motion::Fall:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
-			if (inp.S1.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S1.down&& this->jumpMax >= 2 || inp.LStick.BU.down && this->jumpMax >= 2) { nm = Motion::Jump2; }
 			break;
 		case  Motion::Fall2:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
-			if (inp.S1.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S1.down&& this->jumpMax >= 3 || inp.LStick.BU.down && this->jumpMax >= 3) { nm = Motion::Jump3; }
 			break;
 		case  Motion::Fall3:		//落下中
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
-			if (inp.B4.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
-			if (inp.S9.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 			//空中で出来る攻撃は一回
 		case  Motion::Attack:	//攻撃中
@@ -344,23 +344,23 @@ namespace  Player
 		case  Motion::Stand:	//立っている
 			break;
 		case  Motion::Walk:		//歩いている
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->angle_LR = Angle_LR::Left;
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->angle_LR = Angle_LR::Right;
 				this->moveVec.x = this->maxSpeed;
 			}
 			break;
 		case  Motion::Fall:		//落下中
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -370,11 +370,11 @@ namespace  Player
 			}
 			break;
 		case  Motion::Fall2:		//落下中
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -384,11 +384,11 @@ namespace  Player
 			}
 			break;
 		case  Motion::Fall3:		//落下中
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -407,11 +407,11 @@ namespace  Player
 			{
 				this->moveVec.y = 0;
 			}
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -426,11 +426,11 @@ namespace  Player
 			{
 				this->moveVec.y = 0;
 			}
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -445,11 +445,11 @@ namespace  Player
 			{
 				this->moveVec.y = 0;
 			}
-			if (inp.SE.on)
+			if (inp.LStick.BL.on)
 			{
 				this->moveVec.x = -this->maxSpeed;
 			}
-			if (inp.L3.on)
+			if (inp.LStick.BR.on)
 			{
 				this->moveVec.x = this->maxSpeed;
 			}
@@ -740,6 +740,7 @@ namespace  Player
 		ge->hp = this->hp;
 		if (this->hp <= 0)
 		{
+			ge->ns=MyPG::MyGameEngine::NextScene::Endnig;
 			this->Kill();
 		}
 		//吹き飛ばされる
