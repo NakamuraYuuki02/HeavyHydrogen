@@ -70,6 +70,7 @@ namespace  Goal
 		{
 			if ((*it)->CheckHit(me))
 			{
+				ge->ns = MyPG::MyGameEngine::NextScene::Select;
 				this->Kill();
 				break;
 			}
