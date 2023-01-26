@@ -16,6 +16,8 @@ namespace  UI
 		this->gun = DG::Image::Create("./data/image/Gun.png");
 		this->sword = DG::Image::Create("./data/image/Sword.png");
 		this->axe = DG::Image::Create("./data/image/Axe.png");
+		this->tutorial = DG::Image::Create("./data/image/tutorial2.png");
+		this->command = DG::Image::Create("./data/image/command2.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -27,6 +29,8 @@ namespace  UI
 		this->gun.reset();
 		this->sword.reset();
 		this->axe.reset();
+		this->tutorial.reset();
+		this->command.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -67,6 +71,19 @@ namespace  UI
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
+		ML::Box2D cDraw(0, 235, 207, 32);
+		ML::Box2D cSrc(0, 0, 207, 32);
+		this->res->command->Draw(cDraw, cSrc);
+
+		auto  inp = ge->in1->GetState();
+		//チュートリアル
+		if (true == inp.B1.on)//Zキー押したら表示
+		{
+			ML::Box2D tDraw(ge->screen2DWidth / 2 - 100, ge->screen2DHeight / 2 - 100, 320, 192);
+			ML::Box2D tSrc(0, 0, 320, 192);
+			this->res->tutorial->Draw(tDraw, tSrc);
+		}
+
 		//hp分(初期値3)ハートを表示
 		for (int i = 0; i < ge->hp; ++i)
 		{
