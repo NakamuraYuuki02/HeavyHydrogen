@@ -25,6 +25,8 @@ namespace  UI
 		//共有する変数はここに追加する
 		DG::Image::SP UIhp;
 		DG::Image::SP UInum;
+		DG::Image::SP tutorial;
+		DG::Image::SP command;
 		DG::Image::SP sword;
 		DG::Image::SP axe;
 		DG::Image::SP gun;
@@ -53,7 +55,9 @@ namespace  UI
 		//追加したい変数・メソッドはここに追加する
 		ML::Vec2 HPpos;
 		ML::Vec2 mapNumpos;
-		
+
 		MyPG::MyGameEngine::SelectedWeapon weapon;
+
+		XI::GamePad::SP  cont;
 	};
 }
