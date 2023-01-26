@@ -94,7 +94,8 @@ namespace  MyPG
 		{
 			Sword,
 			Axe,
-			Gun
+			Gun,
+			Non
 		};
 		SelectedWeapon sw;
 		//スキル 毎回二つ選択
@@ -109,10 +110,8 @@ namespace  MyPG
 			Non
 		};
 		vector<SelectedSkill> ss;
-
 		//スキル選択数 selected skill number
 		int ssn;
-
 		//ステージ 毎回一つ選択
 		int selectedStage;
 

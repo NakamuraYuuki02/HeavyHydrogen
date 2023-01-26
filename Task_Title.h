@@ -28,7 +28,7 @@ namespace  Title
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
 	{
-	//変更不可◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
+		//変更不可◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
 	public:
 		virtual  ~Object();
 		typedef  shared_ptr<Object>		SP;
@@ -48,5 +48,8 @@ namespace  Title
 	public:
 		//追加したい変数・メソッドはここに追加する
 		int				logoPosY;		//タイトル画像スクロール用カウンタ
+
+		//データ初期化メソッド 選択された内容などをタイトルで毎回初期化
+		void DataInitialize();
 	};
 }
