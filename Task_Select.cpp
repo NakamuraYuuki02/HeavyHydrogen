@@ -59,7 +59,7 @@ namespace  Select
 		for (int i = 0; i < 3; ++i)
 		{
 			//クリアしたステージの次ステージを三つ取得
-			this->stage[i] = ge->eapsedStage + i + 1;
+			this->stage[i] = ge->elapsedStage + i + 1;
 		}
 
 		//★タスクの生成
@@ -136,7 +136,7 @@ namespace  Select
 
 		//マップ数表示
 		char mapNum[10];
-		sprintf(mapNum, "%02d", ge->stageNum);
+		sprintf(mapNum, "%02d", ge->elapsedNum);
 		for (int i = 0; i < 2; ++i) {
 			int num = mapNum[i] - '0';//'0'== 48
 			ML::Box2D numDraw(420, 230, 18, 32);
@@ -234,7 +234,7 @@ namespace  Select
 	{
 		Object::SelectionState sstate = this->state;
 		//初回以降
-		if (ge->stageNum > 0)
+		if (ge->elapsedNum > 0)
 		{
 			//  Before		//選択前
 			//  Weapon		//武器選択
@@ -422,7 +422,7 @@ namespace  Select
 		if (inp.S1.down)
 		{
 			ge->selectedStage = this->stage[this->selectedNumber];
-			ge->eapsedStage = ge->selectedStage;
+			ge->elapsedStage = ge->selectedStage;
 			r = true;
 		}
 		return r;
