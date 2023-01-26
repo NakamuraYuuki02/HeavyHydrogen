@@ -71,6 +71,10 @@ namespace  Goal
 			if ((*it)->CheckHit(me))
 			{
 				ge->ns = MyPG::MyGameEngine::NextScene::Select;
+				if (ge->elapsedNum >= ge->clearStageNum)
+				{
+					ge->ns = MyPG::MyGameEngine::NextScene::Endnig;
+				}
 				this->Kill();
 				break;
 			}
