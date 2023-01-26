@@ -52,6 +52,7 @@ namespace  Player
 		this->maxFallSpeed = 10.0f;	//最大落下速度
 		this->jumpPow = -8.0f;		//ジャンプ力（初速）縦5マスくらい
 		this->gravity = ML::Gravity(32) * 5; //重力加速度＆時間速度による加算量
+		this->sp2Flag = false;
 
 		/*this->ss.push_back(SelectedSkill::JumpUp);
 		this->ss.push_back(SelectedSkill::DashUp);*/
@@ -70,8 +71,7 @@ namespace  Player
 		this->dashMax = ge->dashMax;			//ダッシュ上限回数
 		this->attackCnt = 0;					//攻撃回数
 		this->attackMax = 0;					//攻撃上限回数
-		this->CreateNum = 3;
-		this->slashCnt = 0;
+		this->CreateNum = 1;
 		this->weapon = ge->sw;
 		//this->weapon = Weapon::Gun;
 		
@@ -230,6 +230,18 @@ namespace  Player
 		case Motion::Jump3:
 			if (this->moveVec.y >= 0) { nm = Motion::Fall3; }
 			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.S1.down && this->jumpMax >= 4 || inp.LStick.BU.down && this->jumpMax >= 4) { nm = Motion::Jump4; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			break;
+		case Motion::Jump4:
+			if (this->moveVec.y >= 0) { nm = Motion::Fall4; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.S1.down && this->jumpMax >= 5 || inp.LStick.BU.down && this->jumpMax >= 5) { nm = Motion::Jump5; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			break;
+		case Motion::Jump5:
+			if (this->moveVec.y >= 0) { nm = Motion::Fall5; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
 			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 		case  Motion::Fall:		//落下中
@@ -248,6 +260,18 @@ namespace  Player
 			if (this->CheckFoot() == true) { nm = Motion::Landing; }
 			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
 			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S1.down && this->jumpMax >= 4 || inp.LStick.BU.down && this->jumpMax >= 4) { nm = Motion::Jump4; }
+			break;
+		case  Motion::Fall4:		//落下中
+			if (this->CheckFoot() == true) { nm = Motion::Landing; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
+			if (inp.S1.down && this->jumpMax >= 5 || inp.LStick.BU.down && this->jumpMax >= 5) { nm = Motion::Jump5; }
+			break;
+		case  Motion::Fall5:		//落下中
+			if (this->CheckFoot() == true) { nm = Motion::Landing; }
+			if (inp.S2.down && this->attackCnt <= this->attackMax) { nm = Motion::Attack; }
+			if (inp.LStick.BD.down && this->dashCnt < this->dashMax || inp.S0.down && this->dashCnt < this->dashMax) { nm = Motion::Dash; }
 			break;
 			//空中で出来る攻撃は一回
 		case  Motion::Attack:	//攻撃中
@@ -258,7 +282,7 @@ namespace  Player
 		//	if (this->moveCnt == 8) { nm = Motion::Stand; }
 		//	break;
 		case  Motion::TakeOff:	//飛び立ち
-			if (this->moveCnt >= 1) { nm = Motion::Jump; }
+			if (this->moveCnt >= 0) { nm = Motion::Jump; }
 			if (this->CheckFoot() == false) { nm = Motion::Fall; }
 			break;
 		case  Motion::Landing:	//着地
@@ -392,6 +416,34 @@ namespace  Player
 				this->jumpCnt = 0;
 			}
 			break;
+		case  Motion::Fall4:		//落下中
+			if (inp.LStick.BL.on)
+			{
+				this->moveVec.x = -this->maxSpeed;
+			}
+			if (inp.LStick.BR.on)
+			{
+				this->moveVec.x = this->maxSpeed;
+			}
+			if (this->CheckFoot() == true)
+			{
+				this->jumpCnt = 0;
+			}
+			break;
+		case  Motion::Fall5:		//落下中
+			if (inp.LStick.BL.on)
+			{
+				this->moveVec.x = -this->maxSpeed;
+			}
+			if (inp.LStick.BR.on)
+			{
+				this->moveVec.x = this->maxSpeed;
+			}
+			if (this->CheckFoot() == true)
+			{
+				this->jumpCnt = 0;
+			}
+			break;
 		case  Motion::Jump:		//上昇中
 			this->jumpCnt = 1;
 			if (this->moveCnt == 0)
@@ -449,6 +501,44 @@ namespace  Player
 				this->moveVec.x = this->maxSpeed;
 			}
 			break;
+		case  Motion::Jump4:		//上昇中
+			this->jumpCnt = 4;
+			if (this->moveCnt == 0)
+			{
+				this->moveVec.y = this->jumpPow * 0.9f; //初速設定
+			}
+			if (this->CheckHead() == true)
+			{
+				this->moveVec.y = 0;
+			}
+			if (inp.LStick.BL.on)
+			{
+				this->moveVec.x = -this->maxSpeed;
+			}
+			if (inp.LStick.BR.on)
+			{
+				this->moveVec.x = this->maxSpeed;
+			}
+			break;
+		case  Motion::Jump5:		//上昇中
+			this->jumpCnt = 5;
+			if (this->moveCnt == 0)
+			{
+				this->moveVec.y = this->jumpPow * 0.9f; //初速設定
+			}
+			if (this->CheckHead() == true)
+			{
+				this->moveVec.y = 0;
+			}
+			if (inp.LStick.BL.on)
+			{
+				this->moveVec.x = -this->maxSpeed;
+			}
+			if (inp.LStick.BR.on)
+			{
+				this->moveVec.x = this->maxSpeed;
+			}
+			break;
 		case Motion::Dash:
 			this->dashCnt++;
 			if (this->angle_LR == Angle_LR::Right)
@@ -464,7 +554,7 @@ namespace  Player
 		case Motion::DashCt:
 			break;
 		case Motion::Attack:	//攻撃中
-			if (this->moveCnt == 1)
+			if (this->moveCnt == 1) //moveCntが1になった瞬間だけ生成　この縛りをなくすとMotion::Attack中ずっと生成される
 			{
 				switch (this->weapon)
 				{
@@ -473,53 +563,24 @@ namespace  Player
 					if (this->angle_LR == Angle_LR::Right)
 					{
 						auto sword = Sword::Object::Create(true);
-						sword->pos = this->pos + ML::Vec2(15, 0);
-						
-						for (int i = 0; i < CreateNum; ++i)
-						{
-							
-							if (i == this->slashCnt)
-							{
-								auto slash = Slash::Object::Create(true);
-
-								//pw
-								/*auto axe2 = Axe::Object::Create(true);
-								axe2->moveVec = ML::Vec2(7, -8);
-								auto axe3 = Axe::Object::Create(true);
-								axe3->moveVec = ML::Vec2(7, -4);
-
-								axe2->pos = this->pos + ML::Vec2(30, 0);
-
-								axe3->pos = this->pos + ML::Vec2(30, 0);*/
-								//pw
-
-								slash->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
-								this->slashCnt++;
-							}
-						}
-						this->slashCnt = 0;
+						sword->pos = this->pos + ML::Vec2(-2, -12);
+						sword->angle_LR = this->angle_LR;
+						/*for (int i = 0; i < CreateNum; ++i)
+						{*/
+							auto slash = Slash::Object::Create(true);
+							slash->pos = this->pos + ML::Vec2(30/* + (15 * i)*/, 0);
+						//}
 					}
 					else
 					{
 						auto sword = Sword::Object::Create(true);
-						sword->pos = this->pos + ML::Vec2(-15, 0);
-						for (int i = 0; i < CreateNum; ++i)
-						{
+						sword->pos = this->pos + ML::Vec2(-21, -12);
+						sword->angle_LR = this->angle_LR;
+						/*for (int i = 0; i < CreateNum; ++i)
+						{*/
 							auto slash = Slash::Object::Create(true);
-
-							//pw
-							/*auto axe2 = Axe::Object::Create(true);
-							axe2->moveVec = ML::Vec2(7, -8);
-							auto axe3 = Axe::Object::Create(true);
-							axe3->moveVec = ML::Vec2(7, -4);
-
-							axe2->pos = this->pos + ML::Vec2(30, 0);
-
-							axe3->pos = this->pos + ML::Vec2(30, 0);*/
-							//pw
-
-							slash->pos = this->pos + ML::Vec2(-30 + (-15 * i), 0);
-						}
+							slash->pos = this->pos + ML::Vec2(-30/* + (-15 * i)*/, 0);
+						//}
 					}
 				}
 				break;
@@ -536,18 +597,6 @@ namespace  Player
 							this->plusPower = Power_Min + (float)power_range * gauge_value;
 							axe->atk = atk + plusPower;*/
 							axe->moveVec = ML::Vec2(7, -4 + (-4 * i));
-
-							//pw
-							/*auto axe2 = Axe::Object::Create(true);
-							axe2->moveVec = ML::Vec2(7, -8);
-							auto axe3 = Axe::Object::Create(true);
-							axe3->moveVec = ML::Vec2(7, -4);
-
-							axe2->pos = this->pos + ML::Vec2(30, 0);
-
-							axe3->pos = this->pos + ML::Vec2(30, 0);*/
-							//pw
-
 							axe->pos = this->pos + ML::Vec2(30, 0);
 							//this->pushCnt = 0;
 						}
@@ -558,18 +607,6 @@ namespace  Player
 						{
 							auto axe = Axe::Object::Create(true);
 							axe->moveVec = ML::Vec2(-7, -4 + (-4 * i));
-
-							//pw
-							/*auto axe2 = Axe::Object::Create(true);
-							axe2->moveVec = ML::Vec2(7, -8);
-							auto axe3 = Axe::Object::Create(true);
-							axe3->moveVec = ML::Vec2(7, -4);
-
-							axe2->pos = this->pos + ML::Vec2(30, 0);
-
-							axe3->pos = this->pos + ML::Vec2(30, 0);*/
-							//pw
-
 							axe->pos = this->pos + ML::Vec2(-30, 0);
 						}
 					}
@@ -585,18 +622,6 @@ namespace  Player
 						{
 							auto shot = Shot00::Object::Create(true);
 							shot->moveVec = ML::Vec2(7, 0);
-
-							//pw
-							/*auto gun2 = Shot00::Object::Create(true);
-							gun2->moveVec = ML::Vec2(7, 0);
-							auto gun3 = Shot00::Object::Create(true);
-							gun3->moveVec = ML::Vec2(7, 0);
-
-							gun2->pos = this->pos + ML::Vec2(30, 0);
-
-							gun3->pos = this->pos + ML::Vec2(30, 0);*/
-							//pw
-
 							shot->pos = this->pos + ML::Vec2(30 + (15 * i), 0);
 						}
 					}
@@ -608,18 +633,6 @@ namespace  Player
 						{
 							auto gun = Shot00::Object::Create(true);
 							gun->moveVec = ML::Vec2(-7, 0);
-
-							//pw
-							/*auto gun2 = Shot00::Object::Create(true);
-							gun2->moveVec = ML::Vec2(7, 0);
-							auto gun3 = Shot00::Object::Create(true);
-							gun3->moveVec = ML::Vec2(7, 0);
-
-							gun2->pos = this->pos + ML::Vec2(30, 0);
-
-							gun3->pos = this->pos + ML::Vec2(30, 0);*/
-							//pw
-
 							gun->pos = this->pos + ML::Vec2(-30 + (-15 * i), 0);
 						}
 					}
@@ -632,28 +645,43 @@ namespace  Player
 					this->attackCnt++;
 				}
 			}
+			if (this->moveCnt == 8)
+			{
+				if (this->weapon == MyPG::MyGameEngine::SelectedWeapon::Sword && this->CreateNum == 3)
+				{
+					if (this->angle_LR == Angle_LR::Right)
+					{
+						auto slash = Slash::Object::Create(true);
+						slash->pos = this->pos + ML::Vec2(45, 0);
+					}
+					else
+					{
+						auto slash = Slash::Object::Create(true);
+						slash->pos = this->pos + ML::Vec2(-45, 0);
+					}
+				}
+			}
+			if (this->moveCnt == 16)
+			{
+				if (this->weapon == MyPG::MyGameEngine::SelectedWeapon::Sword && this->CreateNum == 3)
+				{
+					if (this->angle_LR == Angle_LR::Right)
+					{
+						auto slash = Slash::Object::Create(true);
+						slash->pos = this->pos + ML::Vec2(60, 0);
+					}
+					else
+					{
+						auto slash = Slash::Object::Create(true);
+						slash->pos = this->pos + ML::Vec2(-60, 0);
+					}
+				}
+			}
 			break;
 		case Motion::Landing:
 			this->dashCnt = 0;
 			this->attackCnt = 0;
 			break;
-		//case  Motion::Attack2:	//攻撃中
-		//	if (this->moveCnt == 4)
-		//	{
-		//		if (this->angle_LR == Angle_LR::Right)
-		//		{
-		//			auto shot01 = Shot01::Object::Create(true);
-		//			shot01->moveVec = ML::Vec2(4, -8);
-		//			shot01->pos = this->pos + ML::Vec2(30, 0);
-		//		}
-		//		else
-		//		{
-		//			auto shot01 = Shot01::Object::Create(true);
-		//			shot01->moveVec = ML::Vec2(-4, -8);
-		//			shot01->pos = this->pos + ML::Vec2(-30, 0);
-		//		}
-		//	}
-			//break;
 		}
 	}
 	//-----------------------------------------------------------------------------
@@ -671,7 +699,6 @@ namespace  Player
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 10, 32, 24, 32), defColor },	//落下 飛び立つ直前		 6
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 11, 32, 24, 32), defColor },	//着地					 7
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 6, 32, 24, 32), defColor },   //ダメージ				 8
-			//{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 9, 32, 24, 32), defColor },  //攻撃					 
 			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 8, 32 * 4, 24, 32), defColor }, //ダッシュ				 9
 			//draw							src
 			//{ ML::Box2D(-8, -20, 16, 40), ML::Box2D(0, 0, 32, 80), defColor },	//停止
@@ -695,6 +722,10 @@ namespace  Player
 		case  Motion::Jump2:		rtv = imageTable[5];	break;
 			//	ジャンプ3------------------------------------------------------------------------
 		case  Motion::Jump3:		rtv = imageTable[5];	break;
+			//	ジャンプ4------------------------------------------------------------------------
+		case  Motion::Jump4:		rtv = imageTable[5];	break;
+			//	ジャンプ5------------------------------------------------------------------------
+		case  Motion::Jump5:		rtv = imageTable[5];	break;
 			//	停止----------------------------------------------------------------------------
 		case  Motion::Stand:	rtv = imageTable[0];	break;
 			//	歩行----------------------------------------------------------------------------
@@ -709,6 +740,10 @@ namespace  Player
 		case  Motion::Fall2:		rtv = imageTable[6];	break;
 			//	落下3----------------------------------------------------------------------------
 		case  Motion::Fall3:		rtv = imageTable[6];	break;
+			//	落下4----------------------------------------------------------------------------
+		case  Motion::Fall4:		rtv = imageTable[6];	break;
+			//	落下5----------------------------------------------------------------------------
+		case  Motion::Fall5:		rtv = imageTable[6];	break;
 			//飛び立つ直前-----------------------------------------------------------------------
 		case  Motion::TakeOff:  rtv = imageTable[6];    break;
 			//  着地----------------------------------------------------------------------------

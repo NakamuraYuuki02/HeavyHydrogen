@@ -37,13 +37,11 @@ namespace  Axe
 		this->pos.x = 0;
 		this->pos.y = 0;
 		this->angle = 0;
-		this->angle_LR = Angle_LR::Right;
 		this->hitBase = ML::Box2D(-12, -12, 24, 24);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		this->gravity = ML::Gravity(32) * 5;
-		//this->hp = 5;
-		this->atk = 3;
+		this->atk = 2;
 		
 		//★タスクの生成
 
@@ -74,30 +72,12 @@ namespace  Axe
 			return;
 		}
 
-		auto targets = ge->GetTasks<BChara>("Player");
-		for (auto it = targets->begin(); it != targets->end(); ++it)
-		{
-			if ((*it)->angle_LR == Angle_LR::Right)
-			{
-				this->angle_LR = Angle_LR::Right;
-			}
-			else
-			{
-				this->angle_LR = Angle_LR::Left;
-			}
-		}
-
 		//回転
-		/*if (this->angle_LR == Angle_LR::Right)
-		{
-			this->angle += ML::ToRadian(5);
-		}
-		else
-		{
-			this->angle -= ML::ToRadian(5);
-		}*/
+		this->angle += ML::ToRadian(15);
+
 		//移動
 		this->pos += this->moveVec;
+
 		//重力
 		this->moveVec.y += this->gravity;
 		
@@ -126,13 +106,6 @@ namespace  Axe
 			if (true == map->CheckHit(hit)) {
 				//消滅申請
 				this->Kill();
-
-				////とりあえず星はばら撒くよ
-				//for (int c = 0; c < 4; ++c) {
-				//	auto  eff = Effect00::Object::Create(true);
-				//	eff->pos = this->pos;
-				//}
-				//return;
 			}
 		}
 	}
@@ -146,7 +119,7 @@ namespace  Axe
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		this->res->img->Rotation(this->angle, ML::Vec2(0, 0));
+		this->res->img->Rotation(this->angle, ML::Vec2(12, 12));
 		this->res->img->Draw(draw, src);
 
 	}

@@ -41,7 +41,7 @@ namespace  Slash
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
 		//this->hp = 5;
-		this->atk = 2;
+		this->atk = 3;
 		
 		//šƒ^ƒXƒN‚Ì¶¬
 

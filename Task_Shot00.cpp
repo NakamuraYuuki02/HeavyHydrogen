@@ -70,6 +70,13 @@ namespace  Shot00
 			this->Kill();
 			return;
 		}
+
+		/*auto targets = ge->GetTasks<BChara>("Player");
+		for (auto it = targets->begin(); it != targets->end(); ++it)
+		{
+			if((*it))
+		}*/
+
 		//ˆÚ“®
 		this->pos += this->moveVec;
 

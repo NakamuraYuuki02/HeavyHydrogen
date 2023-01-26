@@ -40,9 +40,13 @@ public:
 		Jump,		//	ジャンプ
 		Jump2,      //  ジャンプ2
 		Jump3,      //	ジャンプ3
+		Jump4,
+		Jump5,
 		Fall,		//	落下
 		Fall2,      //  落下2
 		Fall3,		//	落下3
+		Fall4,
+		Fall5,
 		TakeOff,	//	飛び立つ瞬間
 		Landing,	//	着地
 		Turn,       //  向き変える
