@@ -30,6 +30,7 @@ namespace  Select
 		DG::Image::SP sword;
 		DG::Image::SP axe;
 		DG::Image::SP gun;
+		DG::Image::SP jump;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
