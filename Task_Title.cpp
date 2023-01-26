@@ -100,7 +100,7 @@ namespace  Title
 		ge->selectedStage = 0;
 
 		//ゲームクリアに必要なステージ数
-		ge->clearStageNum = 5;
+		ge->clearStageNum = 6;
 		//ステージ通過数、ゲーム進行度
 		ge->elapsedNum = 0;
 		//経過したステージ 一つ前のステージの番号
