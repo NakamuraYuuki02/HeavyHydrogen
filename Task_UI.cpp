@@ -99,6 +99,7 @@ namespace  UI
 		    {
 			  ML::Box2D SwordDraw(20, 30, 28, 28);
 			  ML::Box2D SwordSrc(0, 0, 16, 16);
+			  this->res->sword->Rotation(0, ML::Vec2(0, 0));
 			  this->res->sword->Draw(SwordDraw, SwordSrc);
 			  break;
 		    }
@@ -106,6 +107,7 @@ namespace  UI
 		    { 
 			  ML::Box2D AxeDraw(20, 30, 26, 26);
 			  ML::Box2D AxeSrc(0, 0, 14, 14);
+			  this->res->axe->Rotation(0, ML::Vec2(0, 0));
 			  this->res->axe->Draw(AxeDraw, AxeSrc);
 			  break;
 			}
@@ -113,6 +115,7 @@ namespace  UI
 		    { 
 			  ML::Box2D GunDraw(20, 30, 45, 30);
 			  ML::Box2D GunSrc(0, 0, 15, 10);
+			  this->res->gun->Rotation(0, ML::Vec2(0, 0));
 			  this->res->gun->Draw(GunDraw, GunSrc);
 			  break;
 			}
