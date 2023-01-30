@@ -11,11 +11,13 @@ namespace  UI
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->UIhp = DG::Image::Create("./data/image/heart.png");
+		this->UIhp = DG::Image::Create("./data/image/heart2.png");
 		this->UInum = DG::Image::Create("./data/image/UItext.png");
 		this->gun = DG::Image::Create("./data/image/Gun.png");
 		this->sword = DG::Image::Create("./data/image/Sword.png");
 		this->axe = DG::Image::Create("./data/image/Axe.png");
+		this->tutorial = DG::Image::Create("./data/image/tutorial2.png");
+		this->command = DG::Image::Create("./data/image/command2.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -27,6 +29,8 @@ namespace  UI
 		this->gun.reset();
 		this->sword.reset();
 		this->axe.reset();
+		this->tutorial.reset();
+		this->command.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -67,11 +71,24 @@ namespace  UI
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
+		ML::Box2D cDraw(0, 235, 207, 32);
+		ML::Box2D cSrc(0, 0, 207, 32);
+		this->res->command->Draw(cDraw, cSrc);
+
+		auto  inp = ge->in1->GetState();
+		//チュートリアル
+		if (true == inp.B1.on)//Zキー押したら表示
+		{
+			ML::Box2D tDraw(ge->screen2DWidth / 2 - 100, ge->screen2DHeight / 2 - 100, 320, 192);
+			ML::Box2D tSrc(0, 0, 320, 192);
+			this->res->tutorial->Draw(tDraw, tSrc);
+		}
+
 		//hp分(初期値3)ハートを表示
 		for (int i = 0; i < ge->hp; ++i)
 		{
-			ML::Box2D hpDraw(i * 22, 0, 22, 22);
-			ML::Box2D hpSrc(0, 0, 465, 396);
+			ML::Box2D hpDraw(i * 22, 0, 20, 20);
+			ML::Box2D hpSrc(0, 0, 12, 12);
 			this->res->UIhp->Draw(hpDraw, hpSrc);
 		}
 
@@ -82,6 +99,7 @@ namespace  UI
 		    {
 			  ML::Box2D SwordDraw(20, 30, 28, 28);
 			  ML::Box2D SwordSrc(0, 0, 16, 16);
+			  this->res->sword->Rotation(0, ML::Vec2(0, 0));
 			  this->res->sword->Draw(SwordDraw, SwordSrc);
 			  break;
 		    }
@@ -89,6 +107,7 @@ namespace  UI
 		    { 
 			  ML::Box2D AxeDraw(20, 30, 26, 26);
 			  ML::Box2D AxeSrc(0, 0, 14, 14);
+			  this->res->axe->Rotation(0, ML::Vec2(0, 0));
 			  this->res->axe->Draw(AxeDraw, AxeSrc);
 			  break;
 			}
@@ -96,6 +115,7 @@ namespace  UI
 		    { 
 			  ML::Box2D GunDraw(20, 30, 45, 30);
 			  ML::Box2D GunSrc(0, 0, 15, 10);
+			  this->res->gun->Rotation(0, ML::Vec2(0, 0));
 			  this->res->gun->Draw(GunDraw, GunSrc);
 			  break;
 			}

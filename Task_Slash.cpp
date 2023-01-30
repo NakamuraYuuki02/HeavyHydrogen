@@ -40,8 +40,8 @@ namespace  Slash
 		this->hitBase = ML::Box2D(-16, -16, 32, 32);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
-		this->hp = 5;
-		this->atk = 2;
+		//this->hp = 5;
+		this->atk = 3;
 		
 		//šƒ^ƒXƒN‚Ì¶¬
 

@@ -8,7 +8,7 @@
 namespace  Slash
 {
 	//タスクに割り当てるグループ名と固有名
-	const  string  defGroupName("Sword");	//グループ名
+	const  string  defGroupName("Slash");	//グループ名
 	const  string  defName("NoName");		//タスク名
 	//-------------------------------------------------------------------
 	class  Resource : public BResource

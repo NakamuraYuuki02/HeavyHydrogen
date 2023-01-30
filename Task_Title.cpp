@@ -34,7 +34,7 @@ namespace  Title
 
 		//★データ初期化
 		this->logoPosY = -270;
-
+		DataInitialize();
 		//★タスクの生成
 
 		return  true;
@@ -84,6 +84,36 @@ namespace  Title
 
 		draw.Offset(0, this->logoPosY);
 		this->res->img->Draw(draw, src);
+	}
+	//-------------------------------------------------------------------
+	//データ初期化メソッド 選択された内容などをタイトルで毎回初期化
+	void Object::DataInitialize()
+	{
+		//武器 初回に一つ選択
+		ge->sw = MyPG::MyGameEngine::SelectedWeapon::Non;
+		//スキル 毎回二つ選択
+		for (int i = 0; i < ge->ssn; ++i)
+		{
+			ge->ss[i] = MyPG::MyGameEngine::SelectedSkill::Non;
+		}
+		//ステージ 毎回一つ選択
+		ge->selectedStage = 0;
+
+		//ゲームクリアに必要なステージ数
+		ge->clearStageNum = 6;
+		//ステージ通過数、ゲーム進行度
+		ge->elapsedNum = 0;
+		//経過したステージ 一つ前のステージの番号
+		ge->elapsedStage = 0;
+
+		//プレイヤーステータス
+		ge->hp = 3;				//体力	
+		ge->hpMax = 10;			//最大体力
+		ge->atk = 5;				//攻撃力
+		ge->jumpCnt = 0;			//ジャンプ回数
+		ge->jumpMax = 1;			//ジャンプ上限回数
+		ge->dashCnt = 0;			//ダッシュ回数
+		ge->dashMax = 0;			//ダッシュ上限回数
 	}
 
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
