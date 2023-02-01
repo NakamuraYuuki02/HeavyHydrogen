@@ -12,14 +12,26 @@ namespace  Ending
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Ending.bmp");
+		this->endBack = DG::Image::Create("./data/image/endBack.png");
+		this->pressQ = DG::Image::Create("./data/image/pressQ.png");
+		this->clear = DG::Image::Create("./data/image/clear.png");
+		this->number = DG::Image::Create("./data/image/UItext.png");
+		this->rankA = DG::Image::Create("./data/image/rankA.png");
+		this->rankB = DG::Image::Create("./data/image/rankB.png");
+		this->rankC = DG::Image::Create("./data/image/rankC.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
-		this->img.reset();
+		this->endBack.reset();
+		this->pressQ.reset();
+		this->clear.reset();
+		this->number.reset();
+		this->rankA.reset();
+		this->rankB.reset();
+		this->rankC.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -32,7 +44,8 @@ namespace  Ending
 		this->res = Resource::Create();
 
 		//★データ初期化
-		this->logoPosY = 270;
+		this->time = 0;
+		this->timeCnt = 0;
 
 		//★タスクの生成
 
@@ -58,31 +71,74 @@ namespace  Ending
 	{
 		auto inp = ge->in1->GetState();
 
-		this->logoPosY -= 9;
-		if (this->logoPosY <= 0) {
-			this->logoPosY = 0;
+		this->timeCnt++;
+		if (this->timeCnt == 45)
+		{
+			this->timeCnt = 0;
+			this->time++;
 		}
 
-		if (this->logoPosY == 0) {
-			if (inp.ST.down || inp.S1.down)
-			{
-				ge->ns = MyPG::MyGameEngine::NextScene::Title;
-				//自身に消滅要請
-				this->Kill();
-			}
+		if (inp.ST.down || inp.S1.down)
+		{
+			ge->ns = MyPG::MyGameEngine::NextScene::Title;
+			//自身に消滅要請
+			this->Kill();
 		}
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(0, 0, 480, 270);
-		ML::Box2D  src(0, 0, 240, 135);
+		//エンディング背景
+		ML::Box2D draw(0, 0, ge->screen2DWidth, ge->screen2DHeight);
+		ML::Box2D src(50, 50, 800, 400);
+		this->res->endBack->Draw(draw, src);
 
-		draw.Offset(0, this->logoPosY);
-		this->res->img->Draw(draw, src);
+		//pressQkey
+		ML::Box2D Qdraw(150, 220, 192, 32);
+		ML::Box2D Qsrc(0, 0, 192, 32);
+		if (this->time % 2 == 0)
+		{
+			this->res->pressQ->Draw(Qdraw, Qsrc);
+		}
+		
+		//クリアしたステージ数
+		ML::Box2D Cdraw(100, 10, 150, 32);
+		ML::Box2D Csrc(0, 0, 225, 32);
+		this->res->clear->Draw(Cdraw, Csrc);
+		
+		//クリアしたステージ数のnumber
+		char mapNum[10];
+		sprintf(mapNum, "%02d", ge->elapsedNum - 1);
+		for (int i = 0; i < 2; ++i) 
+		{
+			int num = mapNum[i] - '0';//'0'== 48
+			ML::Box2D numDraw(250, 50, 50, 50);
+			ML::Box2D numSrc(num * 30, 0, 30, 52);
+			numDraw.Offset(i * 35, 0);//文字間隔
+			this->res->number->Draw(numDraw, numSrc);
+		}
+
+		//ステージクリア数によって言葉を変える
+		if (ge->elapsedNum - 1 <= 2)
+		{
+			ML::Box2D cAdraw(155, 150, 208, 64);
+			ML::Box2D cAsrc(0, 0, 104, 32);
+			this->res->rankC->Draw(cAdraw, cAsrc);
+		}
+		else if (ge->elapsedNum - 1 <= 4)
+		{
+			ML::Box2D cBdraw(150, 150, 208, 64);
+			ML::Box2D cBsrc(0, 0, 104, 32);
+			this->res->rankB->Draw(cBdraw, cBsrc);
+		}
+		else if (ge->elapsedNum - 1 == 5)
+		{
+			ML::Box2D cCdraw(150, 150, 208, 64);
+			ML::Box2D cCsrc(0, 0, 104, 32);
+			this->res->rankA->Draw(cCdraw, cCsrc);
+		}
 	}
-
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

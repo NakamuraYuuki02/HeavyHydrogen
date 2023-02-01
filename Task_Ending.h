@@ -23,7 +23,13 @@ namespace  Ending
 		static   WP  instance;
 		static  Resource::SP  Create();
 		//共有する変数はここに追加する
-		DG::Image::SP  img;
+		DG::Image::SP  endBack;
+		DG::Image::SP  pressQ;
+		DG::Image::SP  clear;
+		DG::Image::SP  number;
+		DG::Image::SP  rankA;
+		DG::Image::SP  rankB;
+		DG::Image::SP  rankC;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
@@ -47,6 +53,7 @@ namespace  Ending
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 	public:
 		//追加したい変数・メソッドはここに追加する
-		int			logoPosY;		//タイトル画像スクロール用カウンタ
+		int			time;
+		int         timeCnt;
 	};
 }
