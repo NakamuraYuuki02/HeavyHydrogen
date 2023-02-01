@@ -130,7 +130,6 @@ namespace  MyPG
 		int jumpMax;		//ジャンプ上限回数
 		int dashCnt;		//ダッシュ回数
 		int dashMax;		//ダッシュ上限回数
-
 	//----------------------------------------------
 	};
 }

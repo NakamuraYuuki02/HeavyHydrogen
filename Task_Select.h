@@ -80,6 +80,9 @@ namespace  Select
 		bool SelectSkill();
 		bool SelectStage();
 
+		//SE再生メソッド
+		void PlaySE();
+
 		//選択された番号
 		int selectedNumber;
 
@@ -97,5 +100,8 @@ namespace  Select
 		ML::Vec2 moveVec;
 		//描画サイズ
 		ML::Box2D drawBase;
+
+		//再生停止カウンター
+		int stopCnt;
 	};
 }
