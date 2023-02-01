@@ -128,7 +128,7 @@ namespace  Gun
 	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-8, -6, 14, 12);
+		ML::Box2D  draw(-8, -8, 16, 16);
 
 		if (this->angle_LR == Angle_LR::Left) 
 		{

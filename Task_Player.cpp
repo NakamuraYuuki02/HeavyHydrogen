@@ -568,19 +568,17 @@ namespace  Player
 						/*for (int i = 0; i < CreateNum; ++i)
 						{*/
 							auto slash = Slash::Object::Create(true);
-							slash->angle_LR = this->angle_LR;
 							slash->pos = this->pos + ML::Vec2(30/* + (15 * i)*/, 0);
 						//}
 					}
 					else
 					{
 						auto sword = Sword::Object::Create(true);
-						sword->pos = this->pos + ML::Vec2(1, -13);
+						sword->pos = this->pos + ML::Vec2(-21, -12);
 						sword->angle_LR = this->angle_LR;
 						/*for (int i = 0; i < CreateNum; ++i)
 						{*/
 							auto slash = Slash::Object::Create(true);
-							slash->angle_LR = this->angle_LR;
 							slash->pos = this->pos + ML::Vec2(-30/* + (-15 * i)*/, 0);
 						//}
 					}
@@ -619,7 +617,7 @@ namespace  Player
 					if (this->angle_LR == Angle_LR::Right)
 					{
 						auto gun = Gun::Object::Create(true);
-						gun->pos = this->pos + ML::Vec2(16, -2);
+						gun->pos = this->pos + ML::Vec2(15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
 							auto shot = Shot00::Object::Create(true);
@@ -630,7 +628,7 @@ namespace  Player
 					else
 					{
 						auto gun = Gun::Object::Create(true);
-						gun->pos = this->pos + ML::Vec2(-16, -2);
+						gun->pos = this->pos + ML::Vec2(-15, 0);
 						for (int i = 0; i < CreateNum; ++i)
 						{
 							auto gun = Shot00::Object::Create(true);
@@ -655,13 +653,11 @@ namespace  Player
 					{
 						auto slash = Slash::Object::Create(true);
 						slash->pos = this->pos + ML::Vec2(45, 0);
-						slash->angle_LR = this->angle_LR;
 					}
 					else
 					{
 						auto slash = Slash::Object::Create(true);
 						slash->pos = this->pos + ML::Vec2(-45, 0);
-						slash->angle_LR = this->angle_LR;
 					}
 				}
 			}
@@ -673,13 +669,11 @@ namespace  Player
 					{
 						auto slash = Slash::Object::Create(true);
 						slash->pos = this->pos + ML::Vec2(60, 0);
-						slash->angle_LR = this->angle_LR;
 					}
 					else
 					{
 						auto slash = Slash::Object::Create(true);
 						slash->pos = this->pos + ML::Vec2(-60, 0);
-						slash->angle_LR = this->angle_LR;
 					}
 				}
 			}
@@ -696,16 +690,27 @@ namespace  Player
 	{
 		ML::Color  defColor(1, 1, 1, 1);
 		BChara::DrawInfo imageTable[] = {
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(0, 32, 24, 32), defColor },			//停止					 0
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },		//歩行1					 1
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 3, 31, 24, 32), defColor },		//歩行２					 2
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },		//歩行３					 3
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 5, 32, 24, 32), defColor },		//歩行４					 4
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 16, 32 * 3, 24, 32), defColor },	//ジャンプ				 5
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 10, 32, 24, 32), defColor },		//落下 飛び立つ直前		 6
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 11, 32, 24, 32), defColor },		//着地					 7
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 6, 32, 24, 32), defColor },		//ダメージ				 8
-			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 8, 32 * 4, 24, 32), defColor },	//ダッシュ				 9
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(0, 32, 24, 32), defColor },	//停止						 0
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },	//歩行1					 1
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 3, 31, 24, 32), defColor },	//歩行２					 2
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 4, 32, 24, 32), defColor },	//歩行３					 3
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 5, 32, 24, 32), defColor },	//歩行４					 4
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 16, 32 * 3, 24, 32), defColor },	//ジャンプ			 5
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 10, 32, 24, 32), defColor },	//落下 飛び立つ直前		 6
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 11, 32, 24, 32), defColor },	//着地					 7
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 6, 32, 24, 32), defColor },   //ダメージ				 8
+			{ ML::Box2D(-14, -20, 28, 40), ML::Box2D(24 * 8, 32 * 4, 24, 32), defColor }, //ダッシュ				 9
+			//draw							src
+			//{ ML::Box2D(-8, -20, 16, 40), ML::Box2D(0, 0, 32, 80), defColor },	//停止
+			//{ ML::Box2D(-2, -20, 16, 40), ML::Box2D(32, 0, 32, 80), defColor },	//歩行１
+			//{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(64, 0, 48, 80), defColor },	//歩行２ dash
+			//{ ML::Box2D(-10, -20, 24, 40), ML::Box2D(112, 0, 48, 80), defColor },	//歩行３
+			//{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(48, 80, 48, 80), defColor },	//ジャンプ
+			//{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(96, 80, 48, 80), defColor },	//落下
+			//{ ML::Box2D(-12, -12, 24, 32), ML::Box2D(0, 80, 48, 64), defColor },	//飛び立つ直前
+			//{ ML::Box2D(-12, -12, 24, 32), ML::Box2D(144, 80, 48, 64), defColor },	//着地
+			//{ ML::Box2D(-12, -12, 24, 40), ML::Box2D(176, 0, 48, 80), defColor },   //ダメージ
+			//{ ML::Box2D(-12, -20, 24, 40), ML::Box2D(190, 80, 48, 80), defColor },  //攻撃
 		};
 		BChara::DrawInfo  rtv;
 		int  work;
@@ -834,7 +839,85 @@ namespace  Player
 
 	}
 	//-------------------------------------------------------------------
-	
+	//武器の特殊強化
+	//void Object::WeaponSpecial1(Weapon weapon_)
+	//{
+	//	//this->CreateNum = 3;
+	//	switch (this->weapon)
+	//	{
+	//	case Weapon::Sword:
+	//	{
+	//		auto sword = ge->GetTask<Sword::Object>(Map2D::defGroupName, Map2D::defName);
+	//		//剣の特殊強化1
+	//		if (this->angle_LR == Angle_LR::Right)
+	//		{
+	//			for (int i = 0; i < 1; ++i)
+	//			{
+	//				
+	//				sword->moveVec = ML::Vec2(-8 * i, 0);
+	//				sword->pos = this->pos + ML::Vec2(30, -5);
+	//			}
+	//		}
+	//		else
+	//		{
+	//			for (int i = 0; i < 1; ++i)
+	//			{
+	//				
+	//				sword->moveVec = ML::Vec2(-8 * i, 0);
+	//				sword->pos = this->pos + ML::Vec2(-30, -5);
+	//			}
+	//		}
+	//	}	
+	//	break;
+	//	case Weapon::Axe:
+	//	{
+	//		auto axe = ge->GetTask<Axe::Object>(Map2D::defGroupName, Map2D::defName);
+	//		//斧の特殊強化1
+	//		if (this->angle_LR == Angle_LR::Right)
+	//		{
+	//			for (int i = 1; i <= 3; ++i)
+	//			{
+	//				axe->moveVec = ML::Vec2(7, -3 * i);
+	//				axe->pos = this->pos + ML::Vec2(30, 0);
+	//			}
+	//		}
+	//		else
+	//		{
+	//			for (int i = 1; i <= 3; ++i)
+	//			{
+	//				
+	//				axe->moveVec = ML::Vec2(-7, -3 * i);
+	//				axe->pos = this->pos + ML::Vec2(-30, 0);
+	//			}
+	//		}
+	//	}	
+	//	break;
+	//	case Weapon::Gun:
+	//	{
+	//		auto gun = ge->GetTask<Shot00::Object>(Map2D::defGroupName, Map2D::defName);
+	//		//銃の特殊強化1
+	//		if (this->angle_LR == Angle_LR::Right)
+	//		{
+	//			for (int i = 1; i <= 3; ++i)
+	//			{
+	//				
+	//				gun->moveVec = ML::Vec2(8, 0);
+	//				gun->pos = this->pos + ML::Vec2(20 * i, 0);
+	//			}
+	//		}
+	//		else
+	//		{
+	//			for (int i = 1; i <= 3; ++i)
+	//			{
+	//				
+	//				gun->moveVec = ML::Vec2(-8, 0);
+	//				gun->pos = this->pos + ML::Vec2(-20 * i, 0);
+	//			}
+	//		}
+	//	}
+	//	break;
+	//	}
+	//}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

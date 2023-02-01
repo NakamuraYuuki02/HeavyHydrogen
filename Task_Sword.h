@@ -25,7 +25,6 @@ namespace  Sword
 	//•ÏX‰Â
 		//‹¤—L‚·‚é•Ï”‚Í‚±‚±‚É’Ç‰Á‚·‚é
 		DG::Image::SP img;
-		DG::Image::SP img2;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BChara

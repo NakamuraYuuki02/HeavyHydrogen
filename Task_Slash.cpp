@@ -14,7 +14,7 @@ namespace  Slash
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/slashEffect.png");
+		this->img = DG::Image::Create("./data/image/Alternative_2_22.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -40,14 +40,6 @@ namespace  Slash
 		this->hitBase = ML::Box2D(-16, -16, 32, 32);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
-		this->angle_LR = Angle_LR::Right;
-		int anim[3] = {5,4,3};
-		for (int i = 0; i < 3; ++i)
-		{
-			int x = anim[i];
-			this->slashImage[i] = ML::Box2D(x * 128, 64*2, 128, 156);
-		}
-		this->animCnt = 0;
 		//this->hp = 5;
 		this->atk = 3;
 		
@@ -74,7 +66,7 @@ namespace  Slash
 	{
 		this->moveCnt++;
 		//限界の時間を迎えたら消滅
-		if (this->moveCnt >= 15) {
+		if (this->moveCnt >= 30) {
 			//消滅申請
 			this->Kill();
 			return;
@@ -106,7 +98,7 @@ namespace  Slash
 			ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
 			if (true == map->CheckHit(hit)) {
 				//消滅申請
-				//this->Kill();
+				this->Kill();
 
 				////とりあえず星はばら撒くよ
 				//for (int c = 0; c < 4; ++c) {
@@ -116,21 +108,14 @@ namespace  Slash
 				//return;
 			}
 		}
-
-		this->animCnt++;
 	}
 	//-------------------------------------------------------------------
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D  draw(-16, -16, 32, 32);
-		if (this->angle_LR == Angle_LR::Left)
-		{
-			draw.x = -draw.x; 
-			draw.w = -draw.w;
-		}
 		draw.Offset(this->pos);
-		ML::Box2D  src = slashImage[int(this->animCnt / 6) % 3 ];
+		ML::Box2D  src(0, 0, 126, 150);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
