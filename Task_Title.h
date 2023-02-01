@@ -23,7 +23,7 @@ namespace  Title
 		static   WP  instance;
 		static  Resource::SP  Create();
 		//共有する変数はここに追加する
-		DG::Image::SP	img;
+		DG::Image::SP	img, titleImage, start, player;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
@@ -47,6 +47,11 @@ namespace  Title
 	//変更可◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇◇
 	public:
 		//追加したい変数・メソッドはここに追加する
-		int				logoPosY;		//タイトル画像スクロール用カウンタ
+		int			cnt;
+		bool		start;
+		int			animCnt;
+		ML::Vec2	pos;
+		ML::Box2D	playerImage[2][4];
+		int			angle;
 	};
 }
