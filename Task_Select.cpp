@@ -22,6 +22,7 @@ namespace  Select
 		this->sword = DG::Image::Create("./data/image/Sword.png");
 		this->axe = DG::Image::Create("./data/image/Axe.png");
 		this->gun = DG::Image::Create("./data/image/Gun.png");
+		this->jump = DG::Image::Create("./data/image/jump.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -35,6 +36,7 @@ namespace  Select
 		this->sword.reset();
 		this->axe.reset();
 		this->gun.reset();
+		this->jump.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -122,28 +124,6 @@ namespace  Select
 			ML::Box2D src(50,50,800,400); 
 			this->res->selectBack->Draw(draw, src);
 		}
-		//UI仮
-		{
-			ML::Box2D draw = this->drawBase;
-			ML::Box2D src(0, 0, 32, 32);
-			draw.Offset(this->pos);
-			this->res->selectUI->Draw(draw, src);
-		}
-		//「ステージ数」表示
-		ML::Box2D stageNumDraw(320, 240, 120, 20);
-		ML::Box2D stageNumSrc(0, 0, 120, 20);
-		this->res->stageNumberUI->Draw(stageNumDraw, stageNumSrc);
-
-		//マップ数表示
-		char mapNum[10];
-		sprintf(mapNum, "%02d", ge->elapsedNum);
-		for (int i = 0; i < 2; ++i) {
-			int num = mapNum[i] - '0';//'0'== 48
-			ML::Box2D numDraw(420, 230, 18, 32);
-			ML::Box2D numSrc(num * 30, 0, 30, 52);
-			numDraw.Offset(i * 18, 0);//文字間隔
-			this->res->stageNumber->Draw(numDraw, numSrc);
-		}
 		//アイコン
 		{
 			ML::Box2D draw = this->drawBase;
@@ -171,6 +151,9 @@ namespace  Select
 				break;
 			case SelectionState::Skill:
 				//スキル選択
+				src[0] = ML::Box2D(0, 0, 31, 31);
+				draw.Offset(this->posMin);
+				this->res->jump->Draw(draw, src[0]);
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
@@ -179,6 +162,28 @@ namespace  Select
 				//選択後
 				break;
 			}
+		}
+		//UI仮
+		{
+			ML::Box2D draw = this->drawBase;
+			ML::Box2D src(0, 0, 32, 32);
+			draw.Offset(this->pos);
+			this->res->selectUI->Draw(draw, src);
+		}
+		//「ステージ数」表示
+		ML::Box2D stageNumDraw(320, 240, 120, 20);
+		ML::Box2D stageNumSrc(0, 0, 120, 20);
+		this->res->stageNumberUI->Draw(stageNumDraw, stageNumSrc);
+
+		//マップ数表示
+		char mapNum[10];
+		sprintf(mapNum, "%02d", ge->elapsedNum);
+		for (int i = 0; i < 2; ++i) {
+			int num = mapNum[i] - '0';//'0'== 48
+			ML::Box2D numDraw(420, 230, 18, 32);
+			ML::Box2D numSrc(num * 30, 0, 30, 52);
+			numDraw.Offset(i * 18, 0);//文字間隔
+			this->res->stageNumber->Draw(numDraw, numSrc);
 		}
 	}
 	//-------------------------------------------------------------------
