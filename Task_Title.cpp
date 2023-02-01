@@ -1,202 +1,136 @@
 //-------------------------------------------------------------------
-//ã‚¿ã‚¤ãƒˆãƒ«ç”»é¢
+//ƒ^ƒCƒgƒ‹‰æ–Ê
 //-------------------------------------------------------------------
 #include  "MyPG.h"
 #include  "Task_Title.h"
 #include  "Task_Game.h"
 #include  "Task_Select.h"
-#include "Task_Map2D.h"
 
 namespace  Title
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
-	//ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–
+	//ƒŠƒ\[ƒX‚Ì‰Šú‰»
 	bool  Resource::Initialize()
 	{
-
-		this->img = DG::Image::Create("./data/image/title.png");
-		this->titleImage = DG::Image::Create("./data/image/ff8bbf23761c1c62.png");
-		this->start = DG::Image::Create("./data/image/space.png");
-		this->player = DG::Image::Create("./data/image/Fumiko.png");
+		this->img = DG::Image::Create("./data/image/Title.bmp");
 		return true;
 	}
 	//-------------------------------------------------------------------
-	//ãƒªã‚½ãƒ¼ã‚¹ã®è§£æ”¾
+	//ƒŠƒ\[ƒX‚Ì‰ğ•ú
 	bool  Resource::Finalize()
 	{
-		this->titleImage.reset();
-		this->start.reset();
-		this->player.reset();
+		this->img.reset( );
 		return true;
 	}
 	//-------------------------------------------------------------------
-	//ã€ŒåˆæœŸåŒ–ã€ã‚¿ã‚¹ã‚¯ç”Ÿæˆæ™‚ã«ï¼‘å›ã ã‘è¡Œã†å‡¦ç†
+	//u‰Šú‰»vƒ^ƒXƒN¶¬‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
 	bool  Object::Initialize()
 	{
-		//ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹åˆæœŸåŒ–
+		//ƒX[ƒp[ƒNƒ‰ƒX‰Šú‰»
 		__super::Initialize(defGroupName, defName, true);
-		//ãƒªã‚½ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ç”Ÿæˆorãƒªã‚½ãƒ¼ã‚¹å…±æœ‰
+		//ƒŠƒ\[ƒXƒNƒ‰ƒX¶¬orƒŠƒ\[ƒX‹¤—L
 		this->res = Resource::Create();
 
-		//â˜…ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ–
-
-		this->cnt = 0;
-		this->start = true;
-		int d[2] = { 1, 3 };
-		int anim[4] = { 4, 3, 4, 5 };
-		for (int i = 0; i < 2; ++i) {
-			int y = d[i];
-			for (int j = 0; j < 4; ++j) {
-				int x = anim[j];
-				playerImage[i][j] = ML::Box2D(24 * x, 32 * y, 24, 32);
-			}
-		}
-		this->pos.x = 50;
-		this->pos.y = 220;
-		this->angle = 0;
-
+		//šƒf[ƒ^‰Šú‰»
 		this->logoPosY = -270;
 		DataInitialize();
-
-		//â˜…ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ
+		//šƒ^ƒXƒN‚Ì¶¬
 
 		return  true;
 	}
 	//-------------------------------------------------------------------
-	//ã€Œçµ‚äº†ã€ã‚¿ã‚¹ã‚¯æ¶ˆæ»…æ™‚ã«ï¼‘å›ã ã‘è¡Œã†å‡¦ç†
+	//uI—¹vƒ^ƒXƒNÁ–Å‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
 	bool  Object::Finalize()
 	{
-		//â˜…ãƒ‡ãƒ¼ã‚¿ï¼†ã‚¿ã‚¹ã‚¯è§£æ”¾
+		//šƒf[ƒ^•ƒ^ƒXƒN‰ğ•ú
 		ge->KillAll_G("Title");
-		ge->KillAll_G("Field");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//if(ge->ns == MyPG::MyGameEngine::NextScene::Select)
-			//â˜…å¼•ãç¶™ãã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ
+			//šˆø‚«Œp‚¬ƒ^ƒXƒN‚Ì¶¬
 			auto  next = Select::Object::Create(true);
 		}
 
 		return  true;
 	}
 	//-------------------------------------------------------------------
-	//ã€Œæ›´æ–°ã€ï¼‘ãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã«è¡Œã†å‡¦ç†
+	//uXVv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::UpDate()
 	{
-		if (this->cnt < 30) {
-			this->start = true;
-		}
-		else if (this->cnt < 60) {
-			this->start = false;
-		}
-		else {
-			this->cnt = 0;
-		}
-		this->cnt++;
-		this->animCnt++;
-
-		if (this->angle == 0) {
-			this->pos.x++;
-		}
-		else
-		{
-			this->pos.x--;
-		}
-
-		if (pos.x == 400) {
-			this->angle = 1;
-		}
-		else if (pos.x == 50) {
-			this->angle = 0;
-		}
-
 		auto inp = ge->in1->GetState();
 
-		if (inp.S1.down)
-		{
-			//ã‚¿ã‚¤ãƒˆãƒ«ã®æ¬¡ã®ã‚»ãƒ¬ã‚¯ãƒˆã‚·ãƒ¼ãƒ³ã‚’æŒ‡å®šã€‚
-			ge->ns = MyPG::MyGameEngine::NextScene::Select;
-			//è‡ªèº«ã«æ¶ˆæ»…è¦è«‹
-			this->Kill();
+		this->logoPosY += 9;
+		if (this->logoPosY >= 0) {
+			this->logoPosY = 0;
+		}
+
+		if (this->logoPosY == 0) {
+			if (inp.ST.down || inp.S1.down)
+			{
+				//ƒ^ƒCƒgƒ‹‚ÌŸ‚ÌƒZƒŒƒNƒgƒV[ƒ“‚ğw’èB
+				ge->ns = MyPG::MyGameEngine::NextScene::Select;
+				//©g‚ÉÁ–Å—v¿
+				this->Kill();
+			}
 		}
 	}
 	//-------------------------------------------------------------------
-	//ã€Œï¼’ï¼¤æç”»ã€ï¼‘ãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã«è¡Œã†å‡¦ç†
+	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D  draw(0, 0, 480, 270);
-		ML::Box2D  src(0, 0, 846, 852);
+		ML::Box2D  src(0, 0, 240, 135);
 
+		draw.Offset(0, this->logoPosY);
 		this->res->img->Draw(draw, src);
 	}
 	//-------------------------------------------------------------------
-	//ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ–ãƒ¡ã‚½ãƒƒãƒ‰ é¸æŠã•ã‚ŒãŸå†…å®¹ãªã©ã‚’ã‚¿ã‚¤ãƒˆãƒ«ã§æ¯å›åˆæœŸåŒ–
+	//ƒf[ƒ^‰Šú‰»ƒƒ\ƒbƒh ‘I‘ğ‚³‚ê‚½“à—e‚È‚Ç‚ğƒ^ƒCƒgƒ‹‚Å–ˆ‰ñ‰Šú‰»
 	void Object::DataInitialize()
 	{
-		//æ­¦å™¨ åˆå›ã«ä¸€ã¤é¸æŠ
+		//•Ší ‰‰ñ‚Éˆê‚Â‘I‘ğ
 		ge->sw = MyPG::MyGameEngine::SelectedWeapon::Non;
-		//ã‚¹ã‚­ãƒ« æ¯å›äºŒã¤é¸æŠ
+		//ƒXƒLƒ‹ –ˆ‰ñ“ñ‚Â‘I‘ğ
 		for (int i = 0; i < ge->ssn; ++i)
 		{
 			ge->ss[i] = MyPG::MyGameEngine::SelectedSkill::Non;
 		}
-		//ã‚¹ãƒ†ãƒ¼ã‚¸ æ¯å›ä¸€ã¤é¸æŠ
+		//ƒXƒe[ƒW –ˆ‰ñˆê‚Â‘I‘ğ
 		ge->selectedStage = 0;
 
-		//ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¢ã«å¿…è¦ãªã‚¹ãƒ†ãƒ¼ã‚¸æ•°
+		//ƒQ[ƒ€ƒNƒŠƒA‚É•K—v‚ÈƒXƒe[ƒW”
 		ge->clearStageNum = 6;
-		//ã‚¹ãƒ†ãƒ¼ã‚¸é€šéæ•°ã€ã‚²ãƒ¼ãƒ é€²è¡Œåº¦
+		//ƒXƒe[ƒW’Ê‰ß”AƒQ[ƒ€is“x
 		ge->elapsedNum = 0;
-		//çµŒéã—ãŸã‚¹ãƒ†ãƒ¼ã‚¸ ä¸€ã¤å‰ã®ã‚¹ãƒ†ãƒ¼ã‚¸ã®ç•ªå·
+		//Œo‰ß‚µ‚½ƒXƒe[ƒW ˆê‚Â‘O‚ÌƒXƒe[ƒW‚Ì”Ô†
 		ge->elapsedStage = 0;
 
-		//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
-		ge->hp = 3;				//ä½“åŠ›	
-		ge->hpMax = 10;			//æœ€å¤§ä½“åŠ›
-		ge->atk = 5;				//æ”»æ’ƒåŠ›
-		ge->jumpCnt = 0;			//ã‚¸ãƒ£ãƒ³ãƒ—å›æ•°
-		ge->jumpMax = 1;			//ã‚¸ãƒ£ãƒ³ãƒ—ä¸Šé™å›æ•°
-		ge->dashCnt = 0;			//ãƒ€ãƒƒã‚·ãƒ¥å›æ•°
-		ge->dashMax = 0;			//ãƒ€ãƒƒã‚·ãƒ¥ä¸Šé™å›æ•°
+		//ƒvƒŒƒCƒ„[ƒXƒe[ƒ^ƒX
+		ge->hp = 3;				//‘Ì—Í	
+		ge->hpMax = 10;			//Å‘å‘Ì—Í
+		ge->atk = 5;				//UŒ‚—Í
+		ge->jumpCnt = 0;			//ƒWƒƒƒ“ƒv‰ñ”
+		ge->jumpMax = 1;			//ƒWƒƒƒ“ƒvãŒÀ‰ñ”
+		ge->dashCnt = 0;			//ƒ_ƒbƒVƒ…‰ñ”
+		ge->dashMax = 0;			//ƒ_ƒbƒVƒ…ãŒÀ‰ñ”
 	}
 
-		ML::Box2D draw2(ge->screen2DWidth / 2 - 100, ge->screen2DHeight / 4, 200, 40);
-		ML::Box2D src2(0, 0, 207, 32);
-
-		this->res->titleImage->Draw(draw2, src2);
-
-		if (this->start) {
-			ML::Box2D draw3(ge->screen2DWidth / 2 - 75, ge->screen2DHeight / 2 + 50, 150, 20);
-			ML::Box2D src3(0, 0, 241, 32);
-
-			this->res->start->Draw(draw3, src3);
-		}
-
-		ML::Box2D draw4(0, 0, 24, 32);
-		draw4.Offset(this->pos);
-		ML::Box2D src4 = playerImage[this->angle][(this->animCnt / 10) % 4];
-
-		this->res->player->Draw(draw4, src4);
-		//ML::Box2D src5(24 * 4, 32, 24, 32);	//æ­©è¡Œ1				
-		//ML::Box2D src6(24 * 3, 31, 24, 32);	//æ­©è¡Œï¼’				
-		//ML::Box2D src7(24 * 4, 32, 24, 32);	//æ­©è¡Œï¼“				
-		//ML::Box2D src8(24 * 5, 32, 24, 32);	//æ­©è¡Œï¼”				
-	}
-	//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
-	//ä»¥ä¸‹ã¯åŸºæœ¬çš„ã«å¤‰æ›´ä¸è¦ãªãƒ¡ã‚½ãƒƒãƒ‰
-	//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
+	//šššššššššššššššššššššššššššššššššššššššššš
+	//ˆÈ‰º‚ÍŠî–{“I‚É•ÏX•s—v‚Èƒƒ\ƒbƒh
+	//šššššššššššššššššššššššššššššššššššššššššš
 	//-------------------------------------------------------------------
-	//ã‚¿ã‚¹ã‚¯ç”Ÿæˆçª“å£
+	//ƒ^ƒXƒN¶¬‘‹Œû
 	Object::SP  Object::Create(bool  flagGameEnginePushBack_)
 	{
 		Object::SP  ob = Object::SP(new  Object());
 		if (ob) {
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
-				ge->PushBack(ob);//ã‚²ãƒ¼ãƒ ã‚¨ãƒ³ã‚¸ãƒ³ã«ç™»éŒ²
+				ge->PushBack(ob);//ƒQ[ƒ€ƒGƒ“ƒWƒ“‚É“o˜^
 			}
 			if (!ob->B_Initialize()) {
-				ob->Kill();//ã‚¤ãƒ‹ã‚·ãƒ£ãƒ©ã‚¤ã‚ºã«å¤±æ•—ã—ãŸã‚‰Kill
+				ob->Kill();//ƒCƒjƒVƒƒƒ‰ƒCƒY‚É¸”s‚µ‚½‚çKill
 			}
 			return  ob;
 		}
@@ -217,7 +151,7 @@ namespace  Title
 	//-------------------------------------------------------------------
 	Object::Object() {	}
 	//-------------------------------------------------------------------
-	//ãƒªã‚½ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ
+	//ƒŠƒ\[ƒXƒNƒ‰ƒX‚Ì¶¬
 	Resource::SP  Resource::Create()
 	{
 		if (auto sp = instance.lock()) {
