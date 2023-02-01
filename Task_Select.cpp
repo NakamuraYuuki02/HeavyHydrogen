@@ -6,6 +6,8 @@
 #include  "Task_Title.h"
 #include  "Task_Game.h"
 
+#include  "sound.h"
+
 #include  "randomLib.h"
 
 namespace  Select
@@ -63,6 +65,16 @@ namespace  Select
 			//クリアしたステージの次ステージを三つ取得
 			this->stage[i] = ge->elapsedStage + i + 1;
 		}
+		this->stopCnt = 0;
+		
+		bgm::LoadFile("BGM1", "./data/Sound/BGM/waterloobridge.mp3");
+		bgm::Play("BGM1");
+
+		se::LoadFile("SE1", "./data/Sound/SE/isi.wav");
+		se::LoadFile("SE2", "./data/Sound/SE/1.wav");
+		se::LoadFile("SE3", "./data/Sound/SE/2.wav");
+		//se::LoadFile("SE4", "./data/Sound/SE/3.wav");
+		se::LoadFile("SE5", "./data/Sound/SE/4.wav");
 
 		//★タスクの生成
 
@@ -96,6 +108,9 @@ namespace  Select
 				auto next = Title::Object::Create(true);
 			}
 		}
+
+		bgm::Stop("BGM1");
+
 		return  true;
 	}
 	//-------------------------------------------------------------------
@@ -105,6 +120,7 @@ namespace  Select
 		auto inp = ge->in1->GetState();
 		
 		Select();
+		PlaySE();
 
 		if (inp.ST.down)
 		{
@@ -431,6 +447,30 @@ namespace  Select
 			r = true;
 		}
 		return r;
+	}
+	//-------------------------------------------------------------------
+	//SE再生メソッド
+	void Object::PlaySE()
+	{
+		auto inp = ge->in1->GetState();
+		string se1 = "SE2";
+		string se2 = "SE5";
+
+		if (inp.LStick.BL.down || inp.LStick.BR.down)
+		{
+			se::Play(se2);
+			this->stopCnt = 10;
+		}
+		if (inp.S1.down)
+		{
+			se::Play(se1);
+			this->stopCnt = 10;
+		}
+		if (this->stopCnt < 0)
+		{
+			se::AllStop();
+		}
+		--this->stopCnt;
 	}
 
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★

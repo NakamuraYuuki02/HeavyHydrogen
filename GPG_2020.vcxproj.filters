@@ -157,6 +157,9 @@
     <ClCompile Include="Task_EnemyMap2D.cpp">
       <Filter>MyPG\Game\Map</Filter>
     </ClCompile>
+    <ClCompile Include="sound.cpp">
+      <Filter>MyPG</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine_Ver3_83.h">
@@ -305,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="Task_EnemyMap2D.h">
       <Filter>MyPG\Game\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="sound.h">
+      <Filter>MyPG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
