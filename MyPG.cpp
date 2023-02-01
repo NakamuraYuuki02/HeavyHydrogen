@@ -100,22 +100,24 @@ namespace MyPG
 		//次に遷移するシーン
 		this->ns = NextScene::Title;
 
+		//武器 初回に一つ選択
+		this->sw = SelectedWeapon::Non;
 		//スキル選択数 selected skill number
 		this->ssn = 2;
-
-		for (int i = 0; i < ssn; ++i)
+		//スキル 毎回二つ選択
+		for (int i = 0; i < this->ssn; ++i)
 		{
 			ge->ss.push_back(SelectedSkill::Non);
 		}
-
 		//ステージ 毎回一つ選択
 		this->selectedStage = 0;
     
+		//ゲームクリアに必要なステージ数
+		this->clearStageNum = 5;
 		//ステージ通過数、ゲーム進行度
-		this->stageNum = 0;
-
+		this->elapsedNum = 0;
 		//経過したステージ 一つ前のステージの番号
-		this->eapsedStage = 0;
+		this->elapsedStage = 0;
 
 		//プレイヤーステータス
 		this->hp = 3;				//体力	

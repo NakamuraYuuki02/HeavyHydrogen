@@ -94,7 +94,8 @@ namespace  MyPG
 		{
 			Sword,
 			Axe,
-			Gun
+			Gun,
+			Non
 		};
 		SelectedWeapon sw;
 		//スキル 毎回二つ選択
@@ -109,18 +110,17 @@ namespace  MyPG
 			Non
 		};
 		vector<SelectedSkill> ss;
-
 		//スキル選択数 selected skill number
 		int ssn;
-
 		//ステージ 毎回一つ選択
 		int selectedStage;
 
+		//ゲームクリアに必要なステージ数
+		int clearStageNum;
 		//ステージ数、ステージ通過数(ゲーム進行度)
-		int stageNum;
-
+		int elapsedNum;
 		//経過したステージ 一つ前のステージの番号
-		int eapsedStage;
+		int elapsedStage;
 
 		//プレイヤーステータス
 		int hp;				//体力

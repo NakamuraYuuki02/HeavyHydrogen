@@ -15,14 +15,28 @@ namespace  Select
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
+		this->selectBack = DG::Image::Create("./data/image/SelectSceneBack.png");
 		this->selectUI = DG::Image::Create("./data/image/debug.png");
+		this->stageNumberUI = DG::Image::Create("./data/image/StageNumberUI.png");
+		this->stageNumber = DG::Image::Create("./data/image/UItext.png");
+		this->sword = DG::Image::Create("./data/image/Sword.png");
+		this->axe = DG::Image::Create("./data/image/Axe.png");
+		this->gun = DG::Image::Create("./data/image/Gun.png");
+		this->jump = DG::Image::Create("./data/image/jump.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
+		this->selectBack.reset();
 		this->selectUI.reset();
+		this->stageNumberUI.reset();
+		this->stageNumber.reset();
+		this->sword.reset();
+		this->axe.reset();
+		this->gun.reset();
+		this->jump.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -47,9 +61,9 @@ namespace  Select
 		for (int i = 0; i < 3; ++i)
 		{
 			//クリアしたステージの次ステージを三つ取得
-			this->stage[i] = ge->eapsedStage + i + 1;
+			this->stage[i] = ge->elapsedStage + i + 1;
 		}
-		
+
 		//★タスクの生成
 
 		return  true;
@@ -104,30 +118,72 @@ namespace  Select
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
+		//背景
+		{
+			ML::Box2D draw(0, 0, ge->screen2DWidth, ge->screen2DHeight);
+			ML::Box2D src(50,50,800,400); 
+			this->res->selectBack->Draw(draw, src);
+		}
+		//アイコン
+		{
+			ML::Box2D draw = this->drawBase;
+			ML::Box2D src[5];
+			for (int i = 0; i < 5; ++i)
+			{
+				src[i] = ML::Box2D(-1, -1, -1, -1);
+			}
+			switch (this->state)
+			{
+			case SelectionState::Before:
+				//選択前
+				break;
+			case SelectionState::Weapon:
+				//武器選択
+				src[0] = ML::Box2D(0, 0, 16, 16);
+				src[1] = ML::Box2D(0, 0, 14, 14);
+				src[2] = ML::Box2D(0, 0, 15, 10);
+				draw.Offset(this->posMin);
+				this->res->sword->Draw(draw, src[0]);
+				draw.Offset(this->moveVec);
+				this->res->axe->Draw(draw, src[1]);
+				draw.Offset(this->moveVec);
+				this->res->gun->Draw(draw, src[2]);
+				break;
+			case SelectionState::Skill:
+				//スキル選択
+				src[0] = ML::Box2D(0, 0, 31, 31);
+				draw.Offset(this->posMin);
+				this->res->jump->Draw(draw, src[0]);
+				break;
+			case SelectionState::Stage:
+				//ステージ選択
+				break;
+			case SelectionState::After:
+				//選択後
+				break;
+			}
+		}
 		//UI仮
 		{
-			ML::Box2D draw = drawBase;
+			ML::Box2D draw = this->drawBase;
 			ML::Box2D src(0, 0, 32, 32);
 			draw.Offset(this->pos);
 			this->res->selectUI->Draw(draw, src);
 		}
-		switch (this->state)
-		{
-		case SelectionState::Before:
-			//選択前
-			break;
-		case SelectionState::Weapon:
-			//武器選択
-			break;
-		case SelectionState::Skill:
-			//スキル選択
-			break;
-		case SelectionState::Stage:
-			//ステージ選択
-			break;
-		case SelectionState::After:
-			//選択後
-			break;
+		//「ステージ数」表示
+		ML::Box2D stageNumDraw(320, 240, 120, 20);
+		ML::Box2D stageNumSrc(0, 0, 120, 20);
+		this->res->stageNumberUI->Draw(stageNumDraw, stageNumSrc);
+
+		//マップ数表示
+		char mapNum[10];
+		sprintf(mapNum, "%02d", ge->elapsedNum);
+		for (int i = 0; i < 2; ++i) {
+			int num = mapNum[i] - '0';//'0'== 48
+			ML::Box2D numDraw(420, 230, 18, 32);
+			ML::Box2D numSrc(num * 30, 0, 30, 52);
+			numDraw.Offset(i * 18, 0);//文字間隔
+			this->res->stageNumber->Draw(numDraw, numSrc);
 		}
 	}
 	//-------------------------------------------------------------------
@@ -167,20 +223,9 @@ namespace  Select
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
-				//初回以降
-				if (ge->stageNum>0)
-				{
-					this->posMin = ML::Vec2(ge->screen2DWidth / 2 - moveVec.x * 1, ge->screen2DHeight / 2);
-					this->pos = this->posMin;
-					this->posMax = this->posMin + moveVec * 2;
-				}
-				//初回
-				else
-				{
-					this->posMin = ML::Vec2(ge->screen2DWidth / 2, ge->screen2DHeight / 2);
-					this->pos = this->posMin;
-					this->posMax = this->posMin;
-				}
+				this->posMin = ML::Vec2(ge->screen2DWidth / 2 - moveVec.x * 1, ge->screen2DHeight / 2);
+				this->pos = this->posMin;
+				this->posMax = this->posMin + moveVec * 2;
 				break;
 			case SelectionState::After:
 				//選択後
@@ -194,7 +239,7 @@ namespace  Select
 	{
 		Object::SelectionState sstate = this->state;
 		//初回以降
-		if (ge->stageNum > 0)
+		if (ge->elapsedNum > 0)
 		{
 			//  Before		//選択前
 			//  Weapon		//武器選択
@@ -252,17 +297,11 @@ namespace  Select
 				break;
 			case SelectionState::Skill:
 				//スキル選択
-				if (SelectSkill())
-				{
-					sstate = SelectionState::Stage;
-				}
+				sstate = SelectionState::Stage;
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
-				if (SelectStageFirst())
-				{
-					sstate = SelectionState::After;
-				}
+				sstate = SelectionState::After;
 				break;
 			case SelectionState::After:
 				//選択後
@@ -281,15 +320,15 @@ namespace  Select
 		auto inp = ge->in1->GetState();
 		bool r = false;
 		
-		//A左移動
-		if (inp.SE.down && this->pos.x > this->posMin.x)
+		//左移動
+		if (inp.LStick.BL.down && this->pos.x > this->posMin.x)
 		{
 			//140/135>140/135
 			this->pos -= moveVec;
 			--this->selectedNumber;
 		}
-		//D右移動
-		if (inp.L3.down && this->pos.x < this->posMax.x)
+		//右移動
+		if (inp.LStick.BR.down && this->pos.x < this->posMax.x)
 		{
 			this->pos += moveVec;
 			++this->selectedNumber;
@@ -321,15 +360,15 @@ namespace  Select
 		auto inp = ge->in1->GetState();
 		bool r = false;
 
-		//A左移動
-		if (inp.SE.down && this->pos.x > this->posMin.x)
+		//左移動
+		if (inp.LStick.BL.down && this->pos.x > this->posMin.x)
 		{
 			//140/135>140/135
 			this->pos -= moveVec;
 			--this->selectedNumber;
 		}
-		//D右移動
-		if (inp.L3.down && this->pos.x < this->posMax.x)
+		//右移動
+		if (inp.LStick.BR.down && this->pos.x < this->posMax.x)
 		{
 			this->pos += moveVec;
 			++this->selectedNumber;
@@ -371,15 +410,15 @@ namespace  Select
 		auto inp = ge->in1->GetState();
 		bool r = false;
 
-		//A左移動
-		if (inp.SE.down && this->pos.x > this->posMin.x)
+		//左移動
+		if (inp.LStick.BL.down && this->pos.x > this->posMin.x)
 		{
 			//140/135>140/135
 			this->pos -= moveVec;
 			--this->selectedNumber;
 		}
-		//D右移動
-		if (inp.L3.down && this->pos.x < this->posMax.x)
+		//右移動
+		if (inp.LStick.BR.down && this->pos.x < this->posMax.x)
 		{
 			this->pos += moveVec;
 			++this->selectedNumber;
@@ -387,22 +426,8 @@ namespace  Select
 		//スペース決定
 		if (inp.S1.down)
 		{
-			ge->selectedStage = this->stage[this->selectedNumber]; 
-			r = true;
-		}
-		return r;
-	}
-	//-------------------------------------------------------------------
-	//初回ステージ選択メソッド
-	bool Object::SelectStageFirst()
-	{
-		auto inp = ge->in1->GetState();
-		bool r = false;
-
-		//スペース決定
-		if (inp.S1.down)
-		{
-			ge->selectedStage = 0;
+			ge->selectedStage = this->stage[this->selectedNumber];
+			ge->elapsedStage = ge->selectedStage;
 			r = true;
 		}
 		return r;
