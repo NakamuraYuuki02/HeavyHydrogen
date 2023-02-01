@@ -14,7 +14,6 @@ namespace  Sword
 	bool  Resource::Initialize()
 	{
 		this->img = DG::Image::Create("./data/image/Sword.png");
-		this->img2 = DG::Image::Create("./data/image/Sword2.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -64,7 +63,7 @@ namespace  Sword
 	{
 		this->moveCnt++;
 		//ŒÀŠE‚ÌŽžŠÔ‚ðŒ}‚¦‚½‚çÁ–Å
-		if (this->moveCnt >= 15) {
+		if (this->moveCnt >= 30) {
 			//Á–Å\¿
 			this->Kill();
 			return;
@@ -79,7 +78,8 @@ namespace  Sword
 		{
 			this->angle -= ML::ToRadian(15);
 		}
-		
+		//this->angle += ML::ToRadian(5);
+
 		//ˆÚ“®
 		this->pos += this->moveVec;
 
@@ -118,20 +118,11 @@ namespace  Sword
 		ML::Box2D  draw(-12, -12, 24, 24);
 		draw.Offset(this->pos);
 		ML::Box2D  src(0, 0, 16, 16);
-		//ML::Box2D src(0, 0, 32, 32);
-
+		
 		//ƒXƒNƒ[ƒ‹‘Î‰ž
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
-		if (this->angle_LR == Angle_LR::Right)
-		{
-			this->res->img->Rotation(this->angle, ML::Vec2(24, 24));
-			this->res->img->Draw(draw, src);
-		}
-		if(this->angle_LR==Angle_LR::Left)
-		{
-			this->res->img2->Rotation(this->angle, ML::Vec2(0, 24));
-			this->res->img2->Draw(draw, src);
-		}
+		this->res->img->Rotation(this->angle, ML::Vec2(24, 24));
+		this->res->img->Draw(draw, src);
 	}
 	//-------------------------------------------------------------------
 	
