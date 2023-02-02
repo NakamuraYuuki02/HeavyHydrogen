@@ -292,7 +292,7 @@ namespace  Player
 		case Motion::Bound:     //ƒ_ƒ[ƒW‚ðŽó‚¯‚Ä‚«”ò‚ñ‚Å‚¢‚é
 			if (this->moveCnt >= 12 && this->CheckFoot() == true)
 			{
-				nm = Motion::Stand;
+				nm = Motion::Landing;
 			}
 			break;
 		case Motion::Dash:
@@ -563,26 +563,22 @@ namespace  Player
 					if (this->angle_LR == Angle_LR::Right)
 					{
 						auto sword = Sword::Object::Create(true);
-						sword->pos = this->pos + ML::Vec2(-2, -12);
+						sword->pos = this->pos + ML::Vec2(20, -14);
 						sword->angle_LR = this->angle_LR;
-						/*for (int i = 0; i < CreateNum; ++i)
-						{*/
-							auto slash = Slash::Object::Create(true);
-							slash->angle_LR = this->angle_LR;
-							slash->pos = this->pos + ML::Vec2(30/* + (15 * i)*/, 0);
-						//}
+						
+						auto slash = Slash::Object::Create(true);
+						slash->angle_LR = this->angle_LR;
+						slash->pos = this->pos + ML::Vec2(35/* + (15 * i)*/, 0);
 					}
 					else
 					{
 						auto sword = Sword::Object::Create(true);
-						sword->pos = this->pos + ML::Vec2(1, -13);
+						sword->pos = this->pos + ML::Vec2(-20, -14);
 						sword->angle_LR = this->angle_LR;
-						/*for (int i = 0; i < CreateNum; ++i)
-						{*/
-							auto slash = Slash::Object::Create(true);
-							slash->angle_LR = this->angle_LR;
-							slash->pos = this->pos + ML::Vec2(-30/* + (-15 * i)*/, 0);
-						//}
+						
+						auto slash = Slash::Object::Create(true);
+						slash->angle_LR = this->angle_LR;
+						slash->pos = this->pos + ML::Vec2(-35/* + (-15 * i)*/, 0);
 					}
 				}
 				break;
@@ -649,7 +645,7 @@ namespace  Player
 			}
 			if (this->moveCnt == 8)
 			{
-				if (this->weapon == MyPG::MyGameEngine::SelectedWeapon::Sword && this->CreateNum == 3)
+				if (this->weapon == MyPG::MyGameEngine::SelectedWeapon::Sword && this->CreateNum != 1)
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{
@@ -667,7 +663,7 @@ namespace  Player
 			}
 			if (this->moveCnt == 16)
 			{
-				if (this->weapon == MyPG::MyGameEngine::SelectedWeapon::Sword && this->CreateNum == 3)
+				if (this->weapon == MyPG::MyGameEngine::SelectedWeapon::Sword && this->CreateNum != 1)
 				{
 					if (this->angle_LR == Angle_LR::Right)
 					{

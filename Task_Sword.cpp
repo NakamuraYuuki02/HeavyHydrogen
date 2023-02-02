@@ -38,6 +38,9 @@ namespace  Sword
 		this->pos.x = 0;
 		this->pos.y = 0;
 		this->angle = 0;
+		this->hitBase = ML::Box2D(-12, -12, 24, 24);
+		this->moveVec = ML::Vec2(0, 0);
+		this->moveCnt = 0;
 		this->angle_LR = Angle_LR::Right;
 		this->atk = 3;
 		
@@ -64,7 +67,7 @@ namespace  Sword
 	{
 		this->moveCnt++;
 		//ŒÀŠE‚ÌŠÔ‚ğŒ}‚¦‚½‚çÁ–Å
-		if (this->moveCnt >= 15) {
+		if (this->moveCnt >= 11) {
 			//Á–Å\¿
 			this->Kill();
 			return;
@@ -73,13 +76,13 @@ namespace  Sword
 		//‰ñ“]
 		if (this->angle_LR == Angle_LR::Right)
 		{
-			this->angle += ML::ToRadian(15);
+			this->angle += ML::ToRadian(10);
 		}
 		else
 		{
-			this->angle -= ML::ToRadian(15);
+			this->angle -= ML::ToRadian(10);
 		}
-		
+
 		//ˆÚ“®
 		this->pos += this->moveVec;
 
@@ -101,15 +104,15 @@ namespace  Sword
 			}
 		}
 
-		//ˆÚ“®æ‚ÅáŠQ•¨‚ÉÚG‚µ‚½‚çÁ–Å
-		//ƒ}ƒbƒv‚ª‘¶İ‚·‚é‚©’²‚×‚Ä‚©‚çƒAƒNƒZƒX
-		if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
-			ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
-			if (true == map->CheckHit(hit)) {
-				//Á–Å\¿
-				this->Kill();
-			}
-		}
+		////ˆÚ“®æ‚ÅáŠQ•¨‚ÉÚG‚µ‚½‚çÁ–Å
+		////ƒ}ƒbƒv‚ª‘¶İ‚·‚é‚©’²‚×‚Ä‚©‚çƒAƒNƒZƒX
+		//if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
+		//	ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
+		//	if (true == map->CheckHit(hit)) {
+		//		//Á–Å\¿
+		//		this->Kill();
+		//	}
+		//}
 	}
 	//-------------------------------------------------------------------
 	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
@@ -118,19 +121,18 @@ namespace  Sword
 		ML::Box2D  draw(-12, -12, 24, 24);
 		draw.Offset(this->pos);
 		ML::Box2D  src(0, 0, 16, 16);
-		//ML::Box2D src(0, 0, 32, 32);
-
+		
 		//ƒXƒNƒ[ƒ‹‘Î‰
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		if (this->angle_LR == Angle_LR::Right)
 		{
-			this->res->img->Rotation(this->angle, ML::Vec2(24, 24));
-			this->res->img->Draw(draw, src);
+			this->res->img2->Rotation(this->angle, ML::Vec2(0, 24));
+			this->res->img2->Draw(draw, src);
 		}
 		if(this->angle_LR==Angle_LR::Left)
 		{
-			this->res->img2->Rotation(this->angle, ML::Vec2(0, 24));
-			this->res->img2->Draw(draw, src);
+			this->res->img->Rotation(this->angle, ML::Vec2(24, 24));
+			this->res->img->Draw(draw, src);
 		}
 	}
 	//-------------------------------------------------------------------
