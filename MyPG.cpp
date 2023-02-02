@@ -1,9 +1,10 @@
 ﻿#include "MyPG.h"
+
+#include "sound.h"
+
 #include "Task_Title.h"
 namespace MyPG
 {
-
-
 	MyGameEngine::MyGameEngine()
 		:GameEngine(
 			//	環境情報
@@ -52,6 +53,12 @@ namespace MyPG
 				//DestroyWindow(wnd_);
 				//return false;
 			}
+		}
+		//小柳サウンドライブラリ初期化
+		{
+			bgm::Init();
+			se::Init(wnd_);
+
 		}
 
 		//デバッグ用フォントの準備
@@ -127,7 +134,6 @@ namespace MyPG
 		this->jumpMax = 1;			//ジャンプ上限回数
 		this->dashCnt = 0;			//ダッシュ回数
 		this->dashMax = 0;			//ダッシュ上限回数
-
 
 		//デバッグ用情報の表示ON/OFF
 		DebugMode(false);

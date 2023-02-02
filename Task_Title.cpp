@@ -5,7 +5,6 @@
 #include  "Task_Title.h"
 #include  "Task_Game.h"
 #include  "Task_Select.h"
-#include "Task_Map2D.h"
 
 namespace  Title
 {
@@ -24,9 +23,7 @@ namespace  Title
 	//リソースの解放
 	bool  Resource::Finalize()
 	{
-		this->titleImage.reset();
-		this->start.reset();
-		this->player.reset();
+		this->img.reset( );
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -39,25 +36,8 @@ namespace  Title
 		this->res = Resource::Create();
 
 		//★データ初期化
-
-		this->cnt = 0;
-		this->start = true;
-		int d[2] = { 1, 3 };
-		int anim[4] = { 4, 3, 4, 5 };
-		for (int i = 0; i < 2; ++i) {
-			int y = d[i];
-			for (int j = 0; j < 4; ++j) {
-				int x = anim[j];
-				playerImage[i][j] = ML::Box2D(24 * x, 32 * y, 24, 32);
-			}
-		}
-		this->pos.x = 50;
-		this->pos.y = 220;
-		this->angle = 0;
-
 		this->logoPosY = -270;
 		DataInitialize();
-
 		//★タスクの生成
 
 		return  true;
@@ -68,7 +48,6 @@ namespace  Title
 	{
 		//★データ＆タスク解放
 		ge->KillAll_G("Title");
-		ge->KillAll_G("Field");
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
 			//if(ge->ns == MyPG::MyGameEngine::NextScene::Select)
@@ -82,41 +61,21 @@ namespace  Title
 	//「更新」１フレーム毎に行う処理
 	void  Object::UpDate()
 	{
-		if (this->cnt < 30) {
-			this->start = true;
-		}
-		else if (this->cnt < 60) {
-			this->start = false;
-		}
-		else {
-			this->cnt = 0;
-		}
-		this->cnt++;
-		this->animCnt++;
-
-		if (this->angle == 0) {
-			this->pos.x++;
-		}
-		else
-		{
-			this->pos.x--;
-		}
-
-		if (pos.x == 400) {
-			this->angle = 1;
-		}
-		else if (pos.x == 50) {
-			this->angle = 0;
-		}
-
 		auto inp = ge->in1->GetState();
 
-		if (inp.S1.down)
-		{
-			//タイトルの次のセレクトシーンを指定。
-			ge->ns = MyPG::MyGameEngine::NextScene::Select;
-			//自身に消滅要請
-			this->Kill();
+		this->logoPosY += 9;
+		if (this->logoPosY >= 0) {
+			this->logoPosY = 0;
+		}
+
+		if (this->logoPosY == 0) {
+			if (inp.ST.down || inp.S1.down)
+			{
+				//タイトルの次のセレクトシーンを指定。
+				ge->ns = MyPG::MyGameEngine::NextScene::Select;
+				//自身に消滅要請
+				this->Kill();
+			}
 		}
 	}
 	//-------------------------------------------------------------------
@@ -124,8 +83,9 @@ namespace  Title
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D  draw(0, 0, 480, 270);
-		ML::Box2D  src(0, 0, 846, 852);
+		ML::Box2D  src(0, 0, 240, 135);
 
+		draw.Offset(0, this->logoPosY);
 		this->res->img->Draw(draw, src);
 	}
 	//-------------------------------------------------------------------
@@ -159,28 +119,6 @@ namespace  Title
 		ge->dashMax = 0;			//ダッシュ上限回数
 	}
 
-		ML::Box2D draw2(ge->screen2DWidth / 2 - 100, ge->screen2DHeight / 4, 200, 40);
-		ML::Box2D src2(0, 0, 207, 32);
-
-		this->res->titleImage->Draw(draw2, src2);
-
-		if (this->start) {
-			ML::Box2D draw3(ge->screen2DWidth / 2 - 75, ge->screen2DHeight / 2 + 50, 150, 20);
-			ML::Box2D src3(0, 0, 241, 32);
-
-			this->res->start->Draw(draw3, src3);
-		}
-
-		ML::Box2D draw4(0, 0, 24, 32);
-		draw4.Offset(this->pos);
-		ML::Box2D src4 = playerImage[this->angle][(this->animCnt / 10) % 4];
-
-		this->res->player->Draw(draw4, src4);
-		//ML::Box2D src5(24 * 4, 32, 24, 32);	//歩行1				
-		//ML::Box2D src6(24 * 3, 31, 24, 32);	//歩行２				
-		//ML::Box2D src7(24 * 4, 32, 24, 32);	//歩行３				
-		//ML::Box2D src8(24 * 5, 32, 24, 32);	//歩行４				
-	}
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 	//以下は基本的に変更不要なメソッド
 	//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
