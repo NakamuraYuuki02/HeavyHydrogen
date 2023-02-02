@@ -434,10 +434,7 @@ namespace  Select
 				this->s = MyPG::MyGameEngine::SelectedSkill::AtkUp;
 				break;
 			case 4:
-				//sp1 or sp2
-				/*if ()
-				{
-				}*/
+				ge->crateNum = 3;
 				break;
 			}
 			ge->ss[0] = this->s;

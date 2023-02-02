@@ -171,11 +171,12 @@ namespace  Title
 		//プレイヤーステータス
 		ge->hp = 3;				//体力	
 		ge->hpMax = 10;			//最大体力
-		ge->atk = 5;				//攻撃力
+		ge->atk = 0;				//攻撃力
 		ge->jumpCnt = 0;			//ジャンプ回数
 		ge->jumpMax = 1;			//ジャンプ上限回数
 		ge->dashCnt = 0;			//ダッシュ回数
 		ge->dashMax = 0;			//ダッシュ上限回数
+		ge->crateNum = 1;
 	}
 
 	//ML::Box2D src5(24 * 4, 32, 24, 32);	//歩行1				

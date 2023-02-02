@@ -66,7 +66,7 @@ namespace  Player
 		this->dashMax = ge->dashMax;			//ダッシュ上限回数
 		this->attackCnt = 0;					//攻撃回数
 		this->attackMax = 0;					//攻撃上限回数
-		this->CreateNum = 3;
+		this->CreateNum = ge->crateNum;
 		this->weapon = ge->sw;
 		//this->weapon = Weapon::Gun;
 		
