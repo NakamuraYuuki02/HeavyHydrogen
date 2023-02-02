@@ -13,7 +13,7 @@ namespace  Axe
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Axe.png");
+		this->img = DG::Image::Create("./data/image/Axe1_2.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -115,7 +115,7 @@ namespace  Axe
 	{
 		ML::Box2D  draw(-12, -12, 24, 24);
 		draw.Offset(this->pos);
-		ML::Box2D  src(0, 0, 14, 14);
+		ML::Box2D  src(0, 0, 24, 24);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);

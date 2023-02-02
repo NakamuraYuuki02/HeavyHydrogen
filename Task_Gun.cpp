@@ -73,19 +73,6 @@ namespace  Gun
 			return;
 		}
 
-		auto targets = ge->GetTasks<BChara>("Player");
-		for (auto it = targets->begin(); it != targets->end(); ++it)
-		{
-			if ((*it)->angle_LR == Angle_LR::Right)
-			{
-				this->angle_LR = Angle_LR::Right;
-			}
-			else
-			{
-				this->angle_LR = Angle_LR::Left;
-			}
-		}
-
 		//ˆÚ“®
 		//this->pos += this->moveVec;
 

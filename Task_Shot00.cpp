@@ -13,7 +13,7 @@ namespace  Shot00
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Shot00.png");
+		this->img = DG::Image::Create("./data/image/shot.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -39,6 +39,7 @@ namespace  Shot00
 		this->hitBase = ML::Box2D(-8, -8, 16, 16);
 		this->moveVec = ML::Vec2(0, 0);
 		this->moveCnt = 0;
+		this->angle_LR = Angle_LR::Right;
 		this->hp = 5;
 		this->atk = 1;
 		
@@ -119,9 +120,14 @@ namespace  Shot00
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-8, -8, 16, 16);
+		ML::Box2D  draw(-10, 0, 20, 2);
+		if (this->angle_LR == Angle_LR::Right)
+		{
+			draw.x = -draw.x;
+			draw.w = -draw.w;
+		}
 		draw.Offset(this->pos);
-		ML::Box2D  src(0, 0, 32, 32);
+		ML::Box2D  src(0, 0, 10, 1);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
