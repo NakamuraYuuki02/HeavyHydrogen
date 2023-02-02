@@ -24,6 +24,9 @@ namespace  Title
 		static  Resource::SP  Create();
 		//‹¤—L‚·‚é•Ï”‚Í‚±‚±‚É’Ç‰Á‚·‚é
 		DG::Image::SP	img;
+		DG::Image::SP   titleImage;
+		DG::Image::SP   start;
+		DG::Image::SP   player;
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
