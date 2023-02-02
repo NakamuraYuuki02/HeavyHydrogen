@@ -25,6 +25,12 @@ namespace  Select
 		this->axe = DG::Image::Create("./data/image/Axe.png");
 		this->gun = DG::Image::Create("./data/image/Gun.png");
 		this->jump = DG::Image::Create("./data/image/jump.png");
+		this->dash = DG::Image::Create("./data/image/Dash.png");
+		this->heart = DG::Image::Create("./data/image/heart2.png");
+		this->powerUP = DG::Image::Create("./data/image/PowerUP.png");
+		this->swordSP = DG::Image::Create("./data/image/SwordSP.png");
+		this->axeSP = DG::Image::Create("./data/image/AxeSP.png");
+		this->gunSP = DG::Image::Create("./data/image/GunSP.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -168,8 +174,28 @@ namespace  Select
 			case SelectionState::Skill:
 				//スキル選択
 				src[0] = ML::Box2D(0, 0, 31, 31);
+				src[1] = ML::Box2D(0, 0, 12, 12);
 				draw.Offset(this->posMin);
 				this->res->jump->Draw(draw, src[0]);
+				draw.Offset(this->moveVec);
+				this->res->dash->Draw(draw, src[0]);
+				draw.Offset(this->moveVec);
+				this->res->heart->Draw(draw, src[1]);
+				draw.Offset(this->moveVec);
+				this->res->powerUP->Draw(draw, src[0]);
+				draw.Offset(this->moveVec);
+				switch (ge->sw)
+				{
+				case MyPG::MyGameEngine::SelectedWeapon::Sword:
+					this->res->swordSP->Draw(draw, src[0]);
+					break;
+				case MyPG::MyGameEngine::SelectedWeapon::Axe:
+					this->res->axeSP->Draw(draw, src[0]);
+					break;
+				case MyPG::MyGameEngine::SelectedWeapon::Gun:
+					this->res->gunSP->Draw(draw, src[0]);
+					break;
+				}
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
