@@ -14,7 +14,6 @@ namespace  Title
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-
 		this->img = DG::Image::Create("./data/image/title.png");
 		this->titleImage = DG::Image::Create("./data/image/ff8bbf23761c1c62.png");
 		this->start = DG::Image::Create("./data/image/space.png");
