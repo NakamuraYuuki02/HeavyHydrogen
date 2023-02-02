@@ -34,6 +34,7 @@ namespace  Goal6
 		this->res = Resource::Create();
 
 		//★データ初期化
+		this->render2D_Priority[1] = 0.6f;
 		this->hitBase = ML::Box2D(0, 0, 32, 32);
 		
 		//★タスクの生成
