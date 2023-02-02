@@ -14,7 +14,7 @@ namespace  UI
 		this->UIhp = DG::Image::Create("./data/image/heart2.png");
 		this->UInum = DG::Image::Create("./data/image/UItext.png");
 		this->gun = DG::Image::Create("./data/image/handgun2.png");
-		this->sword = DG::Image::Create("./data/image/Sword.png");
+		this->sword = DG::Image::Create("./data/image/Sword1_2.png");
 		this->axe = DG::Image::Create("./data/image/Axe.png");
 		this->tutorial = DG::Image::Create("./data/image/tutorial2.png");
 		this->command = DG::Image::Create("./data/image/command2.png");
@@ -71,7 +71,8 @@ namespace  UI
 	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D cDraw(0, 235, 207, 32);
+		//zƒL[
+		ML::Box2D cDraw(359, 0, 120, 32);
 		ML::Box2D cSrc(0, 0, 207, 32);
 		this->res->command->Draw(cDraw, cSrc);
 
@@ -98,7 +99,7 @@ namespace  UI
 		case MyPG::MyGameEngine::SelectedWeapon::Sword:
 		    {
 			  ML::Box2D SwordDraw(20, 30, 28, 28);
-			  ML::Box2D SwordSrc(0, 0, 16, 16);
+			  ML::Box2D SwordSrc(0, 0, 24, 24);
 			  this->res->sword->Rotation(0, ML::Vec2(0, 0));
 			  this->res->sword->Draw(SwordDraw, SwordSrc);
 			  break;

@@ -102,20 +102,20 @@ namespace  Slash
 
 		//移動先で障害物に接触したら消滅
 		//マップが存在するか調べてからアクセス
-		if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
-			ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
-			if (true == map->CheckHit(hit)) {
-				//消滅申請
-				//this->Kill();
+		//if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
+		//	ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
+		//	if (true == map->CheckHit(hit)) {
+		//		//消滅申請
+		//		//this->Kill();
 
-				////とりあえず星はばら撒くよ
-				//for (int c = 0; c < 4; ++c) {
-				//	auto  eff = Effect00::Object::Create(true);
-				//	eff->pos = this->pos;
-				//}
-				//return;
-			}
-		}
+		//		////とりあえず星はばら撒くよ
+		//		//for (int c = 0; c < 4; ++c) {
+		//		//	auto  eff = Effect00::Object::Create(true);
+		//		//	eff->pos = this->pos;
+		//		//}
+		//		//return;
+		//	}
+		//}
 
 		this->animCnt++;
 	}
@@ -123,7 +123,7 @@ namespace  Slash
 	//「２Ｄ描画」１フレーム毎に行う処理
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-16, -16, 32, 32);
+		ML::Box2D  draw(-24, -24, 48, 48);
 		if (this->angle_LR == Angle_LR::Left)
 		{
 			draw.x = -draw.x; 

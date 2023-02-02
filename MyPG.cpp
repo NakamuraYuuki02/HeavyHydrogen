@@ -134,6 +134,7 @@ namespace MyPG
 		this->jumpMax = 1;			//ジャンプ上限回数
 		this->dashCnt = 0;			//ダッシュ回数
 		this->dashMax = 0;			//ダッシュ上限回数
+		this->crateNum = 1;
 
 		//デバッグ用情報の表示ON/OFF
 		DebugMode(false);
