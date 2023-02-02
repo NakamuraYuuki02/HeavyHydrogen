@@ -132,7 +132,7 @@ namespace  Ending
 			ML::Box2D cBsrc(0, 0, 104, 32);
 			this->res->rankB->Draw(cBdraw, cBsrc);
 		}
-		else if (ge->elapsedNum - 1 == 5)
+		else if (ge->elapsedNum - 1 == 6)
 		{
 			ML::Box2D cCdraw(150, 150, 208, 64);
 			ML::Box2D cCsrc(0, 0, 104, 32);
