@@ -13,8 +13,8 @@ namespace  Sword
 	//リソースの初期化
 	bool  Resource::Initialize()
 	{
-		this->img = DG::Image::Create("./data/image/Sword.png");
-		this->img2 = DG::Image::Create("./data/image/Sword2.png");
+		this->img = DG::Image::Create("./data/image/Sword1_2.png");
+		this->img2 = DG::Image::Create("./data/image/Sword2_2.png");
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -39,7 +39,7 @@ namespace  Sword
 		this->pos.y = 0;
 		this->angle = 0;
 		this->angle_LR = Angle_LR::Right;
-		this->atk = 3;
+		//this->atk = 3;
 		
 		//★タスクの生成
 
@@ -64,7 +64,7 @@ namespace  Sword
 	{
 		this->moveCnt++;
 		//限界の時間を迎えたら消滅
-		if (this->moveCnt >= 15) {
+		if (this->moveCnt >= 11) {
 			//消滅申請
 			this->Kill();
 			return;
@@ -73,33 +73,33 @@ namespace  Sword
 		//回転
 		if (this->angle_LR == Angle_LR::Right)
 		{
-			this->angle += ML::ToRadian(15);
+			this->angle += ML::ToRadian(10);
 		}
 		else
 		{
-			this->angle -= ML::ToRadian(15);
+			this->angle -= ML::ToRadian(10);
 		}
 		
 		//移動
 		this->pos += this->moveVec;
 
-		//当たり判定
-		{
-			ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
-			auto targets = ge->GetTasks<BChara>("Enemy");
-			for (auto it = targets->begin(); it != targets->end(); ++it)
-			{
-				//相手に接触の有無を確認させる
-				if ((*it)->CheckHit(me))
-				{
-					//相手にダメージの処理を行わせる
-					BChara::AttackInfo at = { this->atk,0,0 };
-					(*it)->Received(this, at);
-					this->Kill();
-					break;
-				}
-			}
-		}
+		////当たり判定
+		//{
+		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
+		//	auto targets = ge->GetTasks<BChara>("Enemy");
+		//	for (auto it = targets->begin(); it != targets->end(); ++it)
+		//	{
+		//		//相手に接触の有無を確認させる
+		//		if ((*it)->CheckHit(me))
+		//		{
+		//			//相手にダメージの処理を行わせる
+		//			BChara::AttackInfo at = { this->atk,0,0 };
+		//			(*it)->Received(this, at);
+		//			this->Kill();
+		//			break;
+		//		}
+		//	}
+		//}
 
 		//移動先で障害物に接触したら消滅
 		//マップが存在するか調べてからアクセス
@@ -117,20 +117,20 @@ namespace  Sword
 	{
 		ML::Box2D  draw(-12, -12, 24, 24);
 		draw.Offset(this->pos);
-		ML::Box2D  src(0, 0, 16, 16);
+		ML::Box2D  src(0, 0, 24, 24);
 		//ML::Box2D src(0, 0, 32, 32);
 
 		//スクロール対応
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		if (this->angle_LR == Angle_LR::Right)
 		{
-			this->res->img->Rotation(this->angle, ML::Vec2(24, 24));
-			this->res->img->Draw(draw, src);
+			this->res->img2->Rotation(this->angle, ML::Vec2(0, 24));
+			this->res->img2->Draw(draw, src);
 		}
 		if(this->angle_LR==Angle_LR::Left)
 		{
-			this->res->img2->Rotation(this->angle, ML::Vec2(0, 24));
-			this->res->img2->Draw(draw, src);
+			this->res->img->Rotation(this->angle, ML::Vec2(24, 24));
+			this->res->img->Draw(draw, src);
 		}
 	}
 	//-------------------------------------------------------------------

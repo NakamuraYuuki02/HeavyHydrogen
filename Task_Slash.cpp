@@ -123,7 +123,7 @@ namespace  Slash
 	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D  draw(-16, -16, 32, 32);
+		ML::Box2D  draw(-24, -24, 48, 48);
 		if (this->angle_LR == Angle_LR::Left)
 		{
 			draw.x = -draw.x; 
