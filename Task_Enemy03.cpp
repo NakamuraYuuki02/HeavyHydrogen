@@ -37,13 +37,13 @@ namespace  Enemy03
 		this->hitBase = ML::Box2D(-15, -15, 30, 30);
 		this->angle_LR = Angle_LR::Left;
 		this->motion = Motion::Stand;
-		this->maxSpeed = 1.5f;
+		this->maxSpeed = 1.3f;
 		this->addSpeed = 0.7f;
 		this->decSpeed = 0.5f;
 		this->maxFallSpeed = 10.0f;
 		this->jumpPow = -6.0f;
 		this->gravity = ML::Gravity(32) * 5;
-		this->hp = 20;
+		this->hp = 5;
 		this->atk = 1;
 		this->attackCnt = 0;
 		//šƒ^ƒXƒN‚Ì¶¬
