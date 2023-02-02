@@ -10,7 +10,7 @@ namespace  Sword
 {
 	Resource::WP  Resource::instance;
 	//-------------------------------------------------------------------
-	//ƒŠƒ\[ƒX‚Ì‰Šú‰»
+	//ãƒªã‚½ãƒ¼ã‚¹ã®åˆæœŸåŒ–
 	bool  Resource::Initialize()
 	{
 		this->img = DG::Image::Create("./data/image/Sword1_2.png");
@@ -18,59 +18,62 @@ namespace  Sword
 		return true;
 	}
 	//-------------------------------------------------------------------
-	//ƒŠƒ\[ƒX‚Ì‰ğ•ú
+	//ãƒªã‚½ãƒ¼ã‚¹ã®è§£æ”¾
 	bool  Resource::Finalize()
 	{
 		this->img.reset();
 		return true;
 	}
 	//-------------------------------------------------------------------
-	//u‰Šú‰»vƒ^ƒXƒN¶¬‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
+	//ã€ŒåˆæœŸåŒ–ã€ã‚¿ã‚¹ã‚¯ç”Ÿæˆæ™‚ã«ï¼‘å›ã ã‘è¡Œã†å‡¦ç†
 	bool  Object::Initialize()
 	{
-		//ƒX[ƒp[ƒNƒ‰ƒX‰Šú‰»
+		//ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹åˆæœŸåŒ–
 		__super::Initialize(defGroupName, defName, true);
-		//ƒŠƒ\[ƒXƒNƒ‰ƒX¶¬orƒŠƒ\[ƒX‹¤—L
+		//ãƒªã‚½ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ç”Ÿæˆorãƒªã‚½ãƒ¼ã‚¹å…±æœ‰
 		this->res = Resource::Create();
 
-		//šƒf[ƒ^‰Šú‰»
+		//â˜…ãƒ‡ãƒ¼ã‚¿åˆæœŸåŒ–
 		this->render2D_Priority[1] = 0.4f;
 		this->pos.x = 0;
 		this->pos.y = 0;
 		this->angle = 0;
+		this->hitBase = ML::Box2D(-12, -12, 24, 24);
+		this->moveVec = ML::Vec2(0, 0);
+		this->moveCnt = 0;
 		this->angle_LR = Angle_LR::Right;
 		//this->atk = 3;
 		
-		//šƒ^ƒXƒN‚Ì¶¬
+		//â˜…ã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ
 
 		return  true;
 	}
 	//-------------------------------------------------------------------
-	//uI—¹vƒ^ƒXƒNÁ–Å‚É‚P‰ñ‚¾‚¯s‚¤ˆ—
+	//ã€Œçµ‚äº†ã€ã‚¿ã‚¹ã‚¯æ¶ˆæ»…æ™‚ã«ï¼‘å›ã ã‘è¡Œã†å‡¦ç†
 	bool  Object::Finalize()
 	{
-		//šƒf[ƒ^•ƒ^ƒXƒN‰ğ•ú
+		//â˜…ãƒ‡ãƒ¼ã‚¿ï¼†ã‚¿ã‚¹ã‚¯è§£æ”¾
 
 
 		if (!ge->QuitFlag() && this->nextTaskCreate) {
-			//šˆø‚«Œp‚¬ƒ^ƒXƒN‚Ì¶¬
+			//â˜…å¼•ãç¶™ãã‚¿ã‚¹ã‚¯ã®ç”Ÿæˆ
 		}
 
 		return  true;
 	}
 	//-------------------------------------------------------------------
-	//uXVv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
+	//ã€Œæ›´æ–°ã€ï¼‘ãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã«è¡Œã†å‡¦ç†
 	void  Object::UpDate()
 	{
 		this->moveCnt++;
-		//ŒÀŠE‚ÌŠÔ‚ğŒ}‚¦‚½‚çÁ–Å
+		//é™ç•Œã®æ™‚é–“ã‚’è¿ãˆãŸã‚‰æ¶ˆæ»…
 		if (this->moveCnt >= 11) {
-			//Á–Å\¿
+			//æ¶ˆæ»…ç”³è«‹
 			this->Kill();
 			return;
 		}
 
-		//‰ñ“]
+		//å›è»¢
 		if (this->angle_LR == Angle_LR::Right)
 		{
 			this->angle += ML::ToRadian(10);
@@ -79,20 +82,20 @@ namespace  Sword
 		{
 			this->angle -= ML::ToRadian(10);
 		}
-		
-		//ˆÚ“®
+
+		//ç§»å‹•
 		this->pos += this->moveVec;
 
-		////“–‚½‚è”»’è
+		////å½“ãŸã‚Šåˆ¤å®š
 		//{
 		//	ML::Box2D me = this->hitBase.OffsetCopy(this->pos);
 		//	auto targets = ge->GetTasks<BChara>("Enemy");
 		//	for (auto it = targets->begin(); it != targets->end(); ++it)
 		//	{
-		//		//‘Šè‚ÉÚG‚Ì—L–³‚ğŠm”F‚³‚¹‚é
+		//		//ç›¸æ‰‹ã«æ¥è§¦ã®æœ‰ç„¡ã‚’ç¢ºèªã•ã›ã‚‹
 		//		if ((*it)->CheckHit(me))
 		//		{
-		//			//‘Šè‚Éƒ_ƒ[ƒW‚Ìˆ—‚ğs‚í‚¹‚é
+		//			//ç›¸æ‰‹ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã®å‡¦ç†ã‚’è¡Œã‚ã›ã‚‹
 		//			BChara::AttackInfo at = { this->atk,0,0 };
 		//			(*it)->Received(this, at);
 		//			this->Kill();
@@ -101,18 +104,18 @@ namespace  Sword
 		//	}
 		//}
 
-		//ˆÚ“®æ‚ÅáŠQ•¨‚ÉÚG‚µ‚½‚çÁ–Å
-		//ƒ}ƒbƒv‚ª‘¶İ‚·‚é‚©’²‚×‚Ä‚©‚çƒAƒNƒZƒX
-		if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
-			ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
-			if (true == map->CheckHit(hit)) {
-				//Á–Å\¿
-				this->Kill();
-			}
-		}
+		////ç§»å‹•å…ˆã§éšœå®³ç‰©ã«æ¥è§¦ã—ãŸã‚‰æ¶ˆæ»…
+		////ãƒãƒƒãƒ—ãŒå­˜åœ¨ã™ã‚‹ã‹èª¿ã¹ã¦ã‹ã‚‰ã‚¢ã‚¯ã‚»ã‚¹
+		//if (auto   map = ge->GetTask<Map2D::Object>(Map2D::defGroupName, Map2D::defName)) {
+		//	ML::Box2D  hit = this->hitBase.OffsetCopy(this->pos);
+		//	if (true == map->CheckHit(hit)) {
+		//		//æ¶ˆæ»…ç”³è«‹
+		//		this->Kill();
+		//	}
+		//}
 	}
 	//-------------------------------------------------------------------
-	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
+	//ã€Œï¼’ï¼¤æç”»ã€ï¼‘ãƒ•ãƒ¬ãƒ¼ãƒ æ¯ã«è¡Œã†å‡¦ç†
 	void  Object::Render2D_AF()
 	{
 		ML::Box2D  draw(-12, -12, 24, 24);
@@ -120,7 +123,7 @@ namespace  Sword
 		ML::Box2D  src(0, 0, 24, 24);
 		//ML::Box2D src(0, 0, 32, 32);
 
-		//ƒXƒNƒ[ƒ‹‘Î‰
+		//ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«å¯¾å¿œ
 		draw.Offset(-ge->camera2D.x, -ge->camera2D.y);
 		if (this->angle_LR == Angle_LR::Right)
 		{
@@ -135,22 +138,22 @@ namespace  Sword
 	}
 	//-------------------------------------------------------------------
 	
-	//šššššššššššššššššššššššššššššššššššššššššš
-	//ˆÈ‰º‚ÍŠî–{“I‚É•ÏX•s—v‚Èƒƒ\ƒbƒh
-	//šššššššššššššššššššššššššššššššššššššššššš
+	//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
+	//ä»¥ä¸‹ã¯åŸºæœ¬çš„ã«å¤‰æ›´ä¸è¦ãªãƒ¡ã‚½ãƒƒãƒ‰
+	//â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…â˜…
 	//-------------------------------------------------------------------
-	//ƒ^ƒXƒN¶¬‘‹Œû
+	//ã‚¿ã‚¹ã‚¯ç”Ÿæˆçª“å£
 	Object::SP  Object::Create(bool  flagGameEnginePushBack_)
 	{
 		Object::SP  ob = Object::SP(new  Object());
 		if (ob) {
 			ob->me = ob;
 			if (flagGameEnginePushBack_) {
-				ge->PushBack(ob);//ƒQ[ƒ€ƒGƒ“ƒWƒ“‚É“o˜^
+				ge->PushBack(ob);//ã‚²ãƒ¼ãƒ ã‚¨ãƒ³ã‚¸ãƒ³ã«ç™»éŒ²
 				
 			}
 			if (!ob->B_Initialize()) {
-				ob->Kill();//ƒCƒjƒVƒƒƒ‰ƒCƒY‚É¸”s‚µ‚½‚çKill
+				ob->Kill();//ã‚¤ãƒ‹ã‚·ãƒ£ãƒ©ã‚¤ã‚ºã«å¤±æ•—ã—ãŸã‚‰Kill
 			}
 			return  ob;
 		}
@@ -171,7 +174,7 @@ namespace  Sword
 	//-------------------------------------------------------------------
 	Object::Object() {	}
 	//-------------------------------------------------------------------
-	//ƒŠƒ\[ƒXƒNƒ‰ƒX‚Ì¶¬
+	//ãƒªã‚½ãƒ¼ã‚¹ã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ
 	Resource::SP  Resource::Create()
 	{
 		if (auto sp = instance.lock()) {

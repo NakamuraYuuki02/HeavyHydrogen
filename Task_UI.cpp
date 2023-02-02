@@ -71,7 +71,8 @@ namespace  UI
 	//u‚Q‚c•`‰æv‚PƒtƒŒ[ƒ€–ˆ‚És‚¤ˆ—
 	void  Object::Render2D_AF()
 	{
-		ML::Box2D cDraw(0, 235, 207, 32);
+		//zƒL[
+		ML::Box2D cDraw(359, 0, 120, 32);
 		ML::Box2D cSrc(0, 0, 207, 32);
 		this->res->command->Draw(cDraw, cSrc);
 
