@@ -37,6 +37,7 @@ namespace  Select
 		DG::Image::SP swordSP;
 		DG::Image::SP axeSP;
 		DG::Image::SP gunSP;
+		DG::Image::SP map[15];
 	};
 	//-------------------------------------------------------------------
 	class  Object : public  BTask
@@ -106,6 +107,26 @@ namespace  Select
 		ML::Vec2 moveVec;
 		//描画サイズ
 		ML::Box2D drawBase;
+
+		//全15mapのsrc
+		ML::Box2D mapSize[15] =
+		{
+			ML::Box2D(0,0,887,441),
+			ML::Box2D(0,0,887,443),
+			ML::Box2D(0,0,887,444),
+			ML::Box2D(0,0,887,440),
+			ML::Box2D(0,0,887,441),
+			ML::Box2D(0,0,887,440),
+			ML::Box2D(0,0,887,445),
+			ML::Box2D(0,0,887,448),
+			ML::Box2D(0,0,887,440),
+			ML::Box2D(0,0,887,447),
+			ML::Box2D(0,0,887,267),
+			ML::Box2D(0,0,887,265),
+			ML::Box2D(0,0,887,268),
+			ML::Box2D(0,0,887,266),
+			ML::Box2D(0,0,887,266)
+		};
 
 		//再生停止カウンター
 		int stopCnt;

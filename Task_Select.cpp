@@ -26,11 +26,18 @@ namespace  Select
 		this->gun = DG::Image::Create("./data/image/Gun.png");
 		this->jump = DG::Image::Create("./data/image/jump.png");
 		this->dash = DG::Image::Create("./data/image/Dash.png");
-		this->heart = DG::Image::Create("./data/image/heart2.png");
+		this->heart = DG::Image::Create("./data/image/heart3.png");
 		this->powerUP = DG::Image::Create("./data/image/PowerUP.png");
 		this->swordSP = DG::Image::Create("./data/image/SwordSP.png");
 		this->axeSP = DG::Image::Create("./data/image/AxeSP.png");
 		this->gunSP = DG::Image::Create("./data/image/GunSP.png");
+		string mapPath = "./data/image/map";
+		string mapName;
+		for (int i = 0; i < 15; ++i)
+		{
+			mapName = mapPath + to_string(i + 1) + ".png";
+			this->map[i] = DG::Image::Create(mapName);
+		}
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -45,6 +52,10 @@ namespace  Select
 		this->axe.reset();
 		this->gun.reset();
 		this->jump.reset();
+		for (int i = 0; i < 15; ++i)
+		{
+			this->map[i].reset();
+		}
 		return true;
 	}
 	//-------------------------------------------------------------------
@@ -174,13 +185,12 @@ namespace  Select
 			case SelectionState::Skill:
 				//スキル選択
 				src[0] = ML::Box2D(0, 0, 31, 31);
-				src[1] = ML::Box2D(0, 0, 12, 12);
 				draw.Offset(this->posMin);
 				this->res->jump->Draw(draw, src[0]);
 				draw.Offset(this->moveVec);
 				this->res->dash->Draw(draw, src[0]);
 				draw.Offset(this->moveVec);
-				this->res->heart->Draw(draw, src[1]);
+				this->res->heart->Draw(draw, src[0]);
 				draw.Offset(this->moveVec);
 				this->res->powerUP->Draw(draw, src[0]);
 				draw.Offset(this->moveVec);
@@ -199,6 +209,26 @@ namespace  Select
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
+				draw = ML::Box2D(0, 0, 0, 0);
+				switch (this->selectedNumber)
+				{
+				case 0:
+					draw = ML::Box2D(0, 0, 222, 110);
+					draw.Offset(15, 0);
+					this->res->map[this->stage[this->selectedNumber]]->Draw(draw, mapSize[this->stage[this->selectedNumber]]);
+					break;
+				case 1:
+					draw = ML::Box2D(0, 0, 222, 110);
+					draw.Offset(126, 0);
+					this->res->map[this->stage[this->selectedNumber]]->Draw(draw, mapSize[this->stage[this->selectedNumber]]);
+					break;
+				case 2:
+					draw = ML::Box2D(0, 0, 222, 110);
+					draw.Offset(237, 0);
+					this->res->map[this->stage[this->selectedNumber]]->Draw(draw, mapSize[this->stage[this->selectedNumber]]);
+					break;
+				}
+
 				break;
 			case SelectionState::After:
 				//選択後
@@ -334,16 +364,17 @@ namespace  Select
 				//武器選択
 				if (SelectWeapon())
 				{
-					sstate = SelectionState::Skill;
+					//sstate = SelectionState::Skill;
+					sstate = SelectionState::After;
 				}
 				break;
 			case SelectionState::Skill:
 				//スキル選択
-				sstate = SelectionState::Stage;
+				//sstate = SelectionState::Stage;
 				break;
 			case SelectionState::Stage:
 				//ステージ選択
-				sstate = SelectionState::After;
+				//sstate = SelectionState::After;
 				break;
 			case SelectionState::After:
 				//選択後
